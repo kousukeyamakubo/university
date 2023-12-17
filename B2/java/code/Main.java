@@ -21,7 +21,7 @@ public class Main implements Runnable {
     }
 	
 	public void run() {
-		model = new BoardModel(12,14,Undo);
+		model = new BoardModel(14,12,Undo);
 		model.addListener(new BoardView(model));
 		// BoardModel の作成と changeCellState の呼び出しを行う処理をここで実行。
 		// next と undo の呼び出しを取り除き、「グライダー」が設置された状態としておく。

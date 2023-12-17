@@ -34,29 +34,40 @@
 \@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces クラスと機能の対応表}}{5}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {3}各機能実装方法}{5}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.1}状態の更新に連動して画面表示の変更}{5}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1}BoardModelクラス内の処理}{5}{}\protected@file@percent }
 \newlabel{fuga}{{1}{5}{}{}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {1}BoardModelクラス内の該当部のコード}{5}{}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces BoardModelクラスのメンバとその内容}}{6}{}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces changeCellStateクラスの内部変数}}{6}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.2}}{6}{}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {1}BoardListenerインターフェース}{5}{}\protected@file@percent }
 \newlabel{fuga}{{2}{6}{}{}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {2}コード}{6}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.3}}{7}{}\protected@file@percent }
-\newlabel{fuga}{{3}{7}{}{}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {3}コード}{7}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}巻き戻しのための盤面の記憶}{7}{}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces メンバとその内容}}{7}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}盤面の描画}{7}{}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces メンバとその内容}}{7}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}マウスカーソルによる盤面の状態の変更}{8}{}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces メンバとその内容}}{8}{}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces 内部変数名とその内容}}{8}{}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces 内部変数名とその内容}}{9}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.5}新しいウィンドウを開く}{9}{}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {9}{\ignorespaces メンバとその内容}}{9}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.6}拡張機能}{10}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.6.1}実現方法}{10}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4}プログラミングの講義・演習で学習したこと}{10}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}演習前から知っていたこと}{10}{}\protected@file@percent }
-\gdef \@abspage@last{11}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {2}Mainクラス}{6}{}\protected@file@percent }
+\newlabel{fuga}{{3}{6}{}{}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {3}BoardViewクラス}{6}{}\protected@file@percent }
+\newlabel{fuga}{{4}{6}{}{}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {4}BoardModelクラス}{6}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}巻き戻しのための盤面の記憶}{6}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.1}nextによる盤面の状態の変更の記憶}{7}{}\protected@file@percent }
+\newlabel{fuga}{{5}{7}{}{}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5}nextメソッドの一部}{7}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2}undoによる盤面の状態の変更の記憶}{7}{}\protected@file@percent }
+\newlabel{fuga}{{6}{7}{}{}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6}undoメソッドの一部}{7}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.3}マウスカーソルによる盤面の状態の変更の記憶}{7}{}\protected@file@percent }
+\newlabel{fuga}{{7}{7}{}{}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {7}changeCellStateメソッドの一部}{7}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}undoによる巻き戻し可能かどうかの判定}{8}{}\protected@file@percent }
+\newlabel{fuga}{{8}{8}{}{}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {8}nextボタン及びundoボタンを押したときに実行される処理}{8}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}セルの境界線の位置を計算する方法}{9}{}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces 計算式中の変数名とその内容}}{9}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5}マウスカーソルの座標からセルの座標を計算する方法}{9}{}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces 計算式中の変数名とその内容}}{10}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.5.1}クリック時の計算}{10}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6}マウスカーソルによる盤面の状態の変更}{10}{}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces メンバとその内容}}{11}{}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces 内部変数名とその内容}}{11}{}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces 内部変数名とその内容}}{11}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.7}新しいウィンドウを開く}{12}{}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces メンバとその内容}}{12}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.8}拡張機能}{12}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.8.1}実現方法}{12}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4}プログラミングの講義・演習で学習したこと}{12}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}演習前から知っていたこと}{12}{}\protected@file@percent }
+\gdef \@abspage@last{13}

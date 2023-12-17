@@ -1,10 +1,10 @@
-This is e-upTeX, Version 3.141592653-p4.1.0-u1.29-230214-2.6 (utf8.sjis) (TeX Live 2023) (preloaded format=platex 2023.12.15)  15 DEC 2023 17:13
+This is e-upTeX, Version 3.141592653-p4.1.0-u1.29-230214-2.6 (utf8.sjis) (TeX Live 2023) (preloaded format=platex 2023.12.16)  18 DEC 2023 01:26
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**c:/tex/nikai/proD/java/report
-(c:/tex/nikai/proD/java/report.tex
+**c:/Users/kosuke/university/B2/java/report
+(c:/Users/kosuke/university/B2/java/report.tex
 pLaTeX2e <2023-02-14>+1, based on
 LaTeX2e <2023-11-01>
 L3 programming layer <2023-12-11>
@@ -178,6 +178,21 @@ LaTeX Warning: Label `fuga' multiply defined.
 
 LaTeX Warning: Label `fuga' multiply defined.
 
+
+LaTeX Warning: Label `fuga' multiply defined.
+
+
+LaTeX Warning: Label `fuga' multiply defined.
+
+
+LaTeX Warning: Label `fuga' multiply defined.
+
+
+LaTeX Warning: Label `fuga' multiply defined.
+
+
+LaTeX Warning: Label `fuga' multiply defined.
+
 )
 \openout1 = `report.aux'.
 
@@ -288,12 +303,23 @@ File: tegaki.png Graphic file (type bmp)
 <tegaki.png>
 File: after_drag.png Graphic file (type bmp)
 <after_drag.png>
- [4] [5] [6] [7]
-Overfull \hbox (55.65335pt too wide) in paragraph at lines 389--399
+ [4] [5] [6] [7] [8]
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[9]
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[10]
+Overfull \hbox (55.65335pt too wide) in paragraph at lines 476--486
  [][][][] 
  []
 
-[8] [9] [10] (./report.aux)
+[11] [12] (./report.aux)
  ***********
 pLaTeX2e <2023-02-14>+1, based on
 LaTeX2e <2023-11-01>
@@ -305,12 +331,12 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 4021 strings out of 476329
- 58589 string characters out of 5798571
- 2009305 words of memory out of 5000000
- 26177 multiletter control sequences out of 15000+600000
+ 4023 strings out of 476281
+ 58679 string characters out of 5797229
+ 2020305 words of memory out of 5000000
+ 26187 multiletter control sequences out of 15000+600000
  566566 words of font info for 71 fonts, out of 8000000 for 9000
- 14 hyphenation exceptions out of 8191
- 57i,10n,65p,301b,1733s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 36 hyphenation exceptions out of 8191
+ 57i,10n,65p,328b,1238s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on report.dvi (11 pages, 36116 bytes).
+Output written on report.dvi (13 pages, 51672 bytes).

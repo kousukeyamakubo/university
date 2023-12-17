@@ -32,19 +32,6 @@ public class BoardModel {
 		return rows;
 	}
 	
-	public void printForDebug() {
-		for(int i=0;i<rows;i++) {
-			for(int j=0;j<cols;j++) {
-				if(cells[i][j]==true) {
-					System.out.print('*');
-				}else{
-					System.out.print('.');
-				}
-			}
-			System.out.println();
-		}
-	}
-	
 	public void changeCellState(int x,int y) {
 		undoButton.setEnabled(true);
 		if(cells[y][x]==true) {
@@ -77,15 +64,14 @@ public class BoardModel {
 	}
 	
 	public void next() {
-		int num;
 		for(int i = 0; i < rows; i++) {
 			for(int j = 0; j < cols; j++) {
 				copiedcells[i][j] = cells[i][j];
 			}
 		}
-		for(int i=0;i<11;i++) {
-			for(int j=0;j<11;j++) {
-				num = this.check(i,j);
+		for(int i=0;i<cols;i++) {
+			for(int j=0;j<rows;j++) {
+				int num = this.check(i,j);
 				if(cells[j][i]==true) {
 					if(num == 2|| num == 3) {
 						copiedcells[j][i] = true;
@@ -102,17 +88,13 @@ public class BoardModel {
 				}
 			}
 		}
-		
-		boolean[][] currentBoard = new boolean[rows][cols];
-        for (int i = 0; i < rows; i++) {
-            System.arraycopy(cells[i], 0, currentBoard[i], 0, cols);
-        }
+
         if(counter!=32) {
         	counter++;
-        	History.add(currentBoard);
+        	History.add(copiedcells);
         }else {
         	History.remove(0);
-        	History.add(currentBoard);
+        	History.add(copiedcells);
         }
 		
 		for(int i = 0; i < rows; i++) {
@@ -131,33 +113,30 @@ public class BoardModel {
 		if(x-1>=0 && cells[y][x-1] == true) {
 			count++;
 		}
-		if(x-1>=0 && y+1 <= 11 && cells[y+1][x-1] == true) {
+		if(x-1>=0 && y+1 <= rows-1 && cells[y+1][x-1] == true) {
 			count++;
 		}
 		if(y-1 >= 0 && cells[y-1][x] == true) {
 			count++;
 		}
-		if(y+1<=11 && cells[y+1][x] == true) {
+		if(y+1<=rows-1 && cells[y+1][x] == true) {
 			count++;
 		}
-		if(x+1<=11 && y+1 <= 11 && cells[y+1][x+1] == true) {
+		if(x+1<=cols-1 && y+1 <= rows-1 && cells[y+1][x+1] == true) {
 			count++;
 		}
-		if(x+1<=11 && cells[y][x+1] == true) {
+		if(x+1<=cols-1 && cells[y][x+1] == true) {
 			count++;
 		}
-		if(x+1<=11 && y-1 >= 0 && cells[y-1][x+1] == true) {
+		if(x+1<=cols-1 && y-1 >= 0 && cells[y-1][x+1] == true) {
 			count++;
 		}
 		return count;
 	}
 	public void undo() {
 		History.remove(counter);
-        boolean[][] previousBoard = History.get(counter-1);
-        for (int i = 0; i < rows; i++) {
-            System.arraycopy(previousBoard[i], 0, cells[i], 0, cols);
-        }
-        counter--;
+		counter--;
+        cells= History.get(counter);
         this.fireUpdate();
 	}
 	

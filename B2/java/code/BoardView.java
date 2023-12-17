@@ -30,7 +30,7 @@ public class BoardView extends JPanel implements BoardListener,MouseListener,Mou
         int y = e.getY();
         int i=0;
         int j=0;
-        if( x<(width-masu*M)/2 || x>(width+masu*M)/2 || y>masu*(N+1) ) {
+        if( x<(width-masu*M)/2 || x>(width+masu*M)/2 || y>masu*(N) ) {
         	return;
         }
         
@@ -60,7 +60,7 @@ public class BoardView extends JPanel implements BoardListener,MouseListener,Mou
         int y = e.getY();
         int masu_x=0;
         int masu_y=0;
-        if( x<(width-masu*M)/2 || x>(width+masu*M)/2 || y>masu*(N+1) ) {
+        if( x<(width-masu*M)/2 || x>(width+masu*M)/2 || y>masu*(N) ) {
         	return;
         }
         for (int i = 0; i < N; i++) {
@@ -100,10 +100,12 @@ public class BoardView extends JPanel implements BoardListener,MouseListener,Mou
 		M = model.getCols();
 		width = this.getWidth();
 		height = this.getHeight();
-		if((height*995/1000)/N > width/(M+2)) {
+		if((height*99/100)/N > width/(M+2)) {
 			masu = width/(M+2);
 		}else {
-			masu = (height*995/1000)/N;
+			masu = (height*99/100)/N;
+			System.out.println(height);
+			System.out.println(masu);
 		}
 		super.paint(g);
 		for(int i=0;i<N+1;i++) {
@@ -127,7 +129,4 @@ public class BoardView extends JPanel implements BoardListener,MouseListener,Mou
 	public void updated(BoardModel model) {
 		this.repaint();
 	}
-	
 }
-
-

@@ -19,23 +19,17 @@ public class Button implements ActionListener {
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-        // ボタンの識別子に基づいて処理を実行
         switch (buttonId) {
             case 1:
-            	//nextが押された時の処理
             	boardModel.next();
             	undoButton.setEnabled(true);
-            	boardView.repaint();
                 break;
             case 2:
-            	//undoが押された時の処理
             	if(boardModel.isUndoable()) {
             		boardModel.undo();
-            		boardView.repaint();
             		if(!boardModel.isUndoable()) {
                 		undoButton.setEnabled(false);
                 	}
-            		boardView.repaint();
             	}
                 break;
             case 3:

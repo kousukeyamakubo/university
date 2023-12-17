@@ -202,12 +202,11 @@ newgameボタンは最初から押せる状態になっており,ボタンを押
   \begin{tabular}{|c|c|}
     \hline
     クラス名&機能\\\hline\hline
-    Mainクラス&\\\hline
-    BoardModelクラス&\\\hline
-    ButtonListenerクラス&\\\hline
-    Boardlistenerインターフェース&\\\hline
-    ModelPrinterクラス&\\\hline
-    BoardViewクラス&\\\hline
+    Mainクラス&パネル内の情報の初期設定\\\hline
+    BoardModelクラス&盤面の描画と世代更新,巻き戻し処理\\\hline
+    Buttonクラス&パネルのボタンが押された時の処理の分類\\\hline
+    Boardlistenerインターフェース&盤面の情報\\\hline
+    BoardViewクラス&マウスカーソルによる操作\\\hline
   \end{tabular}
   \caption{クラスと機能の対応表}
 \end{table}
@@ -216,123 +215,211 @@ newgameボタンは最初から押せる状態になっており,ボタンを押
 \section{各機能実装方法}
 
 \subsection{状態の更新に連動して画面表示の変更}
-状態の更新に関する処理は以下のListing1からListing3のコードで示した部分に記述した.
-\subsubsection{BoardModelクラス内の処理}
-nextボタンやマウスカーソルによる盤面の状態の変化が起こるたびにchangeCellStateメソッドが呼び出され,後述のcellsの状態が更新される.
-BoardModelクラス内のchangeCellStateメソッドのコードは以下のようになる.
-\begin{lstlisting}[caption=BoardModelクラス内の該当部のコード,label=fuga]
-public void changeCellState(int x,int y) {
-  undoButton.setEnabled(true);
-  if(cells[y][x]==true) {
-    cells[y][x]=false;
-	}else {
-    cells[y][x]=true;
-  }
-  boolean[][] currentBoard = new boolean[rows][cols];
-  for (int i = 0; i < rows; i++) {
-    System.arraycopy(cells[i], 0, currentBoard[i], 0, cols);
-  }
-  if(counter!=32) {
-    counter++;
-    History.add(currentBoard);
-  }else {
-    History.remove(0);
-    History.add(currentBoard);
-  }
-  this.fireUpdate();
-  }
-
-  private void fireUpdate() {
-    for(BoardListener listener:listeners) {
-      listener.updated(this);
-    }
-  }
-\end{lstlisting}
-この処理を行うにあたって使用したメンバは以下のとおりである.
-\begin{table}[h]
-  \centering
-  \begin{tabular}{|c||c|}
-    \hline
-    変数名 & 変数があらわす内容\\
-    \hline\hline
-    cells & 盤面の状態を表すboolean型の二次元配列\\\hline
-    N & 盤面の縦のマス数\\\hline
-    width & パネルの横幅をpaintメソッド内のgetWidthメソッドによって格納するint型の変数 \\\hline
-    height & パネルの縦幅をpaintメソッド内のgetHeightメソッドによって格納するint型の変数\\\hline
-    masu & 盤面に描写する正方形のマスの一辺の長さを格納するint型の変数\\\hline
-
-  \end{tabular}
-  \caption{BoardModelクラスのメンバとその内容}
-\end{table}
-\\また,changeCellStateクラスの内部変数は以下のようになる.
-\begin{table}[h]
-  \centering
-  \begin{tabular}{|c|c|}\hline
-    変数名 & 変数があらわす内容\\\hline\hline
-    x & int型の変数\\\hline    
-    y & int型の変数\\\hline
-    currentBoard & 現在の盤面の状態をコピーするためのboolean型の二次元配列\\\hline
-  \end{tabular}
-  \caption{changeCellStateクラスの内部変数}
-\end{table}
-\subsubsection{}
-\begin{lstlisting}[caption=コード,label=fuga]
-  public interface BoardListener {
-    public void updated(BoardModel m);
-  }
-\end{lstlisting}
+今回のライフゲームでの画面表示が変更されるのは以下のような条件の時である.
 \begin{itemize}
-  \item 行目の処理\mbox{}\\
-  \item 行目の処理\mbox{}\\
-  \item 行目の処理\mbox{}\\
-  \item 
+    \item nextボタンやundoボタンによる盤面の更新及び巻き戻し
+    \item マウスカーソルによる盤面の状態の変更
+    \item 
 \end{itemize}
-\subsubsection{}
-\begin{lstlisting}[caption=コード,label=fuga]
-  public void updated(BoardModel model) {
+これらの処理が行われた後に盤面が再描写されるための処理について記述する.\\
+以下のコードはこの処理を実装するためにそれぞれのクラスから必要な個所のみを抜粋したコードである.
+\begin{lstlisting}[caption=BoardListenerインターフェース,label=fuga]
+    public interface BoardListener {
+	    public void updated(BoardModel m);
+    }
+\end{lstlisting}
+\begin{lstlisting}[caption=Mainクラス,label=fuga]
+    model.addListener(new BoardView(model));
+\end{lstlisting}
+\begin{lstlisting}[caption=BoardViewクラス,label=fuga]
+    public BoardView(BoardModel model) {
+		this.model = model;
+		this.addMouseListener(this);
+		this.addMouseMotionListener(this);
+		model.addListener(this);
+	}
+    @Override
+	public void updated(BoardModel model) {
 		this.repaint();
 	}
 \end{lstlisting}
+\begin{lstlisting}[caption=BoardModelクラス,label=fuga]
+    private ArrayList<BoardListener> listeners;
+
+    public BoardModel(int c,int r,JButton undoButton) {
+		listeners = new ArrayList<BoardListener>();
+	}
+
+    public void changeCellState(int x,int y) {
+		this.fireUpdate();
+	}
+
+    public void addListener(BoardListener listener) {
+		listeners.add(listener);
+	}
+	
+	private void fireUpdate() {
+		for(BoardListener listener:listeners) {
+			listener.updated(this);
+		}
+	}
+\end{lstlisting}
+listing1の2行目において,BoardListenerインターフェースにはupdatedクラスが呼び出されている.このupdatedクラスの処理内容はlisting3の8から10行目のように,上で挙げた盤面が更新されるための
+処理を実装するクラス内に記述されている.
+listing2のコードにより,BoardListenerインターフェースをimplementしたクラスのオブジェクトをlisting4の10から12行目のaddListenerクラスで可変長配列
+listenersに登録している.これを行うことで,盤面を変更する各操作が実行されるたびにlisting4の9から12行目のChangeCellStateメソッドが呼び出されて盤面を変更し,その後で18から21行目のfireupdatedメソッドが
+呼び出されてrepaintが実行される.これにより,すべての盤面の変更が起こったときにlistenersに登録されたオブジェクトを使ってBoardListenerを介して盤面の再描画が実行される.
+
 
 \subsection{巻き戻しのための盤面の記憶}
-巻き戻しのための盤面の記憶に関する処理はクラスのメソッドに記述した.
-この処理を行うにあたって使用したメンバは以下のとおりである.
+巻き戻しのための盤面の記憶に関する処理はBoardModelクラスに記述した.盤面の情報は可変長配列を持つリスト型であるArraylistを使用し,変数名はHistoryとした.
+\subsubsection{nextによる盤面の状態の変更の記憶}
+以下のlistingはBoardModelクラスのnextメソッドの一部である.
+\begin{lstlisting}[caption=nextメソッドの一部,label=fuga]
+    if(counter!=32) {
+        counter++;
+        History.add(copiedcells);
+    }else {
+        History.remove(0);
+        History.add(copiedcells);
+    }
+\end{lstlisting}
+counterはHistoryに記憶されている状態の数を表すint型の変数で0に初期化されている.counterはメンバであるためcounterの値はほかのメソッドにも共有される.記憶されている状態の数が32個以下ならcounterの値を1インクリメントしてからaddメソッドを使ってHistoryに
+状態を記憶し,32個ならHistoryに記憶されている一番古い状態を削除してからaddメソッドを使って現在の状態を新しく記憶している.また,copiedcellsはlifegameの仕様に基づいて一世代進めたあとの盤面の状態を表す二次元配列である.
+これは現在の盤面の状態を表す二次元配列cellsのすべての要素をコピーしたものである.copiedcellsを使用している理由としては,次の世代へ進めたときに各セルが生きているかはセルの周りに生きているセルが何個存在するかで決定されるので全てのcellsの要素に参照している途中でcellsの状態を変えてしまうと
+周りに存在する生きているセルの数が変化してしまうためである.
+\subsubsection{undoによる盤面の状態の変更の記憶}
+以下のlistingはBoardModelクラスのundoメソッドの一部である.
+\begin{lstlisting}[caption=undoメソッドの一部,label=fuga]
+    History.remove(counter);
+    counter--;
+    cells = History.get(counter);
+\end{lstlisting}
+まず一番最新の状態をHistoryから削除し,そのあとにcounterを1デクリメントする.これによりundoが押された際に記憶されていた状態が1つ減少する.その後現在の状態を表す二次元配列cells
+にデクリメントした後のcounterがさすHistoryの最新の状態,即ちundoを押したときの直前の状態を格納する.
+\subsubsection{マウスカーソルによる盤面の状態の変更の記憶}
+以下のlistingはBoardModelクラスのchangeCellStateメソッドの一部である.
+\begin{lstlisting}[caption=changeCellStateメソッドの一部,label=fuga]
+    boolean[][] currentBoard = new boolean[rows][cols];
+    for (int i = 0; i < rows; i++) {
+        System.arraycopy(cells[i], 0, currentBoard[i], 0, cols);
+    }
+    if(counter!=32) {
+        counter++;
+        History.add(currentBoard);
+    }else {
+        History.remove(0);
+        History.add(currentBoard);
+    }
+\end{lstlisting}
+マウスカーソルによる盤面の状態の変更の詳細は後述するが,どのセルの状態を変更すればよいかを特定してから
+changeCellStateを呼び出して実際に盤面の状態を格納しているcellsを変更する.二次元配列であるcurrentBoardを用意して変更後の盤面の状態を2から4行目でコピーする.
+その後counterの値が32以下ならcounterの値を1インクリメントしてからaddメソッドを使ってHistoryに
+状態を記憶し,32個ならHistoryに記憶されている一番古い状態を削除してからaddメソッドを使って現在の状態を新しく記憶している.
+addした配列がcellsではなくcurrentBoardである理由は,cellsを格納してしまうと参照の追加になり,cellsが変更されるとHistoryに追加されているほかのオブジェクトも同じように変更されてしまうためである.
+ゆえに一時的にcellの内容を別の二次元配列にコピーして参照の追加となることを避けた.
+\subsection{undoによる巻き戻し可能かどうかの判定}
+undoは盤面を生成したときMainメソッド内でsetEnabledメソッドを使って押せないように初期化されている.undoによる巻き戻しが可能となるのは仕様でも説明した通り
+nextボタンによる世代の更新かマウスカーソルによる盤面の状態の変更が行われた時である.
+\begin{itemize}
+    \item nextボタンによって世代更新が行われた時,3.2.1で記述したようにcounterの値が更新された回数だけインクリメントされる.これを利用してBoardModelメソッド内にisUndoableメソッドを作成した.
+    このメソッドはcounterの値が0より大きいときはtrueを,0のときはfalseを返す.以下のlistingのコードはButtonクラス内のnextボタンとundoボタンが押された時に実行される処理である.
+    \begin{lstlisting}[caption=nextボタン及びundoボタンを押したときに実行される処理,label=fuga]
+        case 1:
+            boardModel.next();
+            undoButton.setEnabled(true);
+            break;
+        case 2:
+            if(boardModel.isUndoable()) {
+                boardModel.undo();
+                if(!boardModel.isUndoable()) {
+                    undoButton.setEnabled(false);
+                }
+            }
+            break;
+    \end{lstlisting}
+    1から4行目のように,nextボタンが押された時にはnextメソッドを呼び出して盤面の世代を更新してからsetEnabledメソッドでundoボタンを押せるようにしている.また,6から11行目のように
+    isUndoableの返り値がtrueの時はundoメソッドを呼び出して盤面の世代を一つ戻した後に再びisUndoableメソッドを呼び出して返り値がfalseであればsetEnabledメソッドでundoボタンを押せなくしている.
+    これは,undoメソッドによって世代を戻したときにHistoryが空になったことをすぐに確認するためである.これを実装することでUndoボタンが履歴がなくなった時に押せなくなることを実現できる.
+    \item マウスカーソルによって盤面に変更が加えられたときは仕様で述べた通り,セルの状態が一つでも変わるとそれが一つの盤面の状態として記憶される.3.2.3で記述した通り,マウスカーソルで状態が変更されると
+    changeCellStateメソッドが呼び出されるのでこのメソッドが呼び出された時にsetEnabledメソッドでundoボタンを押せるようにすれば巻き戻しを可能にすることが実現できる.
+\end{itemize}
+
+\subsection{セルの境界線の位置を計算する方法}
+以下の表2は計算するために使用した変数名と表す内容である.
 \begin{table}[h]
-  \centering
-  \begin{tabular}{|c||c|}
+\centering
+\begin{tabular}{|c||c|}
     \hline
     変数名 & 変数があらわす内容\\
     \hline\hline
-    M & 盤面の横のマス数\\\hline
-    N & 盤面の縦のマス数\\\hline
-    width & パネルの横幅をpaintメソッド内のgetWidthメソッドによって格納するint型の変数 \\\hline
-    height & パネルの縦幅をpaintメソッド内のgetHeightメソッドによって格納するint型の変数\\\hline
-    masu & 盤面に描写する正方形のマスの一辺の長さを格納するint型の変数\\\hline
-
-  \end{tabular}
-  \caption{メンバとその内容}
+    M & 盤面の横のセル数\\\hline
+    N & 盤面の縦のセル数\\\hline
+    width & パネルの横幅\\\hline
+    height & パネルの縦幅\\\hline
+    masu & 盤面に描写する正方形のマスの一辺の長さ\\\hline
+\end{tabular}
+\caption{計算式中の変数名とその内容}
 \end{table}
+\\盤面のセルの境界線の位置は以下のような手順で盤面の境界線の位置は計算される.
+\begin{enumerate}
+    \item 現在のwidthとheightから,masuを決定する.具体的には以下のような不等式が成り立つかどうかについて考える.
+    \begin{align}
+        \frac{height\times\frac{99}{100}}{N} > \frac{width}{M+2}
+    \end{align}
+    左辺はheightの99\%の大きさをN等分した時の長さを調べている.これは,heightの99\%の長さを考えないと盤面の一番下の横線が表示されないことがあるという問題を解決するための処理である.
+    右辺はwidthをM+2等分したときの長さを調べている.これは,パネルの中央に盤面を配置するための処理である.(1)が成り立った時はパネルが縦に長い状態であると判断して
+    \begin{align}
+        masu=\frac{width}{M+2}
+    \end{align}
+    とし,(1)が成り立たなかったときはパネルが横に長い状態であると判断して
+    \begin{align}
+        masu = \frac{height\times\frac{99}{100}}{N}
+    \end{align}
+    となるようにした.
+    \item 次に,盤面の開始位置を決定する.縦軸の開始位置はy座標が0からである.x座標の開始位置はパネルの中央に盤面を配置するために,以下のような数式の値を開始位置とする.
+    \begin{align}
+        \frac{width-masu\times M}{2}
+    \end{align}
+    この数式はパネルの横幅から盤面を表示している部分の長さを引いた長さを二等分した値になる.これにより,盤面を描写していない部分の横幅が同じ長さとなっている.
+    \item ユーザが指定したセル数分だけ縦軸と横軸を描画する.それぞれのセルの一片の長さは(2)または(3)の値である.
+\end{enumerate}
 
-\subsection{盤面の描画}
-
-盤面の描画に関する処理はBoardViewクラスのpaintメソッドに記述した.
-この処理を行うにあたって使用したメンバは以下のとおりである.
+\subsection{マウスカーソルの座標からセルの座標を計算する方法}
+以下の表3は計算するために使用した変数名と表す内容である.
 \begin{table}[h]
-  \centering
-  \begin{tabular}{|c||c|}
-    \hline
-    変数名 & 変数があらわす内容\\
-    \hline\hline
-    M & 盤面の横のマス数\\\hline
-    N & 盤面の縦のマス数\\\hline
-    width & パネルの横幅をpaintメソッド内のgetWidthメソッドによって格納するint型の変数 \\\hline
-    height & パネルの縦幅をpaintメソッド内のgetHeightメソッドによって格納するint型の変数\\\hline
-    masu & 盤面に描写する正方形のマスの一辺の長さを格納するint型の変数\\\hline
-
-  \end{tabular}
-  \caption{メンバとその内容}
-\end{table}
-
+    \centering
+    \begin{tabular}{|c||c|}
+        \hline
+        変数名 & 変数があらわす内容\\
+        \hline\hline
+        M & 盤面の横のセル数\\\hline
+        N & 盤面の縦のセル数\\\hline
+        width & パネルの横幅\\\hline
+        height & パネルの縦幅\\\hline
+        masu & 盤面に描写する正方形のマスの一辺の長さ\\\hline
+        x & マウスカーソルがある場所のx座標\\\hline
+        y & マウスカーソルがある場所のy座標\\\hline
+        masu\_x & 0で初期化されており,マウスカーソルが現在存在するセルの左上の頂点のx座標\\\hline
+        masu\_y & 0で初期化されており,マウスカーソルが現在存在するセルの左上の頂点のy座標\\\hline
+        StateX & マウスカーソルが現在存在するセルの左上の頂点のx座標\\\hline
+        StateY & マウスカーソルが現在存在するセルの左上の頂点のy座標\\\hline
+    \end{tabular}
+    \caption{計算式中の変数名とその内容}
+    \end{table}
+\\3.4の表2の変数と同じ変数名のものは値も同じである.以下のような流れでマウスカーソルがある位置のセルの座標はクリックとドラッグで異なる方法で計算される.
+まずクリックとドラッグで共通の処理を記述する.
+盤面外にマウスカーソルがある状態でクリックやドラッグがされると何もしないようにするためにxとyが以下の条件式を満たしているか確認する.
+\begin{align}
+    x < \frac{width-masu\times M}{2} \quad or \quad x> \frac{width+masu\times M}{2}\quad or \quad y > masu\times (N)
+\end{align}
+これらの3つの不等式の一番左の不等式はマウスカーソルのx座標が盤面よりも左側にあるとき真になる.真ん中はマウスカーソルのx座標が盤面よりも右側にあるとき真になる.
+一番右の不等式はマウスカーソルのy座標が盤面よりも下側にある時に真になる.そしてこれら3つの不等式は全てorとしているのでこれらのうちの1つでも真になれば盤面外にマウスカーソルがあるという判定になる.
+\subsubsection{クリック時の計算}
+クリック時のマウスカーソルの位置からのセルの座標の計算は以下のような流れで実行される.
+\begin{enumerate}
+    \item 
+\end{enumerate}
 \subsection{マウスカーソルによる盤面の状態の変更}
 
   マウスカーソルによる盤面の状態の変更に関する処理はBoardViewクラスに記述した.以下にクリックに関する処理とドラッグに関する処理の実装方法を記述する.
