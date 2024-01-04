@@ -33,15 +33,13 @@ public class BoardView extends JPanel implements BoardListener,MouseListener,Mou
         if( x<(width-masu*M)/2 || x>(width+masu*M)/2 || y>masu*(N) ) {
         	return;
         }
-        
-        
-        // 左端,上端はその一マスにふくまれているものとする
+
         for (i = 0; i < N; i++) {
             if (y >= i * masu && y < (i + 1) * masu) {
-            	Statey = i * masu; // セルの左上の y 座標
+            	Statey = i * masu;
                 for (j = 0; j < M; j++) {
                 	if(x >= ((width-masu*M)/2) + masu*j && x < ((width-masu*M)/2) + masu*(j+1)) {
-                		Statex = (j * masu) + (width - masu * M) / 2; // セルの左上の x 座標
+                		Statex = (j * masu) + (width - masu * M) / 2;
                         break;
                 	}
                 }
@@ -65,10 +63,10 @@ public class BoardView extends JPanel implements BoardListener,MouseListener,Mou
         }
         for (int i = 0; i < N; i++) {
             if (y >= i * masu && y < (i + 1) * masu) {
-            	masu_y = i * masu; // セルの左上の y 座標
+            	masu_y = i * masu;
                 for (int j = 0; j < M; j++) {
                 	if(x >= ((width-masu*M)/2) + masu*j && x < ((width-masu*M)/2) + masu*(j+1)) {
-                		masu_x = (j * masu) + (width - masu * M) / 2; // セルの左上の x 座標
+                		masu_x = (j * masu) + (width - masu * M) / 2;
                         break;
                 	}
                 }
@@ -80,7 +78,6 @@ public class BoardView extends JPanel implements BoardListener,MouseListener,Mou
                 if (y >= i * masu && y < (i + 1) * masu) {
                     for (int j = 0; j < M; j++) {
                         if (x >= ((width-masu*M)/2) + masu*j && x < ((width-masu*M)/2) + masu*(j+1)) {
-                            // クリックされたセルの状態を変更
                             model.changeCellState(j,i);
                         }
                     }
@@ -104,8 +101,6 @@ public class BoardView extends JPanel implements BoardListener,MouseListener,Mou
 			masu = width/(M+2);
 		}else {
 			masu = (height*99/100)/N;
-			System.out.println(height);
-			System.out.println(masu);
 		}
 		super.paint(g);
 		for(int i=0;i<N+1;i++) {

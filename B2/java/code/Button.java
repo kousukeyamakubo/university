@@ -7,13 +7,11 @@ import javax.swing.SwingUtilities;
 
 public class Button implements ActionListener {
 	private int buttonId;
-	private BoardView boardView;
 	private BoardModel boardModel;
 	private JButton undoButton;
 	
-	public Button(int buttonId, BoardView boardView,BoardModel boardModel,JButton undoButton) {
+	public Button(int buttonId,BoardModel boardModel,JButton undoButton) {
 		this.buttonId = buttonId;
-		this.boardView = boardView;
 		this.boardModel = boardModel;
 		this.undoButton = undoButton;
 	}
