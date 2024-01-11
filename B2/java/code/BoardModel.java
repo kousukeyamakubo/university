@@ -3,7 +3,7 @@ package lifegame;
 import java.util.ArrayList;
 import javax.swing.JButton;
 
-public class BoardModel {
+public class BoardModel{
 	private int cols;
 	private int rows;
 	private int counter=0;
@@ -88,13 +88,18 @@ public class BoardModel {
 				}
 			}
 		}
+		
+		boolean[][] currentBoard = new boolean[rows][cols];
+        for (int i = 0; i < rows; i++) {
+            System.arraycopy(cells[i], 0, currentBoard[i], 0, cols);
+        }
 
         if(counter!=32) {
         	counter++;
-        	History.add(copiedcells);
+        	History.add(currentBoard);
         }else {
         	History.remove(0);
-        	History.add(copiedcells);
+        	History.add(currentBoard);
         }
 		
 		for(int i = 0; i < rows; i++) {

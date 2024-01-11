@@ -1,10 +1,10 @@
-This is e-upTeX, Version 3.141592653-p4.1.0-u1.29-230214-2.6 (utf8.sjis) (TeX Live 2023) (preloaded format=platex 2023.12.15)  4 JAN 2024 23:53
+This is e-upTeX, Version 3.141592653-p4.1.0-u1.29-230214-2.6 (utf8.sjis) (TeX Live 2023) (preloaded format=platex 2023.12.15)  4 JAN 2024 23:54
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**c:/university/B2/java/report
-(c:/university/B2/java/report.tex
+**c:/university/B2/sml/report
+(c:/university/B2/sml/report.tex
 pLaTeX2e <2023-02-14>+1, based on
 LaTeX2e <2023-11-01>
 L3 programming layer <2023-12-11>
@@ -180,35 +180,7 @@ File: l3backend-dvipdfmx.def 2023-11-09 L3 backend support: dvipdfmx
 \g__pdf_backend_object_int=\count291
 \g__pdf_backend_annotation_int=\count292
 \g__pdf_backend_link_int=\count293
-) (./report.aux
-
-LaTeX Warning: Label `fuga' multiply defined.
-
-
-LaTeX Warning: Label `fuga' multiply defined.
-
-
-LaTeX Warning: Label `fuga' multiply defined.
-
-
-LaTeX Warning: Label `fuga' multiply defined.
-
-
-LaTeX Warning: Label `fuga' multiply defined.
-
-
-LaTeX Warning: Label `fuga' multiply defined.
-
-
-LaTeX Warning: Label `fuga' multiply defined.
-
-
-LaTeX Warning: Label `fuga' multiply defined.
-
-
-LaTeX Warning: Label `fuga' multiply defined.
-
-)
+) (./report.aux)
 \openout1 = `report.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 27.
@@ -278,75 +250,20 @@ LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <14.4> not available
 (Font)              Font shape `JT1/gt/m/n' tried instead on input line 44.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <14.4> not available
 (Font)              Font shape `JY1/gt/m/n' tried instead on input line 44.
-LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <12> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 47.
-LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <12> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 47.
-File: zahyou.png Graphic file (type bmp)
-<zahyou.png>
-LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <10> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 56.
-LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <10> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 56.
-File: wide.png Graphic file (type bmp)
-<wide.png>
-File: height.png Graphic file (type bmp)
-<height.png>
- [1]
-File: code_masu.png Graphic file (type bmp)
-<code_masu.png>
-File: panel_normal.png Graphic file (type bmp)
-<panel_normal.png>
-File: 1812.png Graphic file (type bmp)
-<1812.png>
-File: before_next.png Graphic file (type bmp)
-<before_next.png>
-File: after_next.png Graphic file (type bmp)
-<after_next.png>
-File: panel_normal.png Graphic file (type bmp)
-<panel_normal.png>
-File: before_undo.png Graphic file (type bmp)
-<before_undo.png>
-File: after_undo.png Graphic file (type bmp)
-<after_undo.png>
- [2]
-File: newgame.png Graphic file (type bmp)
-<newgame.png>
- [3]
-File: panel_normal.png Graphic file (type bmp)
-<panel_normal.png>
-File: panel_click.png Graphic file (type bmp)
-<panel_click.png>
-File: panel_normal.png Graphic file (type bmp)
-<panel_normal.png>
-File: panel_drag.png Graphic file (type bmp)
-<panel_drag.png>
-File: tegaki.png Graphic file (type bmp)
-<tegaki.png>
-File: after_drag.png Graphic file (type bmp)
-<after_drag.png>
- [4] [5] [6] [7] [8] [9] [10] [11
-
-] [12] [13
-
-] (./report.aux)
+ [1] (./report.aux)
  ***********
 pLaTeX2e <2023-02-14>+1, based on
 LaTeX2e <2023-11-01>
 L3 programming layer <2023-12-11>
  ***********
-
-
-LaTeX Warning: There were multiply-defined labels.
-
  ) 
 Here is how much of TeX's memory you used:
- 4548 strings out of 476329
- 64603 string characters out of 5798571
- 2025305 words of memory out of 5000000
- 26685 multiletter control sequences out of 15000+600000
- 567811 words of font info for 77 fonts, out of 8000000 for 9000
+ 4149 strings out of 476329
+ 59790 string characters out of 5798571
+ 1920305 words of memory out of 5000000
+ 26322 multiletter control sequences out of 15000+600000
+ 565932 words of font info for 70 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 57i,10n,65p,318b,1732s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 57i,6n,65p,299b,265s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on report.dvi (14 pages, 50796 bytes).
+Output written on report.dvi (2 pages, 1160 bytes).
