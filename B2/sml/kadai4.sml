@@ -10,7 +10,6 @@ fun compute s =
           | COMP (h::t) =
             if h = "(" then
                 let
-                    val a = print "debug ( \n"
                     val (v1,t1) = EXP t
 
                     fun splitList lst =
@@ -22,7 +21,6 @@ fun compute s =
                 in
                     if head = ")" then
                         let
-                            val a = print "debug ) \n"
                         in
                             (v1, t2)
                         end
@@ -38,7 +36,6 @@ fun compute s =
 
             else if h = "+" then
                 let
-                    val a = print "debug + \n"
                     val (v1,t1) = EXP t
                     val (v2,t2) = EXP t1
                 in
@@ -55,7 +52,6 @@ fun compute s =
 
             else if h = "*" then
                 let
-                    val a = print "debug * \n"
                     val (v1,t1) = EXP t
                     val (v2,t2) = EXP t1
                 in

@@ -29,7 +29,7 @@
 \begin{titlepage}
     \begin{center}
         \vspace*{60pt}
-        {\LARGE プログラミングDレポート}
+        {\LARGE プログラミングD SML レポート}
         \vspace*{240pt}\\
         \begin{tabular}{rl}
             担当教員 & 小南大智\\
@@ -42,7 +42,53 @@
 \end{titlepage}
 
 \section{課題3のプログラムの説明}
-
+課題3ではCOMPの計算の処理を足し算のほかに引き算,掛け算,割り算を追加した.これを実現するために以下の二つの変更を加えた.
+\begin{itemize}
+    \item 関数EXPから関数COMPに移動する条件の変更.
+    \item それぞれの演算の処理の実装.
+\end{itemize}
+以下でその詳細について述べる.
+\subsection{条件の変更}
+関数EXPから関数COMPに移動する条件を以下のように変更した.
+\begin{lstlisting}[caption=COMPに移動する条件,label=fuga]
+    else if h = "+" orelse h = "-" orelse h = "*" orelse h = "/" then COMP (h::t)
+\end{lstlisting}
+課題2では足し算の演算を実行するときの処理を参考に,hがそれぞれの演算子であったときに関数COMPに移動するようにした.
+\subsection{処理の実装}
+各演算の処理の実装は以下のようになる.
+\begin{lstlisting}[caption=処理の実装,label=fuga]
+    if h = "+" then
+                let
+                    val (v1,t1) = EXP t
+                    val (v2,t2) = EXP t1
+                in
+                    (v1 + v2, t2)
+                end
+            else if h = "-" then
+                let
+                    val (v1,t1) = EXP t
+                    val (v2,t2) = EXP t1
+                in
+                    (v1 - v2, t2)
+                end 
+            else if h = "*" then
+                let
+                    val (v1,t1) = EXP t
+                    val (v2,t2) = EXP t1
+                in
+                    (v1 * v2, t2)
+                end 
+            else if h = "/" then
+                let
+                    val (v1,t1) = EXP t
+                    val (v2,t2) = EXP t1
+                in
+                    (v1 div v2, t2)
+                end 
+            else raise SyntaxError
+\end{lstlisting}
+足し算の演算の処理と基本的な構造はすべて同じである.8,15,22行目でhがそれぞれどの演算子を表すのかを判定し,hに合った処理を実行する.そして計算結果と残りの文字列の組を返す.
+ただし,smlにおける整数同士の割り算は"/"ではなく"div"を使うので27行目のような値の組を返す.
 \section{課題4のプログラムの説明}
 
 \section{課題5のプログラムの説明}
