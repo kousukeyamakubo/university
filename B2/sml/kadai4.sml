@@ -27,12 +27,6 @@ fun compute s =
                     else
                         raise SyntaxError
                 end
-            
-            else if h = ")" then
-                let
-                in
-                    raise SyntaxError
-                end
 
             else if h = "+" then
                 let

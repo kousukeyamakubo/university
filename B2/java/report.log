@@ -1,10 +1,10 @@
-This is e-upTeX, Version 3.141592653-p4.1.0-u1.29-230214-2.6 (utf8.sjis) (TeX Live 2023) (preloaded format=platex 2023.12.15)  4 JAN 2024 23:53
+This is e-upTeX, Version 3.141592653-p4.1.0-u1.29-230214-2.6 (utf8.sjis) (TeX Live 2023) (preloaded format=platex 2023.12.16)  12 JAN 2024 11:17
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**c:/university/B2/java/report
-(c:/university/B2/java/report.tex
+**c:/Users/kosuke/university/B2/java/report
+(c:/Users/kosuke/university/B2/java/report.tex
 pLaTeX2e <2023-02-14>+1, based on
 LaTeX2e <2023-11-01>
 L3 programming layer <2023-12-11>
@@ -341,12 +341,12 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 4548 strings out of 476329
- 64603 string characters out of 5798571
+ 4548 strings out of 476281
+ 64642 string characters out of 5797229
  2025305 words of memory out of 5000000
- 26685 multiletter control sequences out of 15000+600000
+ 26693 multiletter control sequences out of 15000+600000
  567811 words of font info for 77 fonts, out of 8000000 for 9000
- 14 hyphenation exceptions out of 8191
- 57i,10n,65p,318b,1732s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 36 hyphenation exceptions out of 8191
+ 57i,10n,65p,331b,1732s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
 Output written on report.dvi (14 pages, 50796 bytes).
