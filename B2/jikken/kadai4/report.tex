@@ -62,10 +62,7 @@
   \end{figure}
 \section{送受信回路の設計内容}
 \subsection{送信回路の設計}
-送信回路の設計にあたって使用した変数の名前とその役割の対応は以下の表2のとおりである.
-
-
-以下では図1のそれぞれのステートにおける処理を記述する.また,Listing1は3.1の末尾に添付したのは送信回路の
+以下では図1のそれぞれのステートにおける処理を記述する.
 \subsubsection{アイドル状態}
 s0であるアイドル状態について記述する.32ビットのベクトルであるSWの8から9ビット目を参照しその値によって次の遷移先を決定する.01ならs1に遷移し,11ならs3に遷移する.
 それ以外であればs0にとどまり続ける.また,s1に遷移する際にはwadrを000に,key2\_fragを0に,write\_inを0000に初期化する.
@@ -85,243 +82,84 @@ key3\_fragが1であるかどうかを判定し,1であればkey3\_fragを0に�
 s3である送信開始について記述する.SWの8から9ビットが00であればs0に遷移する.次に受信側が送ってくるreadyが1であるかどうかを判定する.
 readyが1でなければs3にとどまり続け以降の判定は行わない.readyが1のときはKEY(0)が0かどうかを判定する.0であればradrを000に,countを1に初期化してs4に遷移する.
 \subsubsection{送信状態}
-s4である送信状態について記述する.
+s4である送信状態について記述する.ここではまずクロック生成をしてそのクロックの周期を受信側に伝える処理を行う.受信側に伝え終わったときに1となる変数finishが0であるかどうかを判定し,
+0であればenableを1にしてクロックの生成を開始する.その後生成したclock\_txが立ち上りでなければstartを1にして受信側にクロック生成が開始されたことを伝える.また,このとき送信時に使用するクロックの周期をそろえるためにcount\_clockというカウンタを用意し,
+送信側のクロック周期何回分が生成クロックの周期に対応するのか計測しておく.これは送信側と受信側の情報のやり取りをするタイミングをそろえるためである.
+clock\_txが立ち上がりであればstart,enableを0にして周期を伝えることとクロック生成終了する.また,finshを1にして送信状態の次の処理を実行する.ところで,生成クロックの立ち上がりを測定することはclock\_tx\_lastという直前の生成クロックの値を格納する変数を用意しておき,
+現在の生成クロックの値が1で,直前の値が0のときという条件分岐を作って実現した.
+\\そのあとすぐにデータの送信を開始する.送信したデータの個数を表すcount\_sendという変数が8かどうかを判定することで7以下である場合は同じ処理が繰り返されるようにした.7以下である場合は送信側のクロックが何回立ち上がったかを記憶するclockという変数が先ほど計測したcount\_clockから1引いた値と同じになったタイミングで
+データを送信する.今回送信するデータと実機の7セグメントデコーダの対応は以下の通りである.
+\clearpage
+\begin{table}[h]
+  \centering
+  \begin{tabular}{|c|c|}
+    \hline
+    7セグメントデコーダの番号 & 送信するデータ\\
+    \hline\hline
+    HEX0 & 何も送信しないので常に0を表示\\\hline
+    HEX1 & 送信するデータ\\\hline
+    HEX2 & 何も送信しないので常に0を表示\\\hline
+    HEX3 & 送信するデータのアドレス\\\hline
+    HEX4 & 何も送信しないので常に0を表示\\\hline
+    HEX5 & GPIO\_1(5)の内容 \\\hline
+    \hline
+  \end{tabular}
+  \caption{7セグメントデコーダの送信するデータの対応表}
+\end{table}
 \subsubsection{送信終了状態}
 s5である送信終了状態について記述する.SWの8から9ビットが00であればradr,clk\_tx\_last,count,count\_send,count\_clkを初期化してs0に遷移する.それ以外の時はs5にとどまり続ける.
-\begin{lstlisting}[caption=送信回路のコード,label=fuga]
-library ieee;
-use ieee.std_logic_1164.all;
-use ieee.std_logic_unsigned.all;
-use IEEE.NUMERIC_STD.all;
-
-entity tx is
-  generic(N: integer := 32;
-          K: integer := 4;
-          W: integer := 3);
-  port(
-    CLOCK_50, RESET_N: in std_logic;
-    -- KEY(0): start button
-    -- KEY(2): write enable
-    -- KEY(3): address increment
-    KEY: in std_logic_vector(3 downto 0);
-    -- SW(9 downto 8): mode
-    -- SW(3 downto 0): din
-    SW: in std_logic_vector(9 downto 0);
-    -- GPIO_1(3 downto 0): data bits
-    -- GPIO_1(4): start bit
-    -- GPIO_1(5): ready bit
-    GPIO_1: inout std_logic_vector (35 downto 0);
-    -- LEDR: for debug
-    LEDR: out std_logic_vector (9 downto 0);
-    HEX0, HEX1, HEX2, HEX3, HEX4, HEX5: out std_logic_vector(6 downto 0));
-end tx;
-
-architecture rtl of tx is
-  constant cnt_max: std_logic_vector(31 downto 0):= X"000003FF";
-  type state_type is (s0, s1, s2, s3 , s4 , s5);
-  signal state: state_type;
-  signal sout: std_logic_vector (3 downto 0);
-  signal clk, xrst: std_logic;
-  signal enable: std_logic;
-  signal clk_tx: std_logic;
-  signal start: std_logic;
-  signal ready: std_logic;
-  signal we: std_logic;
-  signal wee: std_logic;
-  signal wadr, radr, adr: std_logic_vector (2 downto 0);
-  signal din, dout: std_logic_vector (3 downto 0);
-  signal debug0, debug1, debug2: std_logic_vector (3 downto 0);
-  signal enter_1, enter_3, enter_5: std_logic_vector (3 downto 0);
-  signal count_send, count_read, count_write, count_clk, count : integer := 0;
-  signal clk_tx_last, finish,key2_frag, key3_frag: std_logic;
-  signal write_in, first: std_logic_vector (3 downto 0);
-  
-  component clock_gen
-    generic(N: integer);
-    port(clk, xrst: in std_logic;
-         enable: in std_logic;
-         cnt_max: in std_logic_vector (N-1 downto 0);
-         clk_tx: out std_logic);
-  end component;
-  
-  component ram_WxK
-    generic(K: integer;
-            W: integer);
-    port(clk: in std_logic;
-         din: in std_logic_vector (K-1 downto 0);
-         wadr: in std_logic_vector (W-1 downto 0);
-         radr: in std_logic_vector (W-1 downto 0);
-         we: in std_logic;
-         dout: out std_logic_vector (K-1 downto 0));
-  end component;
-  
-  component seven_seg_decoder is
-    port(clk: in std_logic;
-         xrst: in std_logic;
-         din: in std_logic_vector(3 downto 0);
-         dout: out std_logic_vector(6 downto 0));
-  end component;
-  
-begin
-  clk <= CLOCK_50;
-  xrst <= RESET_N;
-  din <= SW(3 downto 0);
-  we <= not KEY(2);
-  clk_tx_last <= '0';
-  ready <= GPIO_1(5);
-
-  cg1: clock_gen generic map(N => N) port map(clk => clk, xrst => xrst, enable => enable, cnt_max => cnt_max, clk_tx => clk_tx);
-  ram1: ram_WxK generic map(K => K, W => W) port map(clk => clk, din => write_in, wadr => wadr, radr => radr, we => key3_frag, dout => dout);
-  ssd0: seven_seg_decoder port map(clk => CLOCK_50, xrst => RESET_N, din => "0000", dout => HEX0);
-  ssd1: seven_seg_decoder port map(clk => CLOCK_50, xrst => RESET_N, din => enter_1, dout => HEX1);
-  ssd2: seven_seg_decoder port map(clk => CLOCK_50, xrst => RESET_N, din => "0000", dout => HEX2);
-  ssd3: seven_seg_decoder port map(clk => CLOCK_50, xrst => RESET_N, din => enter_3, dout => HEX3);
-  ssd4: seven_seg_decoder port map(clk => CLOCK_50, xrst => RESET_N, din => "0000", dout => HEX4);
-  ssd5: seven_seg_decoder port map(clk => CLOCK_50, xrst => RESET_N, din => enter_5, dout => HEX5);
-
-process(xrst,clk)
-begin
-  if(xrst = '0')then
-    state <= s0;
-    enable <= '0';
-    wadr <= "000";
-    radr <= "000";
-    finish <= '0';
-    start <= '0';
-		
-  elsif(clk'event and clk = '1')then 
-    case state is
-      when s0 =>
-        enable <= '0';
-	    finish <= '0';
-		
-        if(sw(9 downto 8) = "01")then 
-            wadr <= "000";
-            key2_frag <= '0';
-            write_in <= "0000";
-            if(KEY(2) = '0')then
-                key2_frag <= '1';
-                end if;
-            state <= s1;                  
-        elsif(sw(9 downto 8) = "11")then
-            state <= s3;                
-        else 
-            state <= s0;                 
-        end if;
-
-
-      when s1 =>
-        if(KEY(2) = '0')then
-            key2_frag <= '1';
-        end if;
-        if(key2_frag = '1')then
-            key3_frag <= '0';
-            key2_frag <= '0';
-            write_in <= din;
-          if(KEY(3) = '0')then
-            key3_frag <= '1';
-          end if;
-	        state <= s2;			
-	    elsif(sw(9 downto 8) = "00")then  
-          state <= s0;				
-	    else
-	        state <= s1;		
-	    end if;
-
-      when s2 =>
-        if(KEY(3) = '0')then
-            key3_frag <= '1';
-        end if;
-        if(KEY(2) = '0')then
-            key2_frag <= '1';
-        end if;
-        if(key3_frag = '1')then
-            key3_frag <= '0';
-            wadr <= wadr + 1;
-            state <= s1;
-        else
-            state <= s2;
-        end if;
-				
-      when s3 =>
-	    if(sw(9 downto 8) = "00")then
-	        state <= s0;				
-	    elsif(ready = '1')then
-            if(KEY(0) = '0')then 
-                GPIO_1(4) <= '1';
-                radr <= "000";
-                count <= 1;
-                state <= s4;                        
-            end if;
-        else 
-	      state <= s3;
-		end if;			
-       
-
-      when s4 =>
-        if(finish = '0')then 
-        enable <= '1';
-        if(clk_tx = '1')then
-            if(clk_tx_last = '0')then	
-                clk_tx_last <= '1';
-                start <= '0';
-                finish <= '1';
-                enable <= '0';
-            end if;
-        else 
-            start <= '1';
-            clk_tx_last <= '0';
-            count_clk <= count_clk + 1;
-        end if;
-        elsif(count_send = 8)then
-            count_send <= 0;
-            state <= s5;
-        else
-            count <= count + 1;
-            if(count = count_clk -1)then
-                radr <= radr + 1;
-                enter_1 <= dout;
-                enter_3 <= "0" & radr;
-                enter_5 <= "000" & GPIO_1(4);
-                count_send <= count_send + 1;
-                count <= 0;
-            end if;
-            state <= s4;
-        end if;	
-
-    when s5 =>
-        if(SW(9 downto 8) = "00")then
-            adr <= "000";
-            clk_tx_last <= '0';
-            count <= 0;
-            count_send <= 0;
-            count_clk <= 0;
-            state <= s0;
-        else  
-            state <= s5;
-        end if;
-      end case;
-    end if;
-GPIO_1(4) <= start;
-GPIO_1(0) <= enter_1(0);
-GPIO_1(1) <= enter_1(1);
-GPIO_1(2) <= enter_1(2);
-GPIO_1(3) <= enter_1(3);
-end process;
-end rtl;
-
-
-
-\end{lstlisting}
 
 \subsection{受信回路の設計}
+以下では図2のそれぞれのステートにおける処理を記述する.
+\subsubsection{待機状態}
+s0である待機状態ではSWの8から9ビットの値によってstateを遷移させる.11のときはs1に遷移し10のときはs5に遷移する.
+\subsubsection{アイドル状態}
+s1であるアイドル状態ではready信号を1にして送信側のstartが1になるのを待つ状態である.
+\subsubsection{受信開始状態}
+s2である受信開始状態では
+\subsubsection{受信中状態}
+s3である受信中状態では
+\subsubsection{受信終了状態}
+s4である受信終了状態では
+\subsubsection{データ表示状態}
+s5であるデータ表示状態では
 \section{テストベンチによる動作確認内容・結果}
+テストベンチは配布されていたものをそのまま利用した.
 \subsection{送信回路の動作結果}
 \subsubsection{データ書き込みの動作}
-以下の図の
+以下の図はデータ書き込みを行う際の波形である.以下でその詳細を記述する.
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=12cm]{wave_write.jpg}
+  \caption{データ書き込みの際の波形}
+\end{figure}
+白く囲まれた一番上の段の一番左のビットであるKEY(3)が0になったときに状態がs2に遷移し,直前の状態であるs1のときのdinの値がwrite\_inにコピーされていることがわかる.また,
+オレンジで囲った処理によりKEY(2)が変更されると状態がs1へ遷移し,wadrの値が1増やされていることがわかる.
+これらの操作は合計で8回行われているため8回分のデータを書き込むことができている.
 \subsubsection{データ送信の動作}
+以下の図はデータ送信時の波形である.以下でその詳細について述べる.
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=12cm]{wave_send.jpg}
+  \caption{データ送信の際の波形}
+\end{figure}
+水色で囲んだ部分から状態がs4に遷移した後にenableとstartが同じタイミング1となっている.また,この期間はclock\_txの一周期分となっているため正しい.
+また白色に囲んだ部分から一つ前のradrの値がenter\_3に,オレンジに囲んだ部分から一つ前のdoutの値がenter\_1に入っている.これは先ほど書き込んだデータを同じアドレスで出力できている.
 \subsection{受信回路の動作結果}
 \section{非同期通信回路作成における注意点などの考察}
+今回の課題を通して非同期通信回路を作成するにあたって注意しなければならない点は以下の2点であると考えた.
+\begin{enumerate}
+  \item クロックを生成し終えてからデータを送信するまでのタイミングを合わせること.
+  \item アドレスが000に戻ったときに000に格納されているデータが変化してしまう.
+\end{enumerate}
+以下でその詳細について述べる.
+\begin{enumerate}
+  \item 今回の実験の仕様から,KEY(2)が押されるとSWの下位4ビットの値の送信を開始する状態に遷移し,そのあとKEY(3)を押すとクロックを生成する.そして最後にデータを送信するが,
+クロック生成を終えてからデータを送信する間を制御するボタンが設定されていない.今回の課題では設計内容で記述した通りクロック生成が終了した後すぐにデータを送信したが,この部分は送信側と受信側できちんと
+あらかじめ決めておく必要がある.
+  \item RAMにデータを書き込む際は書き込むためのアドレスの値が変化したとき,最後に入力に入っていた値が格納される.即ちアドレスが変更された瞬間に変更される前のアドレスに格納されるデータが確定し,現在のアドレスが指すRAMの内容は常に変動しているということである.
+今回のアドレスは3ビットのベクトルを1ずつ増やしていくことでアドレスを実現したが,111の状態で1を加算すると000に戻ってしまっていた.したがって,最初に000のアドレスにデータを格納した後に111までデータを格納すると,アドレスが000まで戻ってしまうため000のアドレスに格納されている値が変化してしまう.
+\end{enumerate}
 \section{教員・TAによる動作確認時刻}
-1月23日時分
+1月25日18時15分
 \end{document}
