@@ -3,7 +3,7 @@ fun compute s =
 	fun EXP nil = raise SyntaxError
           | EXP (h::h1::t) =
             if isInt h then (toInt h, [h1]@t)
-            else if h = "(" then 
+            else if h = "(" then
                 if h1 = "+" orelse h1 = "-" orelse h1 = "*" orelse h1 = "/" then COMP (h::[h1]@t)
                 else if isAlp h1 then FUNC (h::[h1]@t)
                 else raise SyntaxError

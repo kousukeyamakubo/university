@@ -3,7 +3,7 @@ fun findValue s nil = raise NotDefined
     if name = s then value
     else findValue s t
 
-fun compute (s : string) (mapL : (string * int)list) =
+fun compute s mapL =
     let
 	fun EXP nil = raise SyntaxError
           | EXP (h::h1::t) =
@@ -41,35 +41,71 @@ fun compute (s : string) (mapL : (string * int)list) =
 
             else if h = "+" then
                 let
+                    fun splitList lst =
+                        case lst of
+                            [] => raise SyntaxError
+                        | hd::tl => (hd, tl)
+ 
                     val (v1,t1) = EXP t
-                    val (v2,t2) = EXP t1
+                    val (v2,t2) = EXP t1                  
+                    val (v3,t3) = splitList t2
+
+
+                    val (v2',t2') = if isInt v3 then COMP (h::t1) else (v2,t2)
                 in
-                    (v1 + v2, t2)
+                    (v1 + v2', t2')
                 end
 
             else if h = "-" then
                 let
+                    fun splitList lst =
+                        case lst of
+                            [] => raise SyntaxError
+                        | hd::tl => (hd, tl)
+ 
                     val (v1,t1) = EXP t
-                    val (v2,t2) = EXP t1
+                    val (v2,t2) = EXP t1                  
+                    val (v3,t3) = splitList t2
+
+
+                    val (v2',t2') = if isInt v3 then COMP (h::t1) else (v2,t2)
                 in
-                    (v1 - v2, t2)
-                end 
+                    (v1 - v2', t2')
+                end
 
             else if h = "*" then
                 let
+                    fun splitList lst =
+                        case lst of
+                            [] => raise SyntaxError
+                        | hd::tl => (hd, tl)
+ 
                     val (v1,t1) = EXP t
-                    val (v2,t2) = EXP t1
+                    val (v2,t2) = EXP t1                  
+                    val (v3,t3) = splitList t2
+
+
+                    val (v2',t2') = if isInt v3 then COMP (h::t1) else (v2,t2)
                 in
-                    (v1 * v2, t2)
-                end 
+                    (v1 * v2', t2')
+                end
 
             else if h = "/" then
                 let
+                    fun splitList lst =
+                        case lst of
+                            [] => raise SyntaxError
+                        | hd::tl => (hd, tl)
+ 
                     val (v1,t1) = EXP t
-                    val (v2,t2) = EXP t1
+                    val (v2,t2) = EXP t1                  
+                    val (v3,t3) = splitList t2
+
+
+                    val (v2',t2') = if isInt v3 then COMP (h::t1) else (v2,t2)
                 in
-                    (v1 div v2, t2)
-                end 
+                    (v1 / v2', t2')
+                end
 
             else raise SyntaxError
 

@@ -1,4 +1,4 @@
-This is e-upTeX, Version 3.141592653-p4.1.0-u1.29-230214-2.6 (utf8.sjis) (TeX Live 2023) (preloaded format=platex 2023.12.15)  11 JAN 2024 16:36
+This is e-upTeX, Version 3.141592653-p4.1.0-u1.29-230214-2.6 (utf8.sjis) (TeX Live 2023) (preloaded format=platex 2023.12.15)  6 FEB 2024 18:18
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -184,6 +184,21 @@ File: l3backend-dvipdfmx.def 2023-11-09 L3 backend support: dvipdfmx
 
 LaTeX Warning: Label `fuga' multiply defined.
 
+
+LaTeX Warning: Label `fuga' multiply defined.
+
+
+LaTeX Warning: Label `fuga' multiply defined.
+
+
+LaTeX Warning: Label `fuga' multiply defined.
+
+
+LaTeX Warning: Label `fuga' multiply defined.
+
+
+LaTeX Warning: Label `fuga' multiply defined.
+
 )
 \openout1 = `report.aux'.
 
@@ -255,10 +270,27 @@ LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <14.4> not available
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <14.4> not available
 (Font)              Font shape `JY1/gt/m/n' tried instead on input line 44.
 LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <12> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 51.
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 46.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <12> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 51.
- [1] [2] (./report.aux)
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 46.
+File: test2.png Graphic file (type bmp)
+<test2.png>
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[1] [2]
+File: test3.png Graphic file (type bmp)
+<test3.png>
+ [3]
+File: test4.png Graphic file (type bmp)
+<test4.png>
+ [4] [5]
+File: test5.png Graphic file (type bmp)
+<test5.png>
+File: kakutyou.png Graphic file (type bmp)
+<kakutyou.png>
+ [6] [7] (./report.aux)
  ***********
 pLaTeX2e <2023-02-14>+1, based on
 LaTeX2e <2023-11-01>
@@ -270,12 +302,12 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 4427 strings out of 476329
- 62021 string characters out of 5798571
- 2043305 words of memory out of 5000000
- 26596 multiletter control sequences out of 15000+600000
+ 4468 strings out of 476329
+ 62788 string characters out of 5798571
+ 2047305 words of memory out of 5000000
+ 26625 multiletter control sequences out of 15000+600000
  567503 words of font info for 76 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 57i,6n,65p,299b,1728s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 57i,6n,65p,304b,1270s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on report.dvi (3 pages, 5516 bytes).
+Output written on report.dvi (8 pages, 23704 bytes).

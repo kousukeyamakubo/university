@@ -1,10 +1,10 @@
-This is e-upTeX, Version 3.141592653-p4.1.0-u1.29-230214-2.6 (utf8.sjis) (TeX Live 2023) (preloaded format=platex 2023.12.15)  25 JAN 2024 23:39
+This is e-upTeX, Version 3.141592653-p4.1.0-u1.29-230214-2.6 (utf8.sjis) (TeX Live 2023) (preloaded format=platex 2023.12.15)  11 APR 2024 16:21
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**c:/university/B2/jikken/kadai4/report
-(c:/university/B2/jikken/kadai4/report.tex
+**c:/university/B3harunatsu/jikkenB/report/kadai2/report
+(c:/university/B3harunatsu/jikkenB/report/kadai2/report.tex
 pLaTeX2e <2023-02-14>+1, based on
 LaTeX2e <2023-11-01>
 L3 programming layer <2023-12-11>
@@ -107,7 +107,8 @@ File: l3backend-dvipdfmx.def 2023-11-09 L3 backend support: dvipdfmx
 \g__pdf_backend_object_int=\count279
 \g__pdf_backend_annotation_int=\count280
 \g__pdf_backend_link_int=\count281
-) (./report.aux)
+)
+No file report.aux.
 \openout1 = `report.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 25.
@@ -128,7 +129,6 @@ LaTeX Font Info:    Checking defaults for JY1/mc/m/n on input line 25.
 LaTeX Font Info:    ... okay on input line 25.
 LaTeX Font Info:    Checking defaults for JT1/mc/m/n on input line 25.
 LaTeX Font Info:    ... okay on input line 25.
-
 *geometry* detected driver: dvipdfm
 *geometry* verbose mode - [ preamble ] result:
 * driver: dvipdfm
@@ -171,39 +171,10 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 
 ]
 LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <14.4> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 39.
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 40.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <14.4> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 39.
-File: state_serve.jpg Graphic file (type bmp)
-<state_serve.jpg>
-File: state_receive.jpg Graphic file (type bmp)
-<state_receive.jpg>
-LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <12> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 64.
-LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <12> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 64.
-LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <10> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 66.
-LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <10> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 66.
- [1] [2]
-Overfull \hbox (57.03442pt too wide) in paragraph at lines 109--110
-[]\OT1/cmr/m/n/10 s5 \JY1/mc/m/n/10 である送信終了状態について記述する\OT1/cmr/m/n/10 .SW \JY1/mc/m/n/10 の \OT1/cmr/m/n/10 8 \JY1/mc/m/n/10 から \OT1/cmr/m/n/10 9 \JY1/mc/m/n/10 ビ ッ トが \OT1/cmr/m/n/10 00 \JY1/mc/m/n/10 であれば \OT1/cmr/m/n/10 radr,clk[]tx[]last,count,count[]send,count[]clk
- []
-
-[3
-
-]
-File: wave_write.jpg Graphic file (type bmp)
-<wave_write.jpg>
- [4]
-File: wave_send.jpg Graphic file (type bmp)
-<wave_send.jpg>
-File: wave_send.jpg Graphic file (type bmp)
-<wave_send.jpg>
- [5
-
-] [6] (./report.aux)
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 40.
+ [1] (./report.aux)
  ***********
 pLaTeX2e <2023-02-14>+1, based on
 LaTeX2e <2023-11-01>
@@ -211,12 +182,12 @@ L3 programming layer <2023-12-11>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 2965 strings out of 476329
- 45923 string characters out of 5798571
- 1925305 words of memory out of 5000000
- 25163 multiletter control sequences out of 15000+600000
- 565146 words of font info for 65 fonts, out of 8000000 for 9000
+ 2915 strings out of 476329
+ 44908 string characters out of 5798571
+ 1920305 words of memory out of 5000000
+ 25126 multiletter control sequences out of 15000+600000
+ 564233 words of font info for 62 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 57i,8n,65p,367b,362s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 57i,6n,65p,307b,266s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on report.dvi (7 pages, 21024 bytes).
+Output written on report.dvi (2 pages, 1232 bytes).
