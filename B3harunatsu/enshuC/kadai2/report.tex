@@ -28,6 +28,7 @@
     \item ソケットの生成
     \item ホストが存在するかどうかを確認
     \item ソケットアドレス再利用の指定
+    \item ソケット接続先の情報設定
     \item ソケットをサーバーに接続
     \item メッセージをサーバーに送信
     \item メッセージをサーバーから受信
@@ -54,11 +55,43 @@ main関数のコマンドライン引数であるargcの値を確認すること
 第一引数にはAF\_INET,第二引数にはSOCK\_DGRAM,第三引数には0を指定した.正常にsocketシステムコールが終了したかどうかを確かめるために返り値を格納するint型変数sockの値が0より小さいかどうかを条件分岐で判定する.
 正常に実行されていなければエラーメッセージを出力しプログラムを終了する.
 \subsubsection{ホストが存在するかどうかを確認}
-ホストが存在するかどうかを確認するためにgethostbynameシステムコールを使用した.
+ホストが存在するかどうかを確認するためにgethostbynameシステムコールを使用した.\cite{4}引数は一つでホスト名を指す文字列である.正常終了するとhostent構造体へのポインタを返し,エラーが発生した場合はNULLを返す.エラーの種類は以下のとおりである.
+\begin{itemize}
+    \item HOST\_NOT\_FOUND：引数で指定されたホストが見つからなかったとき
+    \item TRY\_AGAIN：ローカルサーバが権限サーバから応答を受信しなかったのでもう一度試すよう言われた時
+    \item NO\_RECOVERY：リカバリー不能エラー
+    \item NO\_ADDRESS：要求されたホスト名は有効だがDNSサーバでIPアドレスが見つからなかったとき
+    \item SERVICE\_UNAVAILABLE：指定されたネームサービスが実行されていないか使用可能ではないとき
+\end{itemize}
+また,hostent構造体は以下のようなメンバを持っている.\cite{5}
+\begin{itemize}
+    \item h\_name：ホストの名称
+    \item h\_aliases：ホストの代替名のリスト
+    \item h\_addrtype：返されるアドレスのタイプ
+    \item h\_length：アドレスの長さ
+    \item h\_addr\_list：ホストのネットワークアドレスのリスト
+\end{itemize}
+したがって,hostent構造体の構造体変数のポインタとしてserverを定義し,これにgethostbynameシステムコールの返り値を格納した.また,引数にはコマンドライン引数のargv[1]を使用した.
+その後gethostbynameシステムコールが正常に終了したかどうかを判定するためにserverにNULLポインタが返されていないかを条件分岐によって確認する.もし返されていればエラーメッセージを出力しプログラムを終了する.
 \subsubsection{ソケットアドレス再利用の指定}
+setsockopt関数を使ってソケット関連のオプションを設定する.引数は5つあり,いかにその詳細を記述する.\cite{6}\cite{7}
+\begin{itemize}
+    \item 第一引数：オプションの適用先であるソケット
+    \item 第二引数：オプションが設定しているレベル.様々なレベルがあるが,SOL\_SOCKETは第一引数で指定したソケットのオプションのレベルが得られる.
+    \item 第三引数：指定するソケットオプションの名前.様々なオプションがあるが,今回使用するSO\_REUSEADDRについて記述する.これは通常一定時間ほかのソケットがそのポートを使えなくなってしまうことを防ぐことができるようになる.\cite{8}
+    \item 第四引数：オプションデータへのポインタ.SO\_RESUSEADDRを有効にするには整数型で1の値が渡される.
+    \item 第五引数：オプションデータの長さ.
+\end{itemize}
+また,返り値は正常に実行された場合は0を返し,されなかった場合は-1を返す.したがって,今回作成したプログラムではint型変数reuseを1に設定し,setsockopt関数の引数に使用して正常に実行されたかを確認するために返り値が0未満かどうかで条件分岐をさせた.
+正しく実行されていなかった場合はエラーメッセージを出力しプログラムを終了した.
+\subsubsection{ソケット接続先の情報設定}
+
 \subsubsection{ソケットをサーバーに接続}
+
 \subsubsection{メッセージをサーバーに送信}
+
 \subsubsection{メッセージをサーバーから受信}
+
 \subsection{実行結果}
 
 \section{課題2-2}
@@ -74,10 +107,15 @@ main関数のコマンドライン引数であるargcの値を確認すること
 \section{謝辞}
 今回の課題を通して質問対応,レポート採点等をしてくださった教授,TAの皆様方ありがとうございまし
 た.今後の課題もよろしくお願いいたします.
-\begin{thebibliography}{5}
+\begin{thebibliography}{99}
     \bibitem{1}情報科学演習C指導書
     \bibitem{2} \url{https://www.ibm.com/docs/ja/zos/2.5.0?topic=functions-socket-create-socket} 5/21アクセス
     \bibitem{3} \url{https://ryuichi1208.hateblo.jp/entry/2020/03/20/144644} 5/21アクセス
-    \bibitem{4} 
+    \bibitem{4} \url{https://www.ibm.com/docs/ja/aix/7.3?topic=g-gethostbyname-subroutine} 5/21アクセス
+    \bibitem{5} \url{https://www.qnx.com/developers/docs/8.0/com.qnx.doc.neutrino.lib_ref/topic/h/hostent.html} 5/21アクセス
+    \bibitem{6} \url{https://www.ibm.com/docs/ja/zos/2.4.0?topic=functions-setsockopt-set-options-associated-socket} 5/21アクセス
+    \bibitem{7} \url{https://docs.oracle.com/cd/E19455-01/806-2730/sockets-49/index.html} 5/21アクセス
+    \bibitem{8} \url{https://qiita.com/bamchoh/items/1dd44ba1fbef43b5284b} 5/21アクセス
+    \bibitem{9} \url{} 5/21アクセス
 \end{thebibliography}
 \end{document}
