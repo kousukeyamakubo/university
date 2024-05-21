@@ -2,30 +2,12 @@
 \usepackage{graphicx}
 \usepackage[top=30truemm,bottom=30truemm,left=25truemm,right=25truemm]{geometry}
 \usepackage{listings,jvlisting}
-
-\lstset{
-  basicstyle={\ttfamily},
-  identifierstyle={\small},
-  commentstyle={\smallitshape},
-  keywordstyle={\small\bfseries},
-  ndkeywordstyle={\small},
-  stringstyle={\small\ttfamily},
-  frame={tb},
-  breaklines=true,
-  columns=[l]{fullflexible},
-  numbers=left,
-  xrightmargin=0zw,
-  xleftmargin=3zw,
-  numberstyle={\scriptsize},
-  stepnumber=1,
-  numbersep=1zw,
-  lineskip=-0.5ex
-}
+\usepackage{url}
 
 \begin{document}
 \begin{titlepage}
     \begin{center}
-        {\huge 情報科学実験B　課題2レポ―ト}
+        {\huge 情報科学演習C　課題2レポ―ト}
         \vspace{180pt}\\
         \begin{tabular}{rl}
             氏名 & 山久保孝亮\\
@@ -33,15 +15,69 @@
             メールアドレス & u327468b@ecs.osaka-u.ac.jp\\
             学籍番号 & 09B22084\\
             提出日 & \today\\
-            担当教員 & 松本真佑,小南大智
+            担当教員 & 平井健士,中島悠太
         \end{tabular}
     \end{center}
 \end{titlepage}
-\section{システムの仕様}
-\section{ハードウェア回路}
-\section{制御プログラム}
-\section{考察や工夫点}
+\section{課題2-1}
+\subsection{アルゴリズム}
+今回私が作成したechoclientプログラムは以下のような流れで処理を実行する.
+
+\begin{enumerate}
+    \item 入力形式の確認
+    \item ソケットの生成
+    \item ホストが存在するかどうかを確認
+    \item ソケットアドレス再利用の指定
+    \item ソケットをサーバーに接続
+    \item メッセージをサーバーに送信
+    \item メッセージをサーバーから受信
+    \item 6~7を繰り返し
+\end{enumerate}
+以下でその詳細について述べる.
+\subsubsection{入力形式の確認}
+今回のechoclientプログラムは第一引数としてホスト名を指定するという使用法を想定している.そのため,それ以外の使用を制限するために
+main関数のコマンドライン引数であるargcの値を確認することで実現した.argcは指定した引数の個数+1の値を表すのでこれが2出ない場合は正しい書式でないとして
+エラーメッセージを表示し,プログラムを終了する.
+\subsubsection{ソケットの生成}
+ソケットを生成するには,socketシステムコールを使用する.socketシステムコールの引数は3つあり,1つ目がドメインの種類,2つ目がソケットの型,3つ目が使用するプロトコルの種類を指定する.
+以下のそれぞれの詳細について述べる.\cite{2}\cite{3}
+\begin{itemize}
+    \item ドメインの種類はAF\_INET,AF\_INET6,AF\_UNIX,AF\_RAWのいずれかである.これにより使用するドメイン内のアドレスの形式である,アドレスファミリーが決定される.これらの
+    アドレスファミリーはsys/socket.hインクルードファイルによって定義されている.
+    \item ソケットの型にはSOCK\_STREAM,SOCK\_DGRAM,SOCK\_RAWのいずれかである.これによりソケットの型が指定される.
+    \\SOCK\_DGRAMはUDPを使用したプロセスの通信を可能にする.データグラムソケットは
+    \\SOCK\_RAWは,内部プロトコル(IPなど)のインターフェースを提供し,AF\_INET,AF\_INET6ドメインでサポートされている.
+    \\SOCK\_STREAMはTCPを使用したプロセスの通信を可能にする.ストリームソケットは信頼性の高い,順序付けされた重複の無い双方向データフローを提供する.
+    \item プロトコルは0,IPPROTO\_UDP,IPPROTO\_TCPのいずれかである.ドメインの種類とソケットの型によってそれぞれデフォルトのプロトコルがあるので,たいていの場合デフォルトを表す0を用いればよい.
+\end{itemize}
+また,正常に実行された場合は負でないソケット記述子を返し,以上があれば-1を返す.今回はUDPを使用するので
+第一引数にはAF\_INET,第二引数にはSOCK\_DGRAM,第三引数には0を指定した.正常にsocketシステムコールが終了したかどうかを確かめるために返り値を格納するint型変数sockの値が0より小さいかどうかを条件分岐で判定する.
+正常に実行されていなければエラーメッセージを出力しプログラムを終了する.
+\subsubsection{ホストが存在するかどうかを確認}
+ホストが存在するかどうかを確認するためにgethostbynameシステムコールを使用した.
+\subsubsection{ソケットアドレス再利用の指定}
+\subsubsection{ソケットをサーバーに接続}
+\subsubsection{メッセージをサーバーに送信}
+\subsubsection{メッセージをサーバーから受信}
+\subsection{実行結果}
+
+\section{課題2-2}
+\subsection{アルゴリズム}
+
+\subsection{実行結果}
+
+\section{発展課題}
+
 \section{感想}
+今回の課題を通してUDP及びTCPへの理解が深まり,またプログラムを使ってどのようにサーバーとクライアントが接続されるのかを理解することができた.
+個人的にネットワークには興味があるので,今後の課題も興味を持ちながら取り組んでいきたいと思う.
 \section{謝辞}
-\section{参考文献}
+今回の課題を通して質問対応,レポート採点等をしてくださった教授,TAの皆様方ありがとうございまし
+た.今後の課題もよろしくお願いいたします.
+\begin{thebibliography}{5}
+    \bibitem{1}情報科学演習C指導書
+    \bibitem{2} \url{https://www.ibm.com/docs/ja/zos/2.5.0?topic=functions-socket-create-socket} 5/21アクセス
+    \bibitem{3} \url{https://ryuichi1208.hateblo.jp/entry/2020/03/20/144644} 5/21アクセス
+    \bibitem{4} 
+\end{thebibliography}
 \end{document}
