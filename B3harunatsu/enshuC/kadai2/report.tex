@@ -30,9 +30,9 @@
     \item ソケットアドレス再利用の指定
     \item ソケット接続先の情報設定
     \item ソケットをサーバーに接続
+    \item ユーザからメッセージを取得.7\~9は無限ループとする
     \item メッセージをサーバーに送信
     \item メッセージをサーバーから受信
-    \item 6~7を繰り返し
 \end{enumerate}
 以下でその詳細について述べる.
 \subsubsection{入力形式の確認}
@@ -85,18 +85,73 @@ setsockopt関数を使ってソケット関連のオプションを設定する.
 また,返り値は正常に実行された場合は0を返し,されなかった場合は-1を返す.したがって,今回作成したプログラムではint型変数reuseを1に設定し,setsockopt関数の引数に使用して正常に実行されたかを確認するために返り値が0未満かどうかで条件分岐をさせた.
 正しく実行されていなかった場合はエラーメッセージを出力しプログラムを終了した.
 \subsubsection{ソケット接続先の情報設定}
-
+ここでは,hostnet構造体とsockaddr\_in構造体のメンバに情報を格納している.sockaddr\_in構造体のメンバは以下のようになっている.\cite{9}
+\begin{itemize}
+    \item sin\_family：アドレスファミリを指定
+    \item sin\_part：ポート番号を指定
+    \item sin\_addr：IPアドレスをin\_addr構造体で指定
+    \item sin\_zero[8]：OSの内部仕様専用
+\end{itemize}
+sockaddr\_in構造体の構造体変数名はsvrとした.以下のプログラムのように情報を設定した.
+1行目ではsvrのすべてのメンバをbzero関数を使ってゼロに初期化している.2行目はsvrのメンバsin\_familyにAF\_INETを設定している.1.1.2より,ソケットのアドレスファミリーを指定し,このソケットがIPv4を使用すると設定する.
+3行目ではサーバーのIPアドレスを1.1.5で取得し,serverのメンバに格納されているサーバーのIPアドレスをsvrのメンバにbcopy関数を使ってコピーする.4行目ではsvrのメンバにポート番号を指定している.
 \subsubsection{ソケットをサーバーに接続}
-
+ここではconnectシステムコールを使ってソケットをサーバに接続している.connectシステムコールの引数は以下のようになる.\cite{10}
+\begin{itemize}
+    \item s：接続されていないソケットを識別する記述子
+    \item name：接続を確立する必要があるsockaddr構造体へのポインター
+    \item namelen：nameパラメータがさすsockaddr構造体の長さ
+\end{itemize}
+また,返り値は正常に終了した場合は0を,異常が発生すると-1を返す.
+今回のプログラムでは第一引数にsock,第二引数にsvrへのポインタ,第三引数にsvr構造体の長さを格納している.そして
+connectシステムコールの返り値が0より小さければ異常が発生したとしてソケットを閉じてプログラムを終了する.
+\subsubsection{繰り返し処理}
+今回のプログラムの仕様では標準入力から読み込んだ文字列をサーバプログラムへ送信し受信した文字列をEOFを受け取るまで繰り返すというものであった.
+したがって,以下の1.1.8と11.9で記述するメッセージの送信と受信はEOFが入力されるまで繰り返し実行される必要があるから,while文を使ってそれらの処理を無限ループにした.
+つまり,各ループごとにユーザにfgets関数を使って標準入力から文字列を配列rbufに格納し,それをサーバに送信,受信するというアルゴリズムを採用した.
 \subsubsection{メッセージをサーバーに送信}
-
+ここではwriteシステムコールを使ってソケットにデータを送信している.writeシステムコールの引数は以下のようになる.\cite{12}
+\begin{itemize}
+    \item fs：ソケット記述子
+    \item buf：書き込まれるデータを保留するバッファを指すポインタ
+    \item n：bufパラメータが指すバッファの長さ
+\end{itemize}
+返り値は,正常に実行されたときは0以上の値を返し正常に実行されなかった場合は-1を返す.
+fsにはsock,bufにはrbuf,nにはstrlen関数を使って取得したbufの長さを設定した.そして変数nにwriteシステムコールの返り値を格納する.
+nが0より小さければ異常に終了したと判定しソケットを閉じてプログラムを終了する.
 \subsubsection{メッセージをサーバーから受信}
-
+ここではreadシステムコールを使ってソケットからデータを読み取っている.readシステムコールの
+引数は以下のようになる.\cite{13}
+\begin{itemize}
+    \item fs：ファイルまたはソケットの記述子
+    \item buf：データを受け取るバッファへのポインタ
+    \item n：bufパラメータがさすバッファの長さ
+\end{itemize}
+返り値は,正常に実行されたときは読み込んだバイト数を,異常終了した場合は-1を返す.\cite{14}
+今回のプログラムではfsにsock,bufにrbuf,nにはstrlen関数を使って取得したbufの長さを設定した.
+そして変数nにreadシステムコールの返り値を格納する.
+nが0より小さければ異常に終了したと判定しソケットを閉じてプログラムを終了する.
 \subsection{実行結果}
 
 \section{課題2-2}
 \subsection{アルゴリズム}
-
+今回私が作成したsimple-talk-serverプログラムは以下のような流れで処理を実行する.
+\begin{enumerate}
+    \item ソケットの生成
+    \item ソケットアドレスの再利用の設定
+    \item クライアント受け付け用ソケットの情報設定
+    \item ソケットアドレスの割り当て
+    \item 待ち受けクライアント数の設定
+    \item クライアント受け付け
+    \item クライアントホスト情報の取得
+    \item selectシステムコールの設定
+    \item selectシステムコールによって以下の処理のどちらを行うか判定する.
+    \begin{itemize}
+        \item 読み込みクライアントに送信
+        \item ソケットから読み込み
+    \end{itemize}
+\end{enumerate}
+また,simple-talk-clientプログラムは以下のような流れで処理を実行する.
 \subsection{実行結果}
 
 \section{発展課題}
@@ -116,6 +171,11 @@ setsockopt関数を使ってソケット関連のオプションを設定する.
     \bibitem{6} \url{https://www.ibm.com/docs/ja/zos/2.4.0?topic=functions-setsockopt-set-options-associated-socket} 5/21アクセス
     \bibitem{7} \url{https://docs.oracle.com/cd/E19455-01/806-2730/sockets-49/index.html} 5/21アクセス
     \bibitem{8} \url{https://qiita.com/bamchoh/items/1dd44ba1fbef43b5284b} 5/21アクセス
-    \bibitem{9} \url{} 5/21アクセス
+    \bibitem{9} \url{https://www.opto-support.com/oph5000sdk/ja/BuiltIn_WLAN_Library_Structures_sockaddr_in.html} 5/27アクセス
+    \bibitem{10} \url{https://learn.microsoft.com/ja-jp/windows/win32/api/winsock2/nf-winsock2-connect} 5/27アクセス
+    \bibitem{11} \url{https://ja.manpages.org/connect/2} 5/27アクセス
+    \bibitem{12} \url{https://www.ibm.com/docs/ja/zos/2.5.0?topic=functions-write-write-data-file-socket} 5/27アクセス
+    \bibitem{13} \url{https://www.ibm.com/docs/ja/zos/2.5.0?topic=functions-read-read-from-file-socket} 5/27アクセス
+    \bibitem{14} \url{https://cgengo.sakura.ne.jp/read.html} 5/27アクセス
 \end{thebibliography}
 \end{document}
