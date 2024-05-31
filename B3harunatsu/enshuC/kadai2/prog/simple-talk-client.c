@@ -40,7 +40,7 @@ int main(int argc, char **argv) {
         perror("setsockopt");
         exit(1);
     }
-
+    /*サーバ受付用アドレスの設定*/
     bzero((char *)&svr, sizeof(svr));
     svr.sin_family = AF_INET;
     bcopy((char *)server->h_addr, (char *)&svr.sin_addr.s_addr, server->h_length);

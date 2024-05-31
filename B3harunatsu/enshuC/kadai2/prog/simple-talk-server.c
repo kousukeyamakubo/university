@@ -41,58 +41,56 @@ int main(int argc,char **argv) {
         perror("listen");
         exit(1);
     }
-    do {
-        /* クライアントの受付 */
-        clen = sizeof(clt);
-        if ( ( csock = accept(sock,(struct sockaddr *)&clt,&clen) ) <0 ) {
-            perror("accept");
-            exit(2);
-        }
-        /* クライアントのホスト情報の取得 */
-        cp = gethostbyaddr((char *)&clt.sin_addr,sizeof(struct in_addr),AF_INET);
-        printf("connected with [%s]\n",cp->h_name);
-        do{
-            /* 入力を監視するファイル記述子の集合を変数rfdsにセットする */
-            FD_ZERO(&rfds);
-            FD_SET(0,&rfds);
-            /* rfds を空集合に初期化 */
-            /* 標準入力 */
-            FD_SET(csock,&rfds); /* クライアントを受け付けたソケット */
-            /* 監視する待ち時間を1秒に設定 */
-            tv.tv_sec = 1;
-            tv.tv_usec = 0;
-            /* 標準入力とソケットからの受信を同時に監視する */
-            if(select(csock+1,&rfds,NULL,NULL,&tv)>0) {
-                if(FD_ISSET(0,&rfds)) { /* 標準入力から入力があったなら */
-                /* 標準入力から読み込みクライアントに送信 */
-                    bzero(rbuf, 1024);
-                    if(fgets(rbuf, 1024,stdin) == NULL){
-                        printf("\nEOF detected\n");
-                        close(csock);
-                        exit(1);
-                    }
-                    n = write(csock, rbuf, strlen(rbuf));
-                    if(n < 0){
-                        perror("ERROR writing");
-                        break;
-                    }
-                }
-                if(FD_ISSET(csock,&rfds)) { /* ソケットから受信したなら */
-                /* ソケットから読み込み端末に出力 */
+    /* クライアントの受付 */
+    clen = sizeof(clt);
+    if ( ( csock = accept(sock,(struct sockaddr *)&clt,&clen) ) <0 ) {
+        perror("accept");
+        exit(2);
+    }
+    /* クライアントのホスト情報の取得 */
+    cp = gethostbyaddr((char *)&clt.sin_addr,sizeof(struct in_addr),AF_INET);
+    printf("connected with [%s]\n",cp->h_name);
+    do{
+        /* 入力を監視するファイル記述子の集合を変数rfdsにセットする */
+        FD_ZERO(&rfds);
+        FD_SET(0,&rfds);
+        /* rfds を空集合に初期化 */
+        /* 標準入力 */
+        FD_SET(csock,&rfds); /* クライアントを受け付けたソケット */
+        /* 監視する待ち時間を1秒に設定 */
+        tv.tv_sec = 1;
+        tv.tv_usec = 0;
+        /* 標準入力とソケットからの受信を同時に監視する */
+        if(select(csock+1,&rfds,NULL,NULL,&tv)>0) {
+            if(FD_ISSET(0,&rfds)) { /* 標準入力から入力があったなら */
+            /* 標準入力から読み込みクライアントに送信 */
                 bzero(rbuf, 1024);
-                n = read(csock, rbuf, 1024);
-                if(n <= 0){
-                    perror("Connection closed by client.\n");
+                if(fgets(rbuf, 1024,stdin) == NULL){
+                    printf("\nEOF detected\n");
                     close(csock);
-                    return 0;
-                }else{
-                    printf("%s",rbuf);
+                    exit(1);
                 }
+                n = write(csock, rbuf, strlen(rbuf));
+                if(n < 0){
+                    perror("ERROR writing");
+                    break;
                 }
             }
-        } while(1); /* 繰り返す */
-    } while(1); /* 次の接続要求を繰り返し受け付ける */
-    
+            if(FD_ISSET(csock,&rfds)) { /* ソケットから受信したなら */
+            /* ソケットから読み込み端末に出力 */
+            bzero(rbuf, 1024);
+            n = read(csock, rbuf, 1024);
+            if(n <= 0){
+                perror("Connection closed by client.\n");
+                close(csock);
+                return 0;
+            }else{
+                printf("%s",rbuf);
+            }
+            }
+        }
+    } while(1); /* 繰り返す */
+
     close(sock);
     return 0;    
 }
