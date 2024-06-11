@@ -1,4 +1,4 @@
-This is e-upTeX, Version 3.141592653-p4.1.0-u1.29-230214-2.6 (utf8.sjis) (TeX Live 2023) (preloaded format=platex 2023.12.16)  31 MAY 2024 23:08
+This is e-upTeX, Version 3.141592653-p4.1.0-u1.29-230214-2.6 (utf8.sjis) (TeX Live 2023) (preloaded format=platex 2023.12.16)  3 JUN 2024 00:52
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -415,21 +415,30 @@ File: 3-1server.png Graphic file (type bmp)
 File: 3-1client.png Graphic file (type bmp)
 <3-1client.png>
  [8]
-Overfull \hbox (61.30719pt too wide) in paragraph at lines 287--288
+File: 3-2.png Graphic file (type bmp)
+<3-2.png>
+File: 3-3.png Graphic file (type bmp)
+<3-3.png>
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[9]
+Overfull \hbox (61.30719pt too wide) in paragraph at lines 315--316
 []$\OT1/cmtt/m/n/10 https : / / www . ibm . com / docs / ja / zos / 2 . 4 . 0 ? topic = functions-[]setsockopt-[]set-[]options-[]associated-[]socket$
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 293--294
+Underfull \hbox (badness 10000) in paragraph at lines 321--322
 []$\OT1/cmtt/m/n/10 https : / / www . ibm . com / docs / ja / zos / 2 . 5 . 0 ? topic = functions-[]write-[]write-[]data-[]file-[]socket$
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 294--295
+Underfull \hbox (badness 10000) in paragraph at lines 322--323
 []$\OT1/cmtt/m/n/10 https : / / www . ibm . com / docs / ja / zos / 2 . 5 . 0 ? topic = functions-[]read-[]read-[]from-[]file-[]socket$
  []
 
-[9] [10] (./report.aux)
+[10] [11] (./report.aux)
  ***********
 pLaTeX2e <2023-02-14>+1, based on
 LaTeX2e <2023-11-01>
@@ -437,12 +446,12 @@ L3 programming layer <2023-12-11>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 14594 strings out of 476281
- 300084 string characters out of 5797229
+ 14608 strings out of 476281
+ 300304 string characters out of 5797229
  1927305 words of memory out of 5000000
- 36559 multiletter control sequences out of 15000+600000
+ 36569 multiletter control sequences out of 15000+600000
  565649 words of font info for 67 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  84i,7n,93p,477b,363s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on report.dvi (11 pages, 41516 bytes).
+Output written on report.dvi (12 pages, 46680 bytes).
