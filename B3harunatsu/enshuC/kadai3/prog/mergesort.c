@@ -31,6 +31,7 @@ void merge(int numbers[], int temp[], int left, int mid, int right);
 
 int numbers[NUM_ITEMS];
 int temp[NUM_ITEMS];
+int result[NUM_ITEMS];
 
 
 int main()
@@ -72,18 +73,18 @@ void mergeSort(int numbers[], int temp[], int array_size)
   if(pid == 0){/*child process*/
     close(fd[0]);
     m_sort(numbers, temp, 0, (array_size-1)/2);
-    if (write(fd[1], numbers, BUFSIZ) ==-1) {
+    if (write(fd[1], numbers, ((array_size - 1) / 2 + 1) * sizeof(int)) ==-1) {
             perror("pipe write.");
             exit(1);
     }
     exit(0);
   }else{/*parent pocess*/
     close(fd[1]);
-    m_sort(numbers, temp, (array_size-1)/2+1, array_size - 1);
-    if (read(fd[0], numbers, BUFSIZ) ==-1) {
+    if (read(fd[0], numbers, ((array_size - 1) / 2 + 1) * sizeof(int)) ==-1) {
       perror("pipe read.");
       exit(1);
     }
+    m_sort(numbers, temp, (array_size-1)/2+1, array_size - 1);
     merge(numbers, temp, 0, (array_size-1)/2+1, array_size-1);
   }
 }
@@ -139,7 +140,7 @@ void merge(int numbers[], int temp[], int left, int mid, int right)
     tmp_pos = tmp_pos + 1;
   }
 
-  for (i=0; i <= num_elements; i++)
+  for (i=0; i < num_elements; i++)
   {
     numbers[right] = temp[right];
     right = right - 1;
