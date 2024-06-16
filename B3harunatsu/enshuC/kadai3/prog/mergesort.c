@@ -65,7 +65,7 @@ void mergeSort(int numbers[], int temp[], int array_size)
   if (pipe(fd) ==-1) {
         perror("pipe failed.");
         exit(1);
-    }
+  }
   if ((pid=fork())==-1) {
     perror("fork failed.");
     exit(1);

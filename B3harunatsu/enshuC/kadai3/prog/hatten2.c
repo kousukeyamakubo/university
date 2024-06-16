@@ -82,13 +82,33 @@ void mergeSort(int numbers[], int temp[], int array_size)
     int p = NUMPROCS;
     calculate(n,p);
     int pid;
+    int fd[NUMPROCS][2];
+    for(int i=0;i<NUMPROCS;i++){
+      if (pipe(fd[i]) ==-1) {
+        perror("pipe failed.");
+        exit(1);
+      }
+    }
     for (int i = 0; i < NUMPROCS; i++) {
         pid = fork();
         if (pid == -1) {
             perror("fork failed.");
             exit(1);
         }else if(pid == 0){//子プロセス
+            if(i%2 == 0){//受け取る側のプロセス
+              close(fd[i][1]);
+              m_sort(numbers, temp, num[i+1], num[i+2]);
+              if (write(fd[1], numbers, ((array_size - 1) / 2 + 1) * sizeof(int)) ==-1) {
+                perror("pipe write.");
+                exit(1);
+              }
+              exit(0);
+            }else{//送る側のプロセス
+              close(fd[i][0]);
+              m_sort(numbers, temp, num[i+1], num[i+2]);
+            }
             m_sort(numbers, temp, num[i+1], num[i+2]);
+            
         }
     }
     if(pid != 0){//親プロセス
