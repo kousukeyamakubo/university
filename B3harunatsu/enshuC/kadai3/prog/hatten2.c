@@ -24,20 +24,21 @@
 #include <unistd.h>
 
 #define NUM_ITEMS 10
-#define NUMPROCS 4 /* プロセスの数 */
+#define DEPTH 2
 
-void mergeSort(int numbers[], int temp[], int array_size);
+void mergeSort(int numbers[], int temp[], int array_size, int left, int right, int depth);
 void m_sort(int numbers[], int temp[], int left, int right);
 void merge(int numbers[], int temp[], int left, int mid, int right);
 
 int numbers[NUM_ITEMS];
 int temp[NUM_ITEMS];
-int num[NUMPROCS];//numbersの分け方を格納した配列
 
 
 int main()
 {
-  int i;
+  int i,left,right;
+  left = 0;
+  right = NUM_ITEMS-1;
 
   //seed random number generator
   srand(getpid());
@@ -47,7 +48,7 @@ int main()
     numbers[i] = rand();
 
   //perform merge sort on array
-  mergeSort(numbers, temp, NUM_ITEMS);
+  mergeSort(numbers, temp, NUM_ITEMS, left, right, DEPTH);
 
   printf("Done with sort.\n");
 
@@ -57,65 +58,66 @@ int main()
   return 0;
 }
 
-void calculate(int n,int p){
-    int count=0;
-    while(1){
-        p=p/2;
-        count++;
-        if(p==0){
-            break;
-        }
+void mergeSort(int numbers[], int temp[], int array_size, int left, int right, int depth){
+    int left_pid,right_pid;
+    int mid = (left+right)/2;
+    int size_left = mid - left + 1;
+    int size_right = right - mid;
+    int fd_left[2],fd_right[2];
+    if(right <= left){
+      return;
     }
-    count--;//余分に一回割ったので減らす
-    int rest = n-n/p;
-    for(int i=0;i<p;i++){
-        num[i] = n/p;
-    }
-    for(int i=p-1;i=p-rest;i--){
-        num[i]++;
-    }
-}
-
-void mergeSort(int numbers[], int temp[], int array_size)
-{
-    int n = NUM_ITEMS;
-    int p = NUMPROCS;
-    calculate(n,p);
-    int pid;
-    int fd[NUMPROCS][2];
-    for(int i=0;i<NUMPROCS;i++){
-      if (pipe(fd[i]) ==-1) {
+    if (pipe(fd_left) ==-1 || pipe(fd_right)==-1) {
         perror("pipe failed.");
         exit(1);
+    }
+    if(depth == 0){
+      m_sort(numbers,temp,left,right);
+    }else{
+      if ((left_pid=fork())==-1) {
+        perror("fork failed.");
+        exit(1);
       }
-    }
-    for (int i = 0; i < NUMPROCS; i++) {
-        pid = fork();
-        if (pid == -1) {
-            perror("fork failed.");
-            exit(1);
-        }else if(pid == 0){//子プロセス
-            if(i%2 == 0){//受け取る側のプロセス
-              close(fd[i][1]);
-              m_sort(numbers, temp, num[i+1], num[i+2]);
-              if (write(fd[1], numbers, ((array_size - 1) / 2 + 1) * sizeof(int)) ==-1) {
-                perror("pipe write.");
-                exit(1);
-              }
-              exit(0);
-            }else{//送る側のプロセス
-              close(fd[i][0]);
-              m_sort(numbers, temp, num[i+1], num[i+2]);
-            }
-            m_sort(numbers, temp, num[i+1], num[i+2]);
-            
+      if(left_pid == 0){
+        close(fd_left[0]);
+        mergeSort(numbers,temp,size_left,left,mid,depth-1);
+        if (write(fd_left[1], &numbers[left], size_left * sizeof(int)) == -1) {
+          perror("pipe write.");
+          exit(1);
         }
+        close(fd_left[1]);
+        exit(0);
+      }
+      if ((right_pid=fork())==-1) {
+        perror("fork failed.");
+        exit(1);
+      }
+      if(right_pid == 0){
+        close(fd_right[0]);
+        mergeSort(numbers,temp,size_right,mid+1,right,depth-1);
+        if (write(fd_right[1], &numbers[mid+1], size_right * sizeof(int)) == -1) {
+          perror("pipe write.");
+          exit(1);
+        }
+        close(fd_right[1]);
+        exit(0);
+      }
+      close(fd_left[1]);
+      close(fd_right[1]);
+      waitpid(left_pid, NULL, 0);
+      if (read(fd_left[0], &numbers[left], size_left * sizeof(int)) == -1) {
+          perror("pipe read.");
+          exit(1);
+      }
+      close(fd_left[0]);
+      waitpid(right_pid, NULL, 0);
+      if (read(fd_right[0], &numbers[mid + 1], size_right * sizeof(int)) == -1) {
+          perror("pipe read.");
+          exit(1);
+      }
+      close(fd_right[0]);
+      merge(numbers, temp, left, mid + 1, right);
     }
-    if(pid != 0){//親プロセス
-
-    }
-
-    m_sort(numbers, temp, 0, array_size - 1);
 }
 
 
