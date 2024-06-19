@@ -1,10 +1,10 @@
-This is e-upTeX, Version 3.141592653-p4.1.0-u1.29-230214-2.6 (utf8.sjis) (TeX Live 2023) (preloaded format=platex 2023.12.15)  18 JUN 2024 13:32
+This is e-upTeX, Version 3.141592653-p4.1.0-u1.29-230214-2.6 (utf8.sjis) (TeX Live 2023) (preloaded format=platex 2023.12.16)  19 JUN 2024 10:50
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**c:/university/B3harunatsu/jikkenB/report/kadai3/report
-(c:/university/B3harunatsu/jikkenB/report/kadai3/report.tex
+**c:/Users/kosuke/university/B3harunatsu/jikkenB/report/kadai3/report
+(c:/Users/kosuke/university/B3harunatsu/jikkenB/report/kadai3/report.tex
 pLaTeX2e <2023-02-14>+1, based on
 LaTeX2e <2023-11-01>
 L3 programming layer <2023-12-11>
@@ -191,12 +191,12 @@ L3 programming layer <2023-12-11>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 3025 strings out of 476329
- 46547 string characters out of 5798571
- 1924305 words of memory out of 5000000
- 25225 multiletter control sequences out of 15000+600000
+ 3025 strings out of 476281
+ 46586 string characters out of 5797229
+ 1925305 words of memory out of 5000000
+ 25233 multiletter control sequences out of 15000+600000
  564541 words of font info for 63 fonts, out of 8000000 for 9000
- 14 hyphenation exceptions out of 8191
- 57i,6n,65p,353b,300s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 36 hyphenation exceptions out of 8191
+ 57i,6n,65p,366b,300s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on report.dvi (4 pages, 10176 bytes).
+Output written on report.dvi (4 pages, 11112 bytes).
