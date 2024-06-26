@@ -29,12 +29,10 @@ void myalarm(int sec) {
             elapsed_seconds = difftime(current_time, start_time);
             sleep(1);
         }
-        printf("b\n");
         if (kill(getppid(),SIGALRM) ==-1) {
             perror("kill failed.");
             exit(1);
         }
-        printf("a\n");
         exit(0);
     }else{
         timer_pid = pid;
