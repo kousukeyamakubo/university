@@ -58,14 +58,7 @@
     \item 子プロセスがすべて終了するまで待つ
     \item セマフォの削除
 \end{enumerate}
-また,子プロセスの処理の流れは以下のようになる.
-\begin{enumerate}
-    \item lock()を呼び出す
-    \item count1()を呼び出してファイルへの書き込み処理
-    \item unlock()を呼び出す
-    \item 子プロセスを終了
-\end{enumerate}
-以下でその詳細について記述する.
+以下でその詳細について記述する．
 \begin{enumerate}
     \item まず,ftok()を使ってkeyを作成する.このとき,第一引数の"."は現在のディレクトリを表し,第二引数の"1"はプロジェクトを一意に識別する文字を指定している.\cite{1}次にsemget()を使ってセマフォセットを作成している.
     第一引数は作成したkey,第二引数はセマフォの数である4,第三引数はアクセス許可の定義として使用され,全てに読み込み,書き込み許可を与えるという設定である.\cite{2}最後にsemctl()を使って0番目のセマフォの値を1に設定する.
@@ -76,7 +69,17 @@
     \item wait()を使って子プロセスの終了を待つ.引数には状況の情報値を格納する.2で作成したプロセスの数だけfor文でこれを繰り返すことですべてのプロセスが終了するまで待ち続けることができるようになる.\cite{3}
     \item 最後にセマフォをsemctl()を使って削除する.第三引数のIPC\_RMIDは第一引数によって指定されたセマフォIDをシステムから除去し,それに関連するセマフォセットを破棄する.\cite{2}
 \end{enumerate}
-次に,子プロセスの処理について記述する.
+また,子プロセスのプログラムは以下のようになる.
+\begin{lstlisting}
+if (pid == 0) { /* Child process */
+    lock(sem_id);
+    count = count1();
+    printf("count = %d\n", count);
+    unlock(sem_id);
+    exit(0);
+}
+\end{lstlisting}
+以下でその詳細について記述する.
 \begin{enumerate}
     \item 2においてpidの値が0のときは子プロセスであると判定できる.子プロセス内の処理がクリティカルセクションであるので,まずlock()を呼び出す.lock()では,semop()を使ってプロセスを停止している.第一引数はセマフォIDのsemid
     ,第二引数はsembuf構造体のポインタ,第三引数は第二引数の数を表す.sembuf構造体は3津のメンバが存在し,sem\_numはセマフォ番号,sem\_opはセマフォ操作,sem\_flagは操作フラグを表す.\cite{4}sem\_opは-1,それ以外は0に指定することによって
@@ -88,6 +91,20 @@
     \item exit()を使って子プロセスを終了する.
 \end{enumerate}
 \subsection{実行結果}
+この実行結果は以下のようになる．  \clearpage
+\begin{figure}[htbp]
+    \begin{minipage}[b]{0.45\linewidth}
+      \centering
+      \includegraphics[keepaspectratio, scale=0.7]{result3-1.png}
+      \caption{ターミナル上の実行結果}
+    \end{minipage}
+    \begin{minipage}[b]{0.45\linewidth}
+      \centering
+      \includegraphics[keepaspectratio, scale=0.8]{result3-1-1.png}
+      \caption{counterファイルの内容}
+    \end{minipage}
+  \end{figure}
+  以上の結果により，きちんとcountが１ずつ増やされ，最終的にcounterファイルには4が記入されているということがわかる．
 \section{課題3-2-1}
 \subsection{アルゴリズム}
 この課題の処理の流れは以下図3のフローチャートのとおりである.
@@ -221,14 +238,100 @@ fork()の返り値をタイマー管理用のプロセスIDを格納している
     \caption{実際にプロセスに分ける様子}
 \end{figure}
 黒い葉はp=1のときの子プロセスを表しており,それぞれの白い節点で葉の処理が終わってからmerge()が呼び出される.
-\subsection{実装方法}
 
+\subsection{実装方法}
+mergesort()の引数は以下のようになっている.
+\begin{lstlisting}
+    void mergeSort(int numbers[], int temp[], int left, int right, int p);
+\end{lstlisting}
+numbersとtempは課題3-2-2と同じで,ソートする対象の左端と右端を表すleftとright，そのプロセスにおいて作成しなければならないプロセスの個数であるpを引数として追加した．
+先ほどのアルゴリズムで示したように，mergesort()を再帰的に呼び出す処理を行う．そのための処理としては以下のプログラムのようになる．
+\begin{lstlisting}
+if (left_pid == 0) {
+    close(fd_left[0]);
+    mergeSort(numbers, temp, left, mid, p_left);
+    if (write(fd_left[1], &numbers[left], size_left * sizeof(int)) == -1) {
+        perror("pipe write.");
+        exit(1);
+    }
+    close(fd_left[1]);
+    exit(0);
+}
+\end{lstlisting}
+上は左部プロセスについての処理である．再帰的に呼び出すために，mergesort()の引数として左端をleft，右端を$mid = \frac{left+right}{2}$とした．
+\begin{lstlisting}
+if (right_pid == 0) {
+    close(fd_right[0]);
+    mergeSort(numbers, temp, mid + 1, right, p_right);
+    if (write(fd_right[1], &numbers[mid + 1], size_right * sizeof(int)) == -1) {
+        perror("pipe write.");
+        exit(1);
+    }
+    close(fd_right[1]);
+    exit(0);
+}
+\end{lstlisting}
+また，右部プロセスについての処理である．再帰的に呼び出すために，mergesort()の引数として左端をmid+1，右端をrightとした．パイプの処理についてはどちらのプロセスでも書き込みをしたいので二つのパイプfd\_leftとfd\_right
+を使用した．そして左部プロセスと右部プロセスの両方が終了すればそのプロセスにおけるleft,mid,rightを使ってmerge()を実行する．
 \subsection{実行結果}
 \section{発展課題3}
 \subsection{アルゴリズム}
-
+ここでは交互実行をセマフォを使って実装した．具体的な処理の流れは以下のフローチャートのようになる．
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=8cm]{hatten3hurotya.png}
+    \caption{発展課題3のフローチャート}
+\end{figure}
+\\ここで登場するlock()とunlock()は課題3-1で使用したものと同じである．unlock()からlock()に有向辺が出ているのは，セマフォの値をunlock()で増加させることで，lock()により待ち状態であったもう一方の子プロセスを開放するということを表す．
+これにより，お互いに待ち状態と実行状態を交互に繰り返すようにした．
 \subsection{実装方法}
+実装方法としては，以下のとおりである．
+\begin{enumerate}
+    \item セマフォ用のキーを作成し，セマフォセットを作成して初期値を1とする．
+    \item 子プロセスを二つ作成する．子プロセスAではグローバル変数の配列A\_listを要素数だけ標準出力に出力する．子プロセスBではグローバル変数の配列B\_listを要素数だけ標準出力に出力する．
+    \item 親プロセスでは子プロセスの終了を待ち，両方のプロセスが終了すればセマフォを開放する．
+\end{enumerate}
+いかに詳細を記述する．
+\begin{enumerate}
+    \item ここは課題3-1と同様なので省略する．
+    \item 子プロセスAの処理は以下のようなプログラムである．
+    \begin{lstlisting}
+        if (a_pid == 0) { // 子プロセスA
+        for (int i = 0; i < NUM; i++) {
+            lock(sem_id);
+            printf("a%d\n", A_list[i]);
+            unlock(sem_id);
+        }
+        exit(0);
+    }
+    \end{lstlisting}
+    NUMには配列A\_listとB\_listの要素数を表す変数が格納されており，printf()が呼ばれるたびにlock()とunlock()が上のようなタイミングで呼び出される．
+    これは課題3-1の時と同様にセマフォの値がunlock()を呼び出すたびに1増加されてもう一方のプロセスで待ち状態が解放されて処理が始まるということを表し，これにより交互に実行することが実現される．
+    \\
+    また，子プロセスBの処理は以下のようなプログラムである．
+    \begin{lstlisting}
+        if (b_pid == 0) { // 子プロセスB
+        for (int i = 0; i < NUM; i++) {
+            lock(sem_id);
+            printf("b%d\n", B_list[i]);
+            unlock(sem_id);
+        }
+        exit(0);
+    }
+    \end{lstlisting}
+    これも子プロセスＡと同様である．
+    \item プロセスの待ちとセマフォの開放は以下のようになる．
+    \begin{lstlisting}
+    wait(NULL);
+    wait(NULL);
 
+    // セマフォを解放
+    if (semctl(sem_id, 0, IPC_RMID) == -1) {
+        perror("semctl IPC_RMID エラー.");
+        exit(1);
+    }
+    \end{lstlisting}
+\end{enumerate}
 \subsection{実行結果}
 
 \section{考察}

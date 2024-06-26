@@ -1,10 +1,10 @@
-This is e-upTeX, Version 3.141592653-p4.1.0-u1.29-230214-2.6 (utf8.sjis) (TeX Live 2023) (preloaded format=platex 2023.12.15)  25 JUN 2024 15:34
+This is e-upTeX, Version 3.141592653-p4.1.0-u1.29-230214-2.6 (utf8.sjis) (TeX Live 2023) (preloaded format=platex 2023.12.16)  26 JUN 2024 15:56
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**c:/university/B3harunatsu/enshuC/kadai3/report
-(c:/university/B3harunatsu/enshuC/kadai3/report.tex
+**c:/Users/kosuke/university/B3harunatsu/enshuC/kadai3/report
+(c:/Users/kosuke/university/B3harunatsu/enshuC/kadai3/report.tex
 pLaTeX2e <2023-02-14>+1, based on
 LaTeX2e <2023-11-01>
 L3 programming layer <2023-12-11>
@@ -183,42 +183,52 @@ LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <12> not available
 (Font)              Font shape `JY1/gt/m/n' tried instead on input line 42.
 File: 3-1hurotya.png Graphic file (type bmp)
 <3-1hurotya.png>
- [1]
+ [1] [2]
+File: result3-1.png Graphic file (type bmp)
+<result3-1.png>
+
+Overfull \hbox (21.38579pt too wide) in paragraph at lines 98--99
+ [][] 
+ []
+
+File: result3-1-1.png Graphic file (type bmp)
+<result3-1-1.png>
 File: 3-2hurotya.png Graphic file (type bmp)
 <3-2hurotya.png>
+[3
+
+]
+File: 3-2-2hurotya.png Graphic file (type bmp)
+<3-2-2hurotya.png>
+ [4]
+File: 3-3-1.png Graphic file (type bmp)
+<3-3-1.png>
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[2]
-File: 3-2-2hurotya.png Graphic file (type bmp)
-<3-2-2hurotya.png>
- [3] [4]
-File: 3-3-1.png Graphic file (type bmp)
-<3-3-1.png>
- [5]
+[5]
 File: 3-3-2.png Graphic file (type bmp)
 <3-3-2.png>
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[6]
+[6] [7]
 File: hatten2hurotya.png Graphic file (type bmp)
 <hatten2hurotya.png>
- [7]
+ [8]
 File: hatten2tree.png Graphic file (type bmp)
 <hatten2tree.png>
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[8]
-Underfull \hbox (badness 10000) in paragraph at lines 239--240
+ [9]
+File: hatten3hurotya.png Graphic file (type bmp)
+<hatten3hurotya.png>
+ [10] [11]
+Underfull \hbox (badness 10000) in paragraph at lines 342--343
 []$\OT1/cmtt/m/n/10 https : / / www . ibm . com / docs / ja / zos / 2 . 5 . 0 ? topic = functions-[]wait-[]wait-[]child-[]process-[]end$
  []
 
-[9] (./report.aux)
+[12] (./report.aux)
  ***********
 pLaTeX2e <2023-02-14>+1, based on
 LaTeX2e <2023-11-01>
@@ -226,12 +236,12 @@ L3 programming layer <2023-12-11>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 3072 strings out of 476329
- 47492 string characters out of 5798571
- 1925305 words of memory out of 5000000
- 25260 multiletter control sequences out of 15000+600000
- 565006 words of font info for 65 fonts, out of 8000000 for 9000
- 14 hyphenation exceptions out of 8191
- 57i,6n,65p,328b,306s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 3360 strings out of 476281
+ 50140 string characters out of 5797229
+ 2020305 words of memory out of 5000000
+ 25548 multiletter control sequences out of 15000+600000
+ 565469 words of font info for 67 fonts, out of 8000000 for 9000
+ 36 hyphenation exceptions out of 8191
+ 57i,6n,65p,330b,1706s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on report.dvi (10 pages, 29628 bytes).
+Output written on report.dvi (13 pages, 40264 bytes).
