@@ -22,8 +22,8 @@ int main(int argc, char *argv[]){
         exit(1);
     }
     if (pid == 0) { /* Child process */
-    close(parenttochild[1]);
-    close(childtoparent[0]);
+        close(parenttochild[1]);
+        close(childtoparent[0]);
         msglen = strlen(argv[1]) + 1;
         if (write(childtoparent[1], argv[1], msglen) ==-1) {
             perror("pipe write.");

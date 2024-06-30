@@ -47,8 +47,6 @@ void myalarm(int sec) {
 }
 
 void timeout(){
-    const char *msg = "This program is timeout.\n";
-    write(STDERR_FILENO, msg, strlen(msg)); 
     flag = 1;
 }
 
@@ -114,15 +112,14 @@ int main(int argc, char **argv) {
         tv.tv_sec = 15;
         tv.tv_usec = 0;
         /* 標準入力とソケットからの受信を同時に監視する */
-        if(flag == 1){
-            perror("This program is timeout.\n");
-            close(sock);
-            exit(0);
-        }
         if (select(sock + 1, &rfds, NULL, NULL, &tv) > 0) {
             if (FD_ISSET(0, &rfds)) {
                 bzero(rbuf, 1024);
                 if (fgets(rbuf, 1024, stdin) == NULL) {
+                    if (timer_pid > 0) {
+                        kill(timer_pid, SIGTERM); // 子プロセスを終了させる
+                        waitpid(timer_pid, NULL, 0); // 子プロセスの終了を待つ（ゾンビプロセス防止）
+                    }
                     printf("\nEOF detected\n");
                     break;
                 }
@@ -145,6 +142,9 @@ int main(int argc, char **argv) {
             }
         }
     } while (!flag);
+    if(flag == 1){
+        printf("This program is timeout.\n");
+    }
     close(sock);
     return 0;
 }

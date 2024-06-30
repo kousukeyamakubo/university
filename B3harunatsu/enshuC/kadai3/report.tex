@@ -48,11 +48,15 @@
 \end{figure}
 \\
 今回のfile-counterプログラムでは子プロセスを4つ作成し,それぞれの子プロセス内の処理を順番に一つずつ実行していく必要がある.
-そのため,実行している子プロセス以外は待ち状態にしておき,実行が終了してから一つだけ待ち状態を開放して処理を実行するというアルゴリズムで今回の課題を実装した.フローチャートにおいて,子プロセスの終了から待ち状態へ伸びている矢印は
+そのため,実行している子プロセス以外は待ち状態にしておき,実行中のプロセスが終了してから一つだけ待ち状態を開放して処理を実行するというアルゴリズムで今回の課題を実装した.フローチャートにおいて,子プロセスの終了から待ち状態へ伸びている矢印は
 子プロセスが終わってから矢印の先の待ち状態が解放されるということを表している.今回の課題のクリティカルセクションは後述のcount1関数なので,この直前に待ち状態と解放を処理する関数を呼び出すようにした.
 \subsection{実装方法}
 ここではセマフォの処理について中心に記述する.以下は親プロセスのプログラムを抜粋したものである.
 \begin{lstlisting}
+if ((key = ftok(".", 1)) ==-1){
+    fprintf(stderr,"ftok path does not exist.\n");
+    exit(1);
+}
 //セマフォセットを作成
 if ((sem_id=semget(key, 4, 0666 | IPC_CREAT)) ==-1) {
     perror("semget error.");
@@ -101,7 +105,7 @@ exit(0);
     第一引数はセマフォIDのsem\_idを,第二引数でセマフォ番号の0を,第三引数のSETVALはsemvalの値を第四引数で指定された値に設定する制御操作を指定するパラメータ値である.セマフォの初期値を1に設定する理由については子プロセスの処理
     にて詳細を記述する.
     \item fork()を使って子プロセスを作成する.for文の中で呼び出すことによって子プロセスを複数作成する.fork()の返り値をpidに格納し,pidの値によって子プロセスを分岐させて親プロセスと子プロセスの処理内容を分ける.
-    ここでは親プロセスについて記述するので,その後の親プロセスの処理について記述する.
+    ここでは親プロセスについての記述なので,以下の3,4の記述は親プロセスの処理についてである.
     \item wait()を使って子プロセスの終了を待つ.引数には状況の情報値を格納する.2で作成したプロセスの数だけfor文でこれを繰り返すことですべてのプロセスが終了するまで待ち続けることができるようになる.\cite{3}
     \item 最後にセマフォをsemctl()を使って削除する.第三引数のIPC\_RMIDは第一引数によって指定されたセマフォIDをシステムから除去し,それに関連するセマフォセットを破棄する.\cite{2}
 \end{enumerate}
@@ -124,7 +128,7 @@ if (pid == 0) { /* Child process */
 \end{enumerate}
 以下でその詳細について記述する.
 \begin{enumerate}
-    \item 2においてpidの値が0のときは子プロセスであると判定できる.子プロセス内の処理がクリティカルセクションであるので,まずlock()を呼び出す.
+    \item pidの値が0のときは子プロセスであると判定できる.子プロセス内の処理がクリティカルセクションであるので,まずlock()を呼び出す.
     lock()のプログラムは以下のようになっている.
     \begin{lstlisting}
 void lock(int semid){
@@ -138,7 +142,7 @@ void lock(int semid){
     }
 }
     \end{lstlisting}
-    まずsemop()を使ってプロセスを停止している.第一引数はセマフォIDのsemid,第二引数はsembuf構造体のポインタ,第三引数は第二引数の数を表す.sembuf構造体は3津のメンバが存在し,sem\_numはセマフォ番号,sem\_opはセマフォ操作,sem\_flagは操作フラグを表す.\cite{4}sem\_opは-1,それ以外は0に指定することによって
+    ここではsemop()を使ってプロセスを停止している.第一引数はセマフォIDのsemid,第二引数はsembuf構造体のポインタ,第三引数は第二引数の数を表す.sembuf構造体は3津のメンバが存在し,sem\_numはセマフォ番号,sem\_opはセマフォ操作,sem\_flagは操作フラグを表す.\cite{4}sem\_opは-1,それ以外は0に指定することによって
     セマフォ値がsem\_opの値を足した結果0以上にならない場合はプロセスを停止する.セマフォ値の初期値を1にしていたことによって,最初のプロセスは停止しないが,次のプロセスはセマフォ値が0でsem\_opを加算すると負の値になってしまうので
     停止する.
     \item セマフォに関係する処理はないので省略する.
@@ -174,72 +178,211 @@ void unlock(int semid){
     \end{minipage}
   \end{figure}
   以上の結果により，きちんとcountが１ずつ増やされ，最終的にcounterファイルには4が記入されているということがわかる．
-\section{課題3-2-1}
+
+
+  \section{課題3-2-1}
 \subsection{アルゴリズム}
-この課題の処理の流れは以下図3のフローチャートのとおりである.
+この課題の処理の流れは以下図4のフローチャートのとおりである.
 \begin{figure}[h]
     \centering
-    \includegraphics[width=8cm]{3-2hurotya.png}
+    \includegraphics[width=6cm]{3-2hurotya.png}
     \caption{課題3-2の処理の流れ}
 \end{figure}
 \\
 今回のtwo-way-pipeプログラムでは子プロセスを一つ作成し,子プロセスから親プロセスへ最初の引数の文字列を，親プロセスから子プロセスへ次の引数の文字列を送信する.
-そして親プロセスは子プロセスから,子プロセスは親プロセスから送られてきた文字列を受け取り標準入力に表示させる.図の左側は親プロセス,右側は子プロセスの処理を表す.
-双方向のパイプを実現するために,子プロセス用のパイプと親プロセス用のパイプの二つのパイプを作成して実装した.これは,パイプは安全のために書き込み側か読み込み側のどちらかをっクローズする必要があるため，
-一つのパイプではどちらの機能も同時に使うことができないためである.
+そして親プロセスは子プロセスから,子プロセスは親プロセスから送られてきた文字列を受け取り表示させる.図の左側は親プロセス,右側は子プロセスの処理を表す.
+双方向のパイプを実現するために,子プロセス用のパイプと親プロセス用のパイプの二つのパイプを作成して実装した.
 \subsection{実装方法}
 パイプ部分を中心に実装方法を記述する．
+記述する内容としては以下のとおりである.
 \begin{enumerate}
-    \item パイプの作成は，pipe()を使って行う．親プロセスから子プロセスへ送信したり，親プロセスが読み込むためのパイプとしてparenttochild，子プロセスから親プロセスへ送信したり，子プロセスが読み込むためのパイプとしてchildtoparent
-    を定義した．
-    \item fork()を使って子プロセスを一つ作成し，pidが0かどうかで親プロセスと子プロセスの処理を分離した．子プロセスではparenttochildの書き込み機能とchildtoparentの読み込み機能を使用しないので，これらをclose()しておく．
-    そして第二引数の文字列をwrite()を使って送信しread()を使って親プロセスから送られてきた第一引数の文字列を受信して標準出力に出力する．また，親プロセスではparenttochildの読み込み機能とchildtoparentの書き込み機能を使用しないのでこれらをclose()しておく．
+    \item パイプの作成
+    \item 子プロセスの処理
+    \item 親プロセスの処理
+\end{enumerate}
+以下でその詳細について記述する．
+\begin{enumerate}
+    \item パイプの作成は，以下のようなプログラムになる.
+    \begin{lstlisting}
+if (pipe(parenttochild) == -1 || pipe(childtoparent) == -1) {
+    perror("pipe failed.");
+    exit(1);
+}
+    \end{lstlisting}
+    pipe()を使い,親プロセスから子プロセスへ送信したり，親プロセスが読み込むためのパイプとしてparenttochild，子プロセスから親プロセスへ送信したり，子プロセスが読み込むためのパイプとしてchildtoparent
+    を定義した．パイプを二つ作成した理由としては，パイプは安全のために書き込み側か読み込み側のどちらかをクローズする必要があるため，
+    一つのパイプではどちらの機能も同時に使うことができないためである.
+    \item fork()を使って子プロセスを一つ作成し，pidが0かどうかで親プロセスと子プロセスの処理を分離した．
+    子プロセスのプログラムは以下の通りである．
+    \begin{lstlisting}
+    if (pid == 0) { /* Child process */
+        close(parenttochild[1]);
+        close(childtoparent[0]);
+        msglen = strlen(argv[1]) + 1;
+        if (write(childtoparent[1], argv[1], msglen) ==-1) {
+            perror("pipe write.");
+            exit(1);
+        }
+        if (read(parenttochild[0], buf, BUFSIZE) ==-1) {
+            perror("pipe read.");
+            exit(1);
+        }
+        printf("Message from parent process: %s\n",buf);
+        wait(&status);
+        exit(0);
+    }
+    \end{lstlisting}
+    子プロセスではparenttochildの書き込み機能とchildtoparentの読み込み機能を使用しないので，まずこれらをclose()しておく．
+    そして第二引数の文字列をwrite()を使って送信しread()を使って親プロセスから送られてきた第一引数の文字列を受信して標準出力に出力する．
+    \item 親プロセスのプログラムは以下のとおりである．
+    \begin{lstlisting}
+    else { /* Parent process */
+        close(parenttochild[0]);
+        close(childtoparent[1]);
+        msglen = strlen(argv[2]) + 1;
+        if (write(parenttochild[1], argv[2], msglen) ==-1) {
+            perror("pipe write.");
+            exit(1);
+        }
+        if (read(childtoparent[0], buf, BUFSIZE) ==-1) {
+            perror("pipe read.");
+            exit(1);
+        }
+        printf("Message from child process: %s\n",buf);
+        wait(&status);
+    }
+    \end{lstlisting}
+    親プロセスではparenttochildの読み込み機能とchildtoparentの書き込み機能を使用しないのでこれらをclose()しておく．
     そして第一引数の文字列をwrite()を使って送信しread()を使って子プロセスから送られてきた第二引数の文字列を受信して標準出力に出力する．
 \end{enumerate}
 \subsection{実行結果}
+以下はtwo-way-pipeプログラムを実行したときの結果である．
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=10cm]{result3-2-1.png}
+    \caption{two-way-pipe.cの実行結果}
+\end{figure}
+これにより，第一引数で与えられたhelloが子プロセスから，第二引数で与えられたgoodbyeが親プロセスから送られてきていることがわかる．
 \section{課題3-2-2}
 \subsection{アルゴリズム}
-この課題の処理の流れは以下図５のフローチャートのとおりである．
+この課題の処理の流れは以下図6のフローチャートのとおりである．\clearpage
 \begin{figure}[h]
     \centering
     \includegraphics[width=8cm]{3-2-2hurotya.png}
     \caption{課題3-2の処理の流れ}
 \end{figure}
-\\
+
 今回のmergesortプログラムでは子プロセスを一つ作成し，子プロセスでソート対象の配列の前半半分を，親プロセスでソート対象の配列の後半半分をソートしてからマージするというアルゴリズムで作成した．
-図５の左側が親プロセス，右側が子プロセスに対応する．また，子プロセスのソート結果を親プロセスに伝えるためにパイプを使用した．これにより前半と後半のソートを並列に実行できるようになる．
+図６の左側が親プロセス，右側が子プロセスに対応する．また，子プロセスのソート結果を親プロセスに伝えるためにパイプを使用した．これにより前半と後半のソートを並列に実行できるようになる．
 \subsection{実装方法}
-ここではマージソートのアルゴリズムについては言及せず，どのようにして並列化をしたかについて中心に記述する．関数mergesort中に図５のフローチャートの流れで並列化を実装したのでそれぞれの詳細について記述する．
+ここではマージソートのアルゴリズムについては言及せず，どのようにして並列化をしたかについて中心に記述する．
+今回，変更を加えたのはmergesort()内のみである．
+関数mergesort中に図５のフローチャートの流れで並列化を実装したのでそれぞれの詳細について記述する．
 \begin{enumerate}
-    \item pipe()を使ってパイプfdを作成した．
-    \item fork()を使って子プロセスを作成し，pidが0かどうかで親プロセスと子プロセスの処理を分離した．子プロセスではfdの読み込み機能は使用しないのでclose()しておく．引数には0と配列の要素の中央値を渡してmsort()呼び出す．
+    \item パイプの作成では，pipe()を使ってパイプfdを作成した．
+    \item プロセスの作成では，fork()を使って子プロセスを作成し，pidが0かどうかで親プロセスと子プロセスの処理を分離した．
+    子プロセスのプログラムは以下のようになる．
+    \begin{lstlisting}
+    if(pid == 0){/*child process*/
+        close(fd[0]);
+        m_sort(numbers, temp, 0, (array_size-1)/2);
+        if (write(fd[1], numbers, ((array_size - 1) / 2 + 1) * sizeof(int)) ==-1) {
+                perror("pipe write.");
+                exit(1);
+        }
+        exit(0);
+      }
+    \end{lstlisting}
+    子プロセスではfdの読み込み機能は使用しないので，まずclose()しておく．そして引数には0と配列の要素の中央値を渡してmsort()呼び出す．
     これによってソート対象の配列の前半部分をマージソートすることができる．次にwrite()を呼び出して前半がソートされた配列を親プロセスに送信する．このときに引数に0と配列の要素の中央値を渡すことで配列全体ではなく前半部分のみを送ることができる．
     配列全体を送ってしまうと親プロセスでソートされた部分と競合してしまい，正しいソート結果ではなくなってしまう．
-    \item 親プロセスではfdの書き込み機能は使用しないのでclose()しておく．親プロセスでは引数として配列の要素数の中央値と配列の要素数を渡してmsort()を呼び出す．これによってソート対象の配列の後半部分をマージソートすることができる．
+    \item 親プロセスのプログラムは以下のようになる．
+    \begin{lstlisting}
+    else{/*parent pocess*/
+        close(fd[1]);
+        m_sort(numbers, temp, (array_size-1)/2+1, array_size - 1);
+        if (read(fd[0], numbers, ((array_size - 1) / 2 + 1) * sizeof(int)) ==-1) {
+            perror("pipe read.");
+            exit(1);
+        }
+        merge(numbers, temp, 0, (array_size-1)/2+1, array_size-1);
+    }
+    \end{lstlisting}
+    親プロセスではfdの書き込み機能は使用しないのでclose()しておく．親プロセスでは引数として配列の要素数の中央値と配列の要素数を渡してmsort()を呼び出す．これによってソート対象の配列の後半部分をマージソートすることができる．
     その後read()を使って子プロセスから送信された前半のソート結果を読み込む．このときに引数に配列の0と配列の要素数の中央値を渡すことで前半部分だけを読み込む．
     \item 最後に前半部分と後半部分をmergesort()を呼び出してソートする．
 \end{enumerate}
 \subsection{実行結果}
+以下はmergesortを実行したときの結果である．
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=6cm]{result3-2-2.png}
+    \caption{mergesort.cの実行結果}
+\end{figure}
+このことから，昇順に正しくソートすることができていると考えられる．
 \section{課題3-3-1}
 \subsection{アルゴリズム}
-この課題の処理の流れは以下図のフローチャートの通りである.
+この課題の処理の流れは以下図8のフローチャートの通りである.
 \begin{figure}[h]
     \centering
     \includegraphics[width=8cm]{3-3-1.png}
     \caption{課題3-3-1の処理の流れ}
 \end{figure}
 \\
-今回の課題ではalarmプログラム内のmyalarm()をalarm()を使用せずに実現するというものである.alarm()は子プロセスが引数で指定した秒数secだけ経つとシグナルを送信し,親プロセス内でシグナルハンドラが呼び出される.
+今回の課題ではalarmプログラム内のmyalarm()をalarm()を使用せずに実現するというものである.
+alarm()は子プロセスが引数で指定した秒数secだけ経つとシグナルを送信し,親プロセス内でシグナルハンドラが呼び出される.
 上図フローチャートの左部がmain()の処理,中央と右部がalarm()の処理を表している.
 \subsection{実装方法}
 今回の課題ではmyalarm()内の実装のみを求められているので,myalarm()の実装方法について詳細に記述する.
-fork()の返り値をタイマー管理用のプロセスIDを格納しているグローバル変数timer\_pidに格納している.この変数は最初に-1に初期化されているので,myalarm()の呼び出しが初めてなのかどうかを子の変数の値によって判定することができる.
-まず最初にtime\_pidが正であるかどうかを判定している.fork()の返り値はなので,正であれば初めてのmyalarm()の呼び出しではないので,前回作成した子プロセスを終了させ,waitpid()を使って子プロセスの終了を待つことでゾンビプロセスが発生することを避ける.
-次に時間経過を測定するためにfork()を使用して子プロセスを作成し,pidによって条件分岐することで親プロセスと子プロセスの処理を分ける.
-親プロセスでは前述の通りtimer\_pidにfork()の返り値を格納する.子プロセスではwhile文の繰り返しを一定時間が経過するまで繰り返し続けることで一定時間の計測を実現している.
-具体的には,myalarm()を呼び出したときの時刻とwhile文のそれぞれの繰り返し時の時刻との差を格納しているelapsed\_secondsと指定したsecを比較し,前者の方が大きくなった際にループを抜けるという処理としている.
-自刻の計測にはtime()を使用し,差の計算にはdifftime()を使用した.そしてループを抜けた後にkill()を使ってシグナルハンドラを起動するシグナルを送り,子プロセスを終了する.
+alarm()のプログラムは以下のようになる．
+\begin{lstlisting}
+void myalarm(int sec) {
+    if (timer_pid > 0) {
+        kill(timer_pid, SIGTERM); // 子プロセスを終了させる
+        waitpid(timer_pid, NULL, 0); // 子プロセスの終了を待つ（ゾンビプロセス防止）
+    }
+    int pid;
+    time_t start_time, current_time;
+    int elapsed_seconds = 0;
+    if ((pid=fork())==-1) {
+        perror("fork failed.");
+        exit(1);
+    }
+    if(pid==0){/*子プロセス*/
+        time(&start_time);
+        while (elapsed_seconds < sec) {
+            time(&current_time);
+            elapsed_seconds = difftime(current_time, start_time);
+            sleep(1);
+        }
+        if (kill(getppid(),SIGALRM) ==-1) {
+            perror("kill failed.");
+            exit(1);
+        }
+        exit(0);
+    }else{
+        timer_pid = pid;
+    }
+}
+\end{lstlisting}
+以下ではその処理を順番に記述する．
+\begin{enumerate}
+    \item フローチャートから，myalarm()では最初にすでに子プロセスが存在しているかどうかを判定する．上のプログラムの2から5行目にこの処理を記述している．fork()の返り値をタイマー管理用のプロセスIDを格納しているグローバル変数timer\_pidに格納している.この変数は最初に-1に初期化されているので,myalarm()の呼び出しが初めてなのかどうかを子の変数の値によって判定することができる.
+    まず最初にtime\_pidが正であるかどうかを判定している.fork()の返り値が格納されているので,正であれば子プロセスが存在する，つまり初めてのmyalarm()の呼び出しではないことがわかる．よって前回作成した子プロセスを終了させ,waitpid()を使って子プロセスの終了を待つことでゾンビプロセスが発生することを避ける.
+    \item 次に子プロセスを作成する．時間経過を測定するためにfork()を使用し,pidによって条件分岐することで親プロセスと子プロセスの処理を分ける.25から27行目のように，親プロセスでは1で使用したtimer\_pidにfork()の返り値を格納する.
+    \item 13から25行目のように，子プロセスではwhile文の繰り返しを一定時間が経過するまで繰り返し続けることで一定時間の計測を実現している.
+    具体的には,myalarm()を呼び出したときの時刻とwhile文のそれぞれの繰り返し時の時刻との差を格納しているelapsed\_secondsと指定したsecを比較し,前者の方が大きくなった際にループを抜けるという処理としている.
+    自刻の計測にはtime()を使用し,差の計算にはdifftime()を使用した.そしてループを抜けた後にkill()を使ってシグナルハンドラを起動するシグナルを送り,子プロセスを終了する.
+\end{enumerate}
 \subsection{実行結果}
+以下はalarmプログラムを実行したときの結果である．
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=8cm]{result3-3-1.png}
+    \caption{alarmの実行結果}
+\end{figure}
+一回目の実行では何も入力せずにしばらく待った．このとき，タイムアウトの文字列が表示されてプログラムが終了した．また，二回目の実行ではプログラムを実行してから５秒たってから文字列aを入力してからしばらく待った．
+このとき，aを入力してから１０秒後にプログラムが終了した．以上のことから，プログラムが仕様通りに動作していることがわかる．
 \section{課題3-3-2}
 \subsection{アルゴリズム}
 この課題の処理の流れは以下のフローチャートの通りである.
@@ -253,28 +396,157 @@ fork()の返り値をタイマー管理用のプロセスIDを格納している
 これによって,10秒間経過するかEOFが入力されたときにどちらのプロセスも終了させることができる.
 \subsection{実装方法}
 以下では4で述べたmyalarm()を使用するので,この関数については詳細を記述しない.
-今回の課題に当たって変更した点は以下の5つである.
+上のフローチャートより，このプログラムが処理する内容は以下のとおりである．
 \begin{enumerate}
-    \item シグナル送信の設定
-    \item myalarm()の呼び出し
+    \item シグナル，ソケットの設定
+    \item 繰り返し文の処理
     \item シグナルハンドラtimeoutの設定
     \item タイムアウトの条件分岐
-    \item while分の繰り返し条件の変更
 \end{enumerate}
 以下でその詳細について述べる.
 \begin{enumerate}
-    \item シグナル送信の設定は課題3-5-1と同様に設定した.
-    \item myalarmの呼び出しは,selectによる待ち状態になる前,即ちサーバと接続されたときまたは標準入力へEOF以外の書き込み
-    が起こったときに行われる.alarm()は一度呼び出されてから10秒以内にもう一度呼び出すと前回呼び出した際のプロセスを終了する.これによって,何も入力されない状態が10秒続けば
-    シグナルが送信されプログラムが終了するという機能が達成される.
-    \item シグナルハンドラは仕様により非同期安全な関数のみしか使用できない.したがって,printfのような関数は使用できないため,今回のプログラムではシグナルハンドラtimeout内では
-    flagという変数の値を変更するだけとした.このflagは子プロセス内で10秒が経過したときに1となり,それ以外は0のグローバル変数である.
-    \item タイムアウトが発生すると先ほどシグナルハンドラで立てたflagが1となる.その条件分岐をselect()による待ち状態の直前,即ちmyalarm()の後に配置すると10秒経った時点で
-    if分の内部の式が実行される.そこではソケットを閉じて,タイムアウトが発生したと標準出力に表示してからexit()によってプログラムを終了する.
-    \item 課題2のsimple-talk-clientではメッセージ送受信を複数回行うためのwhile文の繰り返し条件は1で,無限ループだったが,今回の課題ではその条件式をflagが1出ない限り繰り返すという条件に変更した.
-    これによって,10秒以内にメッセージを送受信し続ける限り,flagが立たないので無限に繰り返し続けることができるようになる.
+    \item シグナルとソケットの設定は課題3-3-1,課題2と同様に,以下のプログラムのように設定した.
+    \begin{lstlisting}
+    if(signal(SIGALRM,timeout) == SIG_ERR) {
+        perror("signal failed.");
+        close(sock);
+        exit(1);
+    } 
+    if ((sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0) {
+        perror("socket");
+        exit(1);
+    }
+
+    /* ホストが存在するか確認 */
+    server = gethostbyname(argv[1]);
+    if (server == NULL) {
+        fprintf(stderr, "ERROR, no such host as %s\n", argv[1]);
+        exit(0);
+    }
+
+    /* ソケットアドレス再利用の指定 */
+    reuse = 1;
+    if (setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &reuse, sizeof(reuse)) < 0) {
+        perror("setsockopt");
+        exit(1);
+    }
+    /*サーバ受付用アドレスの設定*/
+    bzero((char *)&svr, sizeof(svr));
+    svr.sin_family = AF_INET;
+    bcopy((char *)server->h_addr, (char *)&svr.sin_addr.s_addr, server->h_length);
+    svr.sin_port = htons(10130);
+
+    /* ソケットをサーバに接続 */
+    if (connect(sock, (struct sockaddr *)&svr, sizeof(svr)) < 0) {
+        perror("client: connect");
+        close(sock);
+        exit(1);
+    }
+    printf("connected\n");
+    \end{lstlisting}
+    \item 繰り返し文のプログラムは以下のようになる．
+    \begin{lstlisting}
+    do {
+        myalarm(TIMEOUT);
+        /* 入力を監視するファイル記述子の集合を変数rfdsにセットする */
+        FD_ZERO(&rfds);
+        FD_SET(0, &rfds); /* 標準入力 */
+        FD_SET(sock, &rfds); /* ソケット */
+        /* 監視する待ち時間を10秒に設定 */
+        tv.tv_sec = 15;
+        tv.tv_usec = 0;
+        /* 標準入力とソケットからの受信を同時に監視する */
+        if (select(sock + 1, &rfds, NULL, NULL, &tv) > 0) {
+            if (FD_ISSET(0, &rfds)) {
+                bzero(rbuf, 1024);
+                if (fgets(rbuf, 1024, stdin) == NULL) {
+                    if (timer_pid > 0) {
+                        kill(timer_pid, SIGTERM); // 子プロセスを終了させる
+                        waitpid(timer_pid, NULL, 0); // 子プロセスの終了を待つ（ゾンビプロセス防止）
+                    }
+                    printf("\nEOF detected\n");
+                    break;
+                }
+                n = write(sock, rbuf, strlen(rbuf));
+                if (n < 0) {
+                    perror("ERROR writing");
+                    break;
+                }
+            }
+            if (FD_ISSET(sock, &rfds)) {
+                bzero(rbuf, 1024);
+                n = read(sock, rbuf, 1024);
+                if(n <= 0){
+                    perror("Connection closed by client.\n");
+                    close(sock);
+                    return 0;
+                }else{
+                    printf("%s",rbuf);
+                }
+            }
+        }
+    } while (!flag);
+    \end{lstlisting}
+    ここでは大きく分けて以下のような処理が繰り返し実行されている．
+    \begin{enumerate}
+        \item myalarm()の実行
+        \item select()による待ち状態
+    \end{enumerate}
+    以下でこれらについて詳細に記述する．
+    \begin{enumerate}
+        \item select()による待ち状態は基本的には前回の課題の内容なので記述しないが，EOFを入力した際の処理には変更を加えたのでそれについて記述する．EOFを入力すると親プロセスが繰り返し文からbreakし，プログラムが終了するが
+        alarm()を呼び出した後だと親プロセスが終了してから子プロセスが終了するので演習室環境が落ちてしまうことがあった．したがって，繰り返し文から出る前の15から18行目に課題3-3-1のゾンビプロセスをなくす処理と同じ以下のプログラムをつけることで
+        この問題を解決した．
+        \item alarm()は一度呼び出されてから10秒以内にもう一度呼び出すと前回呼び出した際のプロセスを終了する.これによって,何も入力されない状態が10秒続けば
+        シグナルが送信されプログラムが終了するという機能が達成される.
+        また，この繰り返し文の繰り返し条件は初期値が0のグローバル変数flagが1でないときである．この変数の処理についてはシグナルハンドラにおいて詳細に記述する．
+    \end{enumerate}
+    \item シグナルハンドラtimeout()のプログラムは以下のようになる．
+    \begin{lstlisting}
+    void timeout(){
+        flag = 1;
+    }
+    \end{lstlisting}
+    シグナルハンドラは仕様により非同期安全な関数のみしか使用できない.したがって,printfのような関数は使用できないため,今回のプログラムではシグナルハンドラtimeout内では
+    flagという変数の値を変更するだけとした.このflagは子プロセス内で10秒が経過したときに1となり,それ以外は0のグローバル変数である.これによって先ほどの繰り返し文の条件が変更されるので10秒たった時点で親プロセスは
+    繰り返しから抜けることができるようになる．
+    \item タイムアウトが発生すると先ほどシグナルハンドラで立てたflagが1となる.それによって繰り返し文から抜けた後以下のプログラムが実行される．
+    \begin{lstlisting}
+        if(flag == 1){
+        printf("This program is timeout.\n");
+    }
+    close(sock);
+    return 0;
+    \end{lstlisting}
 \end{enumerate}
+これによってタイムアウトしてプログラムが終了したことが表示される．
 \subsection{実行結果}
+以下はexp029というホスト名でsimple-talk-clientを，exp001というホスト名でsimple-talk-serverを実行したときの結果である．
+\begin{figure}[htbp]
+    \begin{minipage}[b]{0.45\linewidth}
+      \centering
+      \includegraphics[keepaspectratio, scale=0.5]{result3-3-2-1.png}
+      \caption{ターミナル上の実行結果}
+    \end{minipage}
+    \begin{minipage}[b]{0.45\linewidth}
+      \centering
+      \includegraphics[keepaspectratio, scale=0.5]{result3-3-2-2.png}
+      \caption{counterファイルの内容}
+    \end{minipage}
+  \end{figure}
+上の結果では，以下の三通りの方法でプログラムを実行している．
+\begin{enumerate}
+    \item 何も入力せずに待ち続ける．
+    \item 約５秒たってから文字列aiueoを送信して待ち続ける．
+    \item EOFを入力する．
+\end{enumerate}
+以下でその実行結果について詳細を述べる．
+\begin{enumerate}
+    \item 何もせずに待ち続けるとmyalarm()で作成された子プロセスによってシグナルが送信され，シグナルハンドラが呼び出されてフラグの情報が変更される．これによってプログラムが終了するとともにタイムアウトした
+    という文字列が表示されている．
+    \item aiueoという文字列を入力しても前回の課題のようにメッセージを送受信することができていることがわかる．また，メッセージを送信してから１０秒後にプログラムが終了したことから，使用を満たしていることがわかる．
+    \item EOFを入力しても正常にプログラムが終了していることがわかる．
+\end{enumerate}
 \section{発展課題1}
 \subsection{アルゴリズム}
 
@@ -284,7 +556,7 @@ fork()の返り値をタイマー管理用のプロセスIDを格納している
 
 \section{発展課題2}
 \subsection{アルゴリズム}
-今回の課題では課題3-2-2における,子プロセスによるマージソートを高速化プログラムを改良し,指定された任意のk個のプロセスに
+今回の課題では課題3-2-2における,子プロセスによるマージソート高速化プログラムを改良し,指定された任意のk個のプロセスに
 配列を分解してソートするプログラムを作成した.
 この課題ではmergesort()の部分のみを変更したのでその部分のフローチャートを以下に示す.
 \begin{figure}[h]
@@ -343,6 +615,13 @@ if (right_pid == 0) {
 また，右部プロセスについての処理である．再帰的に呼び出すために，mergesort()の引数として左端をmid+1，右端をrightとした．パイプの処理についてはどちらのプロセスでも書き込みをしたいので二つのパイプfd\_leftとfd\_right
 を使用した．そして左部プロセスと右部プロセスの両方が終了すればそのプロセスにおけるleft,mid,rightを使ってmerge()を実行する．
 \subsection{実行結果}
+以下はhatten2.cの実行結果である．
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=8cm]{resulthatten2.png}
+    \caption{発展課題2の実行結果}
+\end{figure}
+\\このことから，正しく昇順にソートすることができていることがわかる．課題3-2-2との比較については考察にて詳細を述べる．
 \section{発展課題3}
 \subsection{アルゴリズム}
 ここでは交互実行をセマフォを使って実装した．具体的な処理の流れは以下のフローチャートのようになる．
@@ -402,9 +681,85 @@ if (right_pid == 0) {
     \end{lstlisting}
 \end{enumerate}
 \subsection{実行結果}
-
+以下はhatten3.cの実行結果である．
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=8cm]{resulthatten3.png}
+    \caption{発展課題3の実行結果}
+\end{figure}
+\\このことから子プロセスAと子プロセスBの処理を交互に実行することができていることがわかる．
 \section{考察}
-今回の課題を通して私が考察したのは,
+今回の課題を通して私が考察したのは,発展課題2でも述べた通り課題3-2-2と発展課題2の実行時間の比較である．これらのプログラムの実行時間を比較するために
+以下のプログラムによって時間の平均を測定した．
+\begin{lstlisting}
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+#define NUM_TRIALS 100
+
+double get_execution_time(const char* command) {
+    clock_t start, end;
+    start = clock();
+    system(command);
+    end = clock();
+    return ((double)(end - start)) / CLOCKS_PER_SEC;
+}
+
+int main() {
+    double total_time_h2c = 0.0;
+    double total_time_mc = 0.0;
+    double times_h2c[NUM_TRIALS];
+    double times_mc[NUM_TRIALS];
+
+    for (int trial = 0; trial < NUM_TRIALS; trial++) {
+        times_h2c[trial] = get_execution_time("./h2c");
+        total_time_h2c += times_h2c[trial];
+        times_mc[trial] = get_execution_time("./mc");
+        total_time_mc += times_mc[trial];
+    }
+
+    double mean_time_h2c = total_time_h2c / NUM_TRIALS;
+    double mean_time_mc = total_time_mc / NUM_TRIALS;
+
+    double variance_h2c = 0.0;
+    double variance_mc = 0.0;
+
+    for (int trial = 0; trial < NUM_TRIALS; trial++) {
+        variance_h2c += (times_h2c[trial] - mean_time_h2c) * (times_h2c[trial] - mean_time_h2c);
+        variance_mc += (times_mc[trial] - mean_time_mc) * (times_mc[trial] - mean_time_mc);
+    }
+
+    variance_h2c /= NUM_TRIALS;
+    variance_mc /= NUM_TRIALS;
+
+    printf("Average execution time for h2c: %e seconds\n", mean_time_h2c);
+    printf("Variance of execution time for h2c: %e seconds^2\n", variance_h2c);
+    printf("Average execution time for mc: %e seconds\n", mean_time_mc);
+    printf("Variance of execution time for mc: %e seconds^2\n", variance_mc);
+
+    return 0;
+}
+    
+\end{lstlisting}
+このプログラムはh2cとmcをそれぞれ100回ずつ実行しそれらの平均と分散を計算して表示するプログラムである．h2cは発展課題2，mcは課題3-3-2の実行ファイルである．計算時間が短いので指数型表示にするようにした．
+また，ソートする対象の配列の要素数は多いほうが差が出やすいと考えたが，実行時間的にスムーズに比較が進められる値が10000個程度だったので10000個に設定した．
+また，これらのプログラムの実行はどちらも演習室環境で行った．
+以下はそれぞれプロセス数を変えて実行したときの結果である．
+\begin{figure}[htbp]
+    \begin{minipage}[b]{0.45\linewidth}
+      \centering
+      \includegraphics[keepaspectratio, scale=0.5]{resultproc2.png}
+      \caption{プロセス数が2の時の実行時間}
+    \end{minipage}
+    \begin{minipage}[b]{0.45\linewidth}
+      \centering
+      \includegraphics[keepaspectratio, scale=0.5]{resultproc3.png}
+      \caption{プロセス数が３の時の実行時間}
+    \end{minipage}
+  \end{figure}
+\\プロセス数が二つの時はどちらも同じ処理になるため平均値はほぼ同じような値となっている．ただし，分散は平均の値よりもはるかに小さく，値の大小も実行ごとに変わった．
+プロセス数が三つの時は並列化したほうが実行時間の平均値が小さくなっている．このようにして，プロセスの値を変えていき，それらの値をプロットしてグラフにすると以下のようになる．
 \begin{thebibliography}{99}
     \bibitem{1} \url{https://www.ibm.com/docs/ja/aix/7.3?topic=f-ftok-subroutine} 6/12アクセス
     \bibitem{2} \url{https://www.ibm.com/docs/ja/aix/7.3?topic=s-semget-subroutine} 6/12アクセス
