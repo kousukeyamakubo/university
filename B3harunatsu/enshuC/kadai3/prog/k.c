@@ -23,7 +23,7 @@
 #include <stdio.h>
 #include <unistd.h>
 
-#define NUM_ITEMS 10
+#define NUM_ITEMS 100000
 
 void mergeSort(int numbers[], int temp[], int array_size);
 void m_sort(int numbers[], int temp[], int left, int right);

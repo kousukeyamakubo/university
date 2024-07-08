@@ -13,6 +13,7 @@ int main(int argc, char *argv[]){
     fd_set rfds;
     struct timeval tv;
     struct hostent *server;
+    struct sockaddr_in svr;
     if(argc != 3){
         fprintf(stderr, "Usage: %s <hostname> <username>\n", argv[0]);
         exit(1);
@@ -40,30 +41,33 @@ int main(int argc, char *argv[]){
 
     /*状態2*/
     bzero(rbuf, 1024);
-    n = read(csock, rbuf, 1024);
+    n = read(sock, rbuf, 1024);
     if(n <= 0){
         perror("Connection closed by client.\n");
-        close(csock);
+        close(sock);
         return 0;
-    }elseif(strcmp(rbuf,"REQUEST ACCEPTED\n") == 0){/*状態3*/
+    }else if(strcmp(rbuf,"REQUEST ACCEPTED\n") == 0) {/*状態3*/
+        printf("%s",rbuf);
         n = write(sock, argv[2], strlen(argv[2]));
         if(n < 0){
             perror("ERROR writing");
-            break;
+            close(sock);
+            return 0;
         }
-        n = read(csock, rbuf, 1024);
+        n = read(sock, rbuf, 1024);
         if(n <= 0){
             perror("Connection closed by client.\n");
-            close(csock);
+            close(sock);
             return 0;
         }
         if(strcmp(rbuf,"USERNAME REGISTERED\n") == 0){/*状態4*/
-            FD_ZERO(&rfds);
-            FD_SET(0, &rfds);
-            FD_SET(sock, &rfds);
-            tv.tv_sec = 1;
-            tv.tv_usec = 0;
+            printf("%s",rbuf);
             while(1){/*入力された文字列(改行など)をそのまま送るという処理を実装していない？*/
+                FD_ZERO(&rfds);
+                FD_SET(0, &rfds);
+                FD_SET(sock, &rfds);
+                tv.tv_sec = 1;
+                tv.tv_usec = 0;
                 if (select(sock + 1, &rfds, NULL, NULL, &tv) > 0) {
                     if (FD_ISSET(0, &rfds)) {
                         bzero(rbuf, 1024);
@@ -92,10 +96,12 @@ int main(int argc, char *argv[]){
                 }
             }
         }else{/*状態6*/
+            printf("%s",rbuf);
             close(sock);
             exit(1);
         }
     }else{/*状態6*/
+        printf("%s",rbuf);
         close(sock);
         exit(1);
     }

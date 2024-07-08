@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <unistd.h>
 
-#define NUM_ITEMS 10
+#define NUM_ITEMS 100000
 #define NUM_PROCS 5
 
 void mergeSort(int numbers[], int temp[], int left, int right, int p);
