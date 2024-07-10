@@ -10,7 +10,7 @@
 #define MAXCLIENTS 5
 
 int main(){
-    int sock,n,k,sd,clen,max_sd,new_socket,username_flag;
+    int sock,n,k,sd,clen,max_sd,new_socket,new_socket_num,username_flag;
     int csock[5];
     char registered_username[MAXCLIENTS][256];
     struct sockaddr_in svr;
@@ -94,6 +94,7 @@ int main(){
                         username_flag = 0;
                         for(int i=0;i<MAXCLIENTS;i++){//登録するユーザー名が既に使用されていないかを確認
                             if (strcmp(registered_username[i], rbuf) == 0) {
+                                new_socket_num = i;
                                 username_flag = 1;
                                 break;
                             }
@@ -116,6 +117,7 @@ int main(){
                                 close(new_socket);
                                 break;
                             }
+                            csock[new_socket_num] = -1;
                             close(new_socket);
                         }
                     }
@@ -155,8 +157,7 @@ int main(){
                     
                 }
             }
-        }
-            
+        }            
     }
     return 0;
 }
