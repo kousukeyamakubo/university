@@ -1,10 +1,10 @@
-This is e-upTeX, Version 3.141592653-p4.1.0-u1.29-230214-2.6 (utf8.sjis) (TeX Live 2023) (preloaded format=platex 2023.12.15)  19 JUL 2024 16:21
+This is e-upTeX, Version 3.141592653-p4.1.0-u1.29-230214-2.6 (utf8.sjis) (TeX Live 2023) (preloaded format=platex 2023.12.16)  20 JUL 2024 11:09
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**c:/university/B3harunatsu/jikkenB/report/kadai4/report
-(c:/university/B3harunatsu/jikkenB/report/kadai4/report.tex
+**c:/Users/kosuke/university/B3harunatsu/jikkenB/report/kadai4/report
+(c:/Users/kosuke/university/B3harunatsu/jikkenB/report/kadai4/report.tex
 pLaTeX2e <2023-02-14>+1, based on
 LaTeX2e <2023-11-01>
 L3 programming layer <2023-12-11>
@@ -183,15 +183,18 @@ LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <12> not available
 (Font)              Font shape `JY1/gt/m/n' tried instead on input line 46.
 File: kairo.jpg Graphic file (type bmp)
 <kairo.jpg>
+File: joystick.png Graphic file (type bmp)
+<joystick.png>
  [1]
 File: arduino_huroty.png Graphic file (type bmp)
 <arduino_huroty.png>
-LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <10> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 94.
-LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <10> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 94.
  [2]
-Overfull \hbox (2.07082pt too wide) in paragraph at lines 101--103
+LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <10> not available
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 100.
+LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <10> not available
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 100.
+
+Overfull \hbox (2.07082pt too wide) in paragraph at lines 107--109
 \OT1/cmr/m/n/10 analogRead() \JY1/mc/m/n/10 は引数にピン番号を入れると返り値として \OT1/cmr/m/n/10 0 \JY1/mc/m/n/10 から \OT1/cmr/m/n/10 1023 \JY1/mc/m/n/10 までの整数値を返す\OT1/cmr/m/n/10 . \JY1/mc/m/n/10 これを \OT1/cmr/m/n/10 xPinB,yPinA 
  []
 
@@ -199,7 +202,7 @@ Overfull \hbox (2.07082pt too wide) in paragraph at lines 101--103
 File: python_hurotya.png Graphic file (type bmp)
 <python_hurotya.png>
  [4] [5] [6]
-Underfull \hbox (badness 10000) in paragraph at lines 257--258
+Underfull \hbox (badness 10000) in paragraph at lines 254--255
 []$\OT1/cmtt/m/n/10 https : / / docs . keyestudio . com / projects / KS0349 / en / latest / KS0349 . html #
  []
 
@@ -211,12 +214,12 @@ L3 programming layer <2023-12-11>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 3316 strings out of 476329
- 49025 string characters out of 5798571
- 2020305 words of memory out of 5000000
- 25508 multiletter control sequences out of 15000+600000
+ 3324 strings out of 476281
+ 49212 string characters out of 5797229
+ 2010305 words of memory out of 5000000
+ 25522 multiletter control sequences out of 15000+600000
  565777 words of font info for 68 fonts, out of 8000000 for 9000
- 14 hyphenation exceptions out of 8191
- 57i,6n,65p,307b,1702s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 36 hyphenation exceptions out of 8191
+ 57i,6n,65p,320b,1703s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on report.dvi (8 pages, 29352 bytes).
+Output written on report.dvi (8 pages, 29440 bytes).
