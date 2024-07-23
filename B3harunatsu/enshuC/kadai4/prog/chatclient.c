@@ -6,6 +6,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 int main(int argc, char *argv[]){
     int sock,n;
@@ -14,6 +15,8 @@ int main(int argc, char *argv[]){
     struct timeval tv;
     struct hostent *server;
     struct sockaddr_in svr;
+    time_t current_time;
+    struct tm *local_time;
     if(argc != 3){
         fprintf(stderr, "Usage: %s <hostname> <username>\n", argv[0]);
         exit(1);
@@ -62,14 +65,15 @@ int main(int argc, char *argv[]){
         }
         if(strcmp(rbuf,"USERNAME REGISTERED\n") == 0){/*状態4*/
             printf("%s",rbuf);
-            while(1){/*入力された文字列(改行など)をそのまま送るという処理を実装していない？*/
+            while(1){
                 FD_ZERO(&rfds);
                 FD_SET(0, &rfds);
                 FD_SET(sock, &rfds);
                 tv.tv_sec = 1;
                 tv.tv_usec = 0;
                 if (select(sock + 1, &rfds, NULL, NULL, &tv) > 0) {
-                    if (FD_ISSET(0, &rfds)) {
+                    if (FD_ISSET(0, &rfds)) {//送信
+                        
                         bzero(rbuf, 1024);
                         if (fgets(rbuf, 1024, stdin) == NULL) {/*状態5*/
                             printf("\nEOF detected\n");
@@ -82,7 +86,7 @@ int main(int argc, char *argv[]){
                             break;
                         }
                     }
-                    if (FD_ISSET(sock, &rfds)) {
+                    if (FD_ISSET(sock, &rfds)) {//受信
                         bzero(rbuf, 1024);
                         n = read(sock, rbuf, 1024);
                         if(n <= 0){

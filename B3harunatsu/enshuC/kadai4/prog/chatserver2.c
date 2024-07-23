@@ -6,6 +6,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #define MAXCLIENTS 5
 
@@ -18,11 +19,16 @@ int main(){
     fd_set rfds;
     struct timeval tv;
     char rbuf[1024];
-    char name_message[1024];
+    char message[1024];
     char accept_request_message[] = "REQUEST ACCEPTED\n";
     char reject_request_message[] = "REQUEST REJECTED\n";
     char accept_username_message[] = "USERNAME REGISTERED\n";
     char reject_username_message[] = "USERNAME REJECTED\n";
+
+    time_t current_time;
+    struct tm *local_time;
+    int year,month,day,hour,min,sec;
+
     for (int i = 0; i < MAXCLIENTS; i++) {
         csock[i] = -1;
         bzero(registered_username[i],256);
@@ -136,7 +142,7 @@ int main(){
             }
             for(int i=0;i<MAXCLIENTS;i++){
                 if ((csock[i] != -1) && (FD_ISSET(csock[i], &rfds))){/*状態6*/
-                    printf("%d\n",i);
+                    
                     printf("state6\n");
                     //ソケットから受信したなら
                     bzero(rbuf, 1024);
@@ -150,10 +156,29 @@ int main(){
                         bzero(registered_username[i],256);
                         break;
                     }else{
+                        //変更点1
+                        time(&current_time);
+                        local_time = localtime(&current_time);
+                        year = local_time->tm_year + 1900;
+                        month = local_time->tm_mon + 1;
+                        day = local_time->tm_mday;
+                        hour = local_time->tm_hour;
+                        min = local_time->tm_min;
+                        sec = local_time->tm_sec;
+
+                        if(strcmp(rbuf,"/list\n") == 0){
+                            for(int j=0;j<MAXCLIENTS;j++){
+                                if(csock[j] != -1){
+                                    snprintf(message, sizeof(message), "%s \n%s", registered_username[j], message);
+                                }
+                            }
+                            snprintf(message,sizeof(message),"%s\n",message);
+                        }else{
+                            snprintf(message, sizeof(message), ">%s[%2d:%2d] %s", registered_username[i],hour , min , rbuf);
+                        }
                         for(int j=0;j<MAXCLIENTS;j++){
                             if(csock[j] != -1){
-                                snprintf(name_message, sizeof(name_message), ">%s %s", registered_username[i], rbuf);
-                                n = write(csock[j], name_message, strlen(name_message));
+                                n = write(csock[j], message, strlen(message));
                                 if(n < 0){
                                     perror("ERROR writing");
                                     break;
