@@ -1,4 +1,4 @@
-This is e-upTeX, Version 3.141592653-p4.1.0-u1.29-230214-2.6 (utf8.sjis) (TeX Live 2023) (preloaded format=platex 2023.12.16)  20 JUL 2024 11:09
+This is e-upTeX, Version 3.141592653-p4.1.0-u1.29-230214-2.6 (utf8.sjis) (TeX Live 2023) (preloaded format=platex 2023.12.16)  24 JUL 2024 14:40
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -185,16 +185,20 @@ File: kairo.jpg Graphic file (type bmp)
 <kairo.jpg>
 File: joystick.png Graphic file (type bmp)
 <joystick.png>
- [1]
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[1]
 File: arduino_huroty.png Graphic file (type bmp)
 <arduino_huroty.png>
  [2]
 LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <10> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 100.
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 97.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <10> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 100.
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 97.
 
-Overfull \hbox (2.07082pt too wide) in paragraph at lines 107--109
+Overfull \hbox (2.07082pt too wide) in paragraph at lines 104--106
 \OT1/cmr/m/n/10 analogRead() \JY1/mc/m/n/10 は引数にピン番号を入れると返り値として \OT1/cmr/m/n/10 0 \JY1/mc/m/n/10 から \OT1/cmr/m/n/10 1023 \JY1/mc/m/n/10 までの整数値を返す\OT1/cmr/m/n/10 . \JY1/mc/m/n/10 これを \OT1/cmr/m/n/10 xPinB,yPinA 
  []
 
@@ -220,6 +224,6 @@ Here is how much of TeX's memory you used:
  25522 multiletter control sequences out of 15000+600000
  565777 words of font info for 68 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 57i,6n,65p,320b,1703s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 57i,6n,65p,384b,1707s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on report.dvi (8 pages, 29440 bytes).
+Output written on report.dvi (8 pages, 30004 bytes).
