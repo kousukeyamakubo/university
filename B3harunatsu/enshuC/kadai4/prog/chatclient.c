@@ -17,12 +17,13 @@ int main(int argc, char *argv[]){
     struct sockaddr_in svr;
     time_t current_time;
     struct tm *local_time;
+    
+
+    /*状態1*/
     if(argc != 3){
         fprintf(stderr, "Usage: %s <hostname> <username>\n", argv[0]);
         exit(1);
     }
-
-    /*状態1*/
     if ((sock=socket(AF_INET,SOCK_STREAM,IPPROTO_TCP))<0) {
         perror("socket");
         exit(1);
@@ -109,6 +110,5 @@ int main(int argc, char *argv[]){
         close(sock);
         exit(1);
     }
-
     return 0;
 }

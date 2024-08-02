@@ -1,10 +1,10 @@
-This is e-upTeX, Version 3.141592653-p4.1.0-u1.29-230214-2.6 (utf8.sjis) (TeX Live 2023) (preloaded format=platex 2023.12.15)  23 JUL 2024 18:03
+This is e-upTeX, Version 3.141592653-p4.1.0-u1.29-230214-2.6 (utf8.sjis) (TeX Live 2023) (preloaded format=platex 2023.12.16)  2 AUG 2024 23:37
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**c:/university/B3harunatsu/enshuC/kadai4/report
-(c:/university/B3harunatsu/enshuC/kadai4/report.tex
+**c:/Users/kosuke/university/B3harunatsu/enshuC/kadai4/report
+(c:/Users/kosuke/university/B3harunatsu/enshuC/kadai4/report.tex
 pLaTeX2e <2023-02-14>+1, based on
 LaTeX2e <2023-11-01>
 L3 programming layer <2023-12-11>
@@ -180,7 +180,22 @@ LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <12> not available
 (Font)              Font shape `JY1/gt/m/n' tried instead on input line 41.
 File: 4-1clienthurotya.png Graphic file (type bmp)
 <4-1clienthurotya.png>
- [1] [2] (./report.aux)
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <10> not available
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 76.
+LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <10> not available
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 76.
+[1] [2] [3]
+LaTeX Font Info:    Trying to load font information for OMS+cmr on input line 160.
+ (c:/texlive/2023/texmf-dist/tex/latex/base/omscmr.fd
+File: omscmr.fd 2023/04/13 v2.5m Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 160.
+ [4] [5] (./report.aux)
  ***********
 pLaTeX2e <2023-02-14>+1, based on
 LaTeX2e <2023-11-01>
@@ -188,12 +203,12 @@ L3 programming layer <2023-12-11>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 2940 strings out of 476329
- 45407 string characters out of 5798571
- 1923305 words of memory out of 5000000
- 25144 multiletter control sequences out of 15000+600000
- 565173 words of font info for 65 fonts, out of 8000000 for 9000
- 14 hyphenation exceptions out of 8191
- 57i,6n,65p,299b,300s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 3237 strings out of 476281
+ 48048 string characters out of 5797229
+ 2062305 words of memory out of 5000000
+ 25442 multiletter control sequences out of 15000+600000
+ 566112 words of font info for 69 fonts, out of 8000000 for 9000
+ 36 hyphenation exceptions out of 8191
+ 57i,10n,65p,329b,1710s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on report.dvi (3 pages, 4840 bytes).
+Output written on report.dvi (6 pages, 17052 bytes).
