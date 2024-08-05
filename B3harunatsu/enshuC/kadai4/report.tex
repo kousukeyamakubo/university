@@ -90,7 +90,7 @@
         変数名 & 型 & 表す内容\\\hline\hline
         sock & int & ソケットディスクリプタ\\\hline
         n & int & 入出力操作の結果を格納\\\hline
-        rbuf[1024] & char & 送受信する文字列を格納\\\hline
+        rbuf & char & 送受信する文字列を格納する．要素数は1024\\\hline
         rfds & fd\_set & ファイルディスクリプタのセット\\\hline
         tv & struct timeval & タイムアウト値を設定する構造体\\\hline
         *server & struct hostent & ホスト情報を格納するためのポインタ\\\hline
@@ -162,14 +162,99 @@ if(n <= 0){
 \subsubsection{ユーザ名登録}
 状態３のプログラムは大きく以下のように処理が分かれる.
 \begin{enumerate}
-    \item 書式の確認し,ソケットを作成
-    \item ホスト名を取得し，接続する
+    \item 接続成功の文字列を受け取り，ユーザ名をサーバへ送信する．
+    \item サーバからユーザ名の登録に関する文字列を受け取る．
 \end{enumerate}
-\subsubsection{メッセージ送受信}
-状態４のプログラムは大きく以下のように処理が分かれる.
+以下でその詳細について記述する．
 \begin{enumerate}
-    \item 書式の確認し,ソケットを作成
-    \item ホスト名を取得し，接続する
+    \item この部分の処理のプログラムは以下のようになる．
+    \begin{lstlisting}
+printf("%s",rbuf);
+bzero(rbuf,1024);
+strcpy(rbuf,argv[2]);
+rbuf[strlen(argv[2])] = '\n';
+n = write(sock, argv[2], strlen(argv[2]));
+if(n < 0){
+    perror("ERROR writing");
+    close(sock);
+    return 0;
+}
+    \end{lstlisting}
+    まずサーバから受け取った文字列"REQUEST ACCEPTED\textbackslash n"を標準入力に表示し，第二引数のユーザ名をサーバに送信する．
+    引数を送信する際，ユーザ名の終わりを判別するために改行文字を最後に加える．また，rbufをbzero()を使って初期化してからユーザ名を格納している．
+    これをしていないと，例えば"aiueo"というユーザ名にした場合rbufに格納されている文字列が"aiueoST ACCEPED\textbackslash n"という文字列になってしまうので
+    前の文字列を初期化しなければならない．
+    \item この部分の処理のプログラムは以下のようになる．
+    \begin{lstlisting}
+bzero(rbuf, 1024);
+n = read(sock, rbuf, 1024);
+if(n <= 0){
+    perror("Connection closed by client.\n");
+    close(sock);
+    return 0;
+}  
+    \end{lstlisting}
+    この処理でもbzero()でrbufを初期化してからread()を使って文字列を受け取っている．
+\end{enumerate}
+\subsubsection{メッセージ送受信と待ち状態}
+状態４と待ち状態のプログラムは大きく以下のように処理が分かれる.
+\begin{enumerate}
+    \item 状態３で最後に取得した文字列を標準入力に表示
+    \item 待ち状態によるソケットと標準入力の監視
+    \item 送信処理
+    \item 受信処理
+\end{enumerate}
+以下でその詳細について記述する．
+\begin{enumerate}
+    \item この処理のプログラムは以下のようになる．
+    \begin{lstlisting}
+printf("%s",rbuf);
+    \end{lstlisting}
+    \item この処理のプログラムは以下のようになる．
+    \begin{lstlisting}
+while(1){
+    FD_ZERO(&rfds);
+    FD_SET(0, &rfds);
+    FD_SET(sock, &rfds);
+    tv.tv_sec = 1;
+    tv.tv_usec = 0;
+    if (select(sock + 1, &rfds, NULL, NULL, &tv) > 0) {
+        if (FD_ISSET(0, &rfds)) {
+            送信      
+        }
+        if (FD_ISSET(sock, &rfds)) {
+            受信
+        }
+    }
+} 
+    \end{lstlisting}
+    while文による無限ループの中でselect()を使って標準入力とソケットを監視している．FD\_ISETの第一引数が0であれば送信，sockであれば
+    受信の処理へ移る．
+    \item この処理のプログラムは以下のようになる．
+    \begin{lstlisting}
+bzero(rbuf, 1024);
+if (fgets(rbuf, 1024, stdin) == NULL) {
+    状態５
+}
+n = write(sock, rbuf, strlen(rbuf));
+if (n < 0) {
+    perror("ERROR writing");
+    break;
+}
+    \end{lstlisting}
+    ここではwrite()を使ってメッセージの送信の処理を実装している．fgets()によって標準入力から取得された文字列をrbufへ格納して送信している．このとき，EOFが入力された時は状態５に遷移する．
+    \item この処理のプログラムは以下のようになる．
+    \begin{lstlisting}
+bzero(rbuf, 1024);
+n = read(sock, rbuf, 1024);
+if(n <= 0){
+    perror("Connection closed by client.\n");
+    close(sock);
+    return 0;
+}else{
+    printf("%s",rbuf);
+}
+    \end{lstlisting}
 \end{enumerate}
 \subsubsection{離脱}
 状態５のプログラムは以下のようになる．

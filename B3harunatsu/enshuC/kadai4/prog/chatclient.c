@@ -46,23 +46,26 @@ int main(int argc, char *argv[]){
     /*状態2*/
     bzero(rbuf, 1024);
     n = read(sock, rbuf, 1024);
-    if(n <= 0){
+    if(n <= 0){//状態６
         perror("Connection closed by client.\n");
         close(sock);
-        return 0;
+        exit(1);
     }else if(strcmp(rbuf,"REQUEST ACCEPTED\n") == 0) {/*状態3*/
         printf("%s",rbuf);
-        n = write(sock, argv[2], strlen(argv[2]));
-        if(n < 0){
-            perror("ERROR writing");
+        bzero(rbuf,1024);
+        strcpy(rbuf,argv[2]);
+        rbuf[strlen(argv[2])] = '\n';
+        n = write(sock, rbuf, strlen(rbuf));
+        if(n < 0){/*状態6*/
             close(sock);
-            return 0;
+            exit(1);
         }
+        bzero(rbuf, 1024);
         n = read(sock, rbuf, 1024);
-        if(n <= 0){
+        if(n <= 0){/*状態６*/
             perror("Connection closed by client.\n");
             close(sock);
-            return 0;
+            exit(1);
         }
         if(strcmp(rbuf,"USERNAME REGISTERED\n") == 0){/*状態4*/
             printf("%s",rbuf);
@@ -82,18 +85,17 @@ int main(int argc, char *argv[]){
                             exit(0);
                         }
                         n = write(sock, rbuf, strlen(rbuf));
-                        if (n < 0) {
-                            perror("ERROR writing");
-                            break;
+                        if (n < 0) {/*状態6*/
+                            close(sock);
+                            exit(1);
                         }
                     }
                     if (FD_ISSET(sock, &rfds)) {//受信
                         bzero(rbuf, 1024);
                         n = read(sock, rbuf, 1024);
-                        if(n <= 0){
-                            perror("Connection closed by client.\n");
+                        if(n <= 0){/*状態6*/
                             close(sock);
-                            return 0;
+                            exit(1);
                         }else{
                             printf("%s",rbuf);
                         }

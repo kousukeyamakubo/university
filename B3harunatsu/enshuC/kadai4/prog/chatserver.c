@@ -63,10 +63,8 @@ int main(){
             }
         }
         if (select(max_sd + 1, &rfds, NULL, NULL, &tv) > 0) {
-            printf("state3\n");
             /*状態3*/
             if (FD_ISSET(sock, &rfds)) {/*状態4*/
-                printf("state4\n");
                 clen = sizeof(clt);
                 if ((new_socket = accept(sock, (struct sockaddr *)&clt, &clen)) < 0) {
                     perror("accept");
@@ -87,9 +85,16 @@ int main(){
                         }
                     }
                     /*状態5*/
-                    printf("state5\n");
+                    
                     bzero(rbuf, 1024);
                     n = read(new_socket, rbuf, 1024);//登録するユーザー名を取得
+                    for(int i=0;i<1024;i++){
+                        if(rbuf[i] == '\n'){
+                            rbuf[i] = '\0';
+                            break;
+                        }
+                    }
+
                     if(n <= 0){
                         perror("Connection closed by client.\n");
                         close(new_socket);
@@ -137,12 +142,10 @@ int main(){
             for(int i=0;i<MAXCLIENTS;i++){
                 if ((csock[i] != -1) && (FD_ISSET(csock[i], &rfds))){/*状態6*/
                     printf("%d\n",i);
-                    printf("state6\n");
                     //ソケットから受信したなら
                     bzero(rbuf, 1024);
                     n = read(csock[i], rbuf, 1024);
                     if(n <= 0){/*状態7*/
-                        printf("state7\n");
                         close(csock[i]);
                         printf("%s has left the chat room\n",registered_username[i]);
                         k--;
