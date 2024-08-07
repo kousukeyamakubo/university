@@ -6,6 +6,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
 
 #define MAXCLIENTS 5
 
@@ -23,11 +24,12 @@ int main(){
     char reject_request_message[] = "REQUEST REJECTED\n";
     char accept_username_message[] = "USERNAME REGISTERED\n";
     char reject_username_message[] = "USERNAME REJECTED\n";
+    
+    /*状態1*/
     for (int i = 0; i < MAXCLIENTS; i++) {
         csock[i] = -1;
         bzero(registered_username[i],256);
     }
-    /*状態1*/
     if ((sock=socket(AF_INET,SOCK_STREAM,IPPROTO_TCP))<0) {
         perror("socket");
         exit(1);
@@ -77,6 +79,8 @@ int main(){
                         close(new_socket);
                         break;
                     }
+                    
+                    /*状態5*/
                     for (int i = 0; i < MAXCLIENTS; i++) {//登録可能なソケット番号を確認
                         if (csock[i] == -1) {
                             new_socket_num = i;
@@ -84,50 +88,49 @@ int main(){
                             break;
                         }
                     }
-                    /*状態5*/
-                    
                     bzero(rbuf, 1024);
                     n = read(new_socket, rbuf, 1024);//登録するユーザー名を取得
+                    if(n <= 0){
+                        perror("Connection closed by client.\n");
+                        close(new_socket);
+                        return 0;
+                    }
+                    username_flag = 0;
                     for(int i=0;i<1024;i++){
                         if(rbuf[i] == '\n'){
                             rbuf[i] = '\0';
                             break;
                         }
+                        if(!isalnum(rbuf[i]) && rbuf[i] != '_' && rbuf[i] != '_'){
+                            username_flag = 1;
+                        }
                     }
-
-                    if(n <= 0){
-                        perror("Connection closed by client.\n");
-                        close(new_socket);
-                        return 0;
-                    }else{
-                        username_flag = 0;
-                        for(int i=0;i<MAXCLIENTS;i++){//登録するユーザー名が既に使用されていないかを確認
-                            if (strcmp(registered_username[i], rbuf) == 0) {
-                                username_flag = 1;
-                                break;
-                            }
+                    for(int i=0;i<MAXCLIENTS;i++){//登録するユーザー名が既に使用されていないかを確認
+                        if (strcmp(registered_username[i], rbuf) == 0) {
+                            username_flag = 1;
+                            break;
                         }
-                        if(username_flag == 0){
-                            n = write(new_socket, accept_username_message, strlen(accept_username_message));
-                            if(n < 0){
-                                perror("ERROR writing");
-                                close(new_socket);
-                                break;
-                            }
-                            strcpy(registered_username[new_socket_num], rbuf);
-                            printf("%s is registered\n",registered_username[new_socket_num]);
-                            csock[new_socket_num] = new_socket;
-                            k++;
-                        }else{
-                            n = write(new_socket, reject_username_message, strlen(reject_username_message));
-                            if(n < 0){
-                                perror("ERROR writing");
-                                close(new_socket);
-                                break;
-                            }
-                            csock[new_socket_num] = -1;
+                    }
+                    if(username_flag == 0){
+                        n = write(new_socket, accept_username_message, strlen(accept_username_message));
+                        if(n < 0){
+                            perror("ERROR writing");
                             close(new_socket);
+                            break;
                         }
+                        strcpy(registered_username[new_socket_num], rbuf);
+                        printf("%s is registered\n",registered_username[new_socket_num]);
+                        csock[new_socket_num] = new_socket;
+                        k++;
+                    }else{
+                        n = write(new_socket, reject_username_message, strlen(reject_username_message));
+                        if(n < 0){
+                            perror("ERROR writing");
+                            close(new_socket);
+                            break;
+                        }
+                        csock[new_socket_num] = -1;
+                        close(new_socket);
                     }
                 }else{
                     n = write(new_socket, reject_request_message, strlen(reject_request_message));
@@ -141,7 +144,6 @@ int main(){
             }
             for(int i=0;i<MAXCLIENTS;i++){
                 if ((csock[i] != -1) && (FD_ISSET(csock[i], &rfds))){/*状態6*/
-                    printf("%d\n",i);
                     //ソケットから受信したなら
                     bzero(rbuf, 1024);
                     n = read(csock[i], rbuf, 1024);

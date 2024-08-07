@@ -37,7 +37,7 @@ int main(int argc, char *argv[]){
     svr.sin_family = AF_INET;
     bcopy((char *)server->h_addr, (char *)&svr.sin_addr.s_addr, server->h_length);
     svr.sin_port = htons(10140);
-    if (connect(sock, (struct sockaddr *)&svr, sizeof(svr)) < 0) {
+    if (connect(sock, (struct sockaddr *)&svr, sizeof(svr)) < 0) {/*状態6*/
         perror("client: connect");
         close(sock);
         exit(1);
@@ -46,17 +46,19 @@ int main(int argc, char *argv[]){
     /*状態2*/
     bzero(rbuf, 1024);
     n = read(sock, rbuf, 1024);
-    if(n <= 0){//状態６
+    if(n <= 0){/*状態6*/
         perror("Connection closed by client.\n");
         close(sock);
         exit(1);
-    }else if(strcmp(rbuf,"REQUEST ACCEPTED\n") == 0) {/*状態3*/
-        printf("%s",rbuf);
+    }
+    printf("%s",rbuf);
+    if(strcmp(rbuf,"REQUEST ACCEPTED\n") == 0) {/*状態3*/     
         bzero(rbuf,1024);
         strcpy(rbuf,argv[2]);
         rbuf[strlen(argv[2])] = '\n';
         n = write(sock, rbuf, strlen(rbuf));
         if(n < 0){/*状態6*/
+            perror("write()");
             close(sock);
             exit(1);
         }
@@ -67,8 +69,9 @@ int main(int argc, char *argv[]){
             close(sock);
             exit(1);
         }
+        printf("%s",rbuf);
         if(strcmp(rbuf,"USERNAME REGISTERED\n") == 0){/*状態4*/
-            printf("%s",rbuf);
+            
             while(1){
                 FD_ZERO(&rfds);
                 FD_SET(0, &rfds);
@@ -86,6 +89,7 @@ int main(int argc, char *argv[]){
                         }
                         n = write(sock, rbuf, strlen(rbuf));
                         if (n < 0) {/*状態6*/
+                            perror("write()");
                             close(sock);
                             exit(1);
                         }
@@ -94,6 +98,7 @@ int main(int argc, char *argv[]){
                         bzero(rbuf, 1024);
                         n = read(sock, rbuf, 1024);
                         if(n <= 0){/*状態6*/
+                            perror("read()");
                             close(sock);
                             exit(1);
                         }else{
@@ -103,12 +108,12 @@ int main(int argc, char *argv[]){
                 }
             }
         }else{/*状態6*/
-            printf("%s",rbuf);
+            perror("USERNAME");
             close(sock);
             exit(1);
         }
     }else{/*状態6*/
-        printf("%s",rbuf);
+        perror("REQUEST");
         close(sock);
         exit(1);
     }
