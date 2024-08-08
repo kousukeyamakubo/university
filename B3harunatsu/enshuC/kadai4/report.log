@@ -1,10 +1,10 @@
-This is e-upTeX, Version 3.141592653-p4.1.0-u1.29-230214-2.6 (utf8.sjis) (TeX Live 2023) (preloaded format=platex 2023.12.16)  6 AUG 2024 23:30
+This is e-upTeX, Version 3.141592653-p4.1.0-u1.29-230214-2.6 (utf8.sjis) (TeX Live 2023) (preloaded format=platex 2023.12.15)  7 AUG 2024 16:31
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**c:/Users/kosuke/university/B3harunatsu/enshuC/kadai4/report
-(c:/Users/kosuke/university/B3harunatsu/enshuC/kadai4/report.tex
+**c:/university/B3harunatsu/enshuC/kadai4/report
+(c:/university/B3harunatsu/enshuC/kadai4/report.tex
 pLaTeX2e <2023-02-14>+1, based on
 LaTeX2e <2023-11-01>
 L3 programming layer <2023-12-11>
@@ -206,7 +206,7 @@ Overfull \hbox (59.7489pt too wide) in paragraph at lines 288--313
 
 [7
 
-] [8] [9] [10] [11] [12] [13] [14] (./report.aux)
+] [8] [9] [10] [11] [12] [13] [14] [15] (./report.aux)
  ***********
 pLaTeX2e <2023-02-14>+1, based on
 LaTeX2e <2023-11-01>
@@ -214,12 +214,12 @@ L3 programming layer <2023-12-11>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 3244 strings out of 476281
- 48249 string characters out of 5797229
+ 3244 strings out of 476329
+ 48210 string characters out of 5798571
  2053305 words of memory out of 5000000
- 25447 multiletter control sequences out of 15000+600000
+ 25439 multiletter control sequences out of 15000+600000
  566112 words of font info for 69 fonts, out of 8000000 for 9000
- 36 hyphenation exceptions out of 8191
- 57i,10n,65p,368b,1783s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 14 hyphenation exceptions out of 8191
+ 57i,10n,65p,355b,1783s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on report.dvi (15 pages, 56428 bytes).
+Output written on report.dvi (16 pages, 57028 bytes).
