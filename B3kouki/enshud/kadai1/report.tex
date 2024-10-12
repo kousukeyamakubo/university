@@ -66,7 +66,8 @@
 また，一字ずつ取り出す際にtoken\_loaded\_letterというリストを用いて，読み込み中のトークンの各文字を記憶しておく．そして，トークンの切れ目が確定してから各要素を合わせて文字列に変換する．その後token\_loaded\_letterは初期化する．
 それぞれの状態の処理は3の実装プログラムで記述する．
 \subsection{tsファイルに書き込む処理}
-tsファイルに出力する処理を行うために，指導書に記載されている予約語とそのIDを格納するリストを事前に用意しておく．予約語が存在するソースコード中の字句をtoken，ソースコードに対応する予約語をtoken\_name，ソースコードに対応する予約語のIDをtoken\_idというリストにそれぞれ格納しておく．
+tsファイルに出力する処理を行うために，ソースコード上の字句，字句解析機上でのトークン名，IDのそれぞれを格納するリストを事前に用意しておく．\cite{1}
+ソースコード中の字句をtoken，字句解析機上でのトークン名をtoken\_name，IDをtoken\_idというリストにそれぞれ格納しておく．
 そして，取り出したトークンがtokenの内いずれに当てはまるかについて判定しtoken\_nameとtoken\_idに格納されている対応する文字列を書き込む．
 \section{実装プログラム}
 2で記述した方針で作成するために，ここではpasファイルから文字を取り出す処理，字句解析のオートマトンのそれぞれの状態の処理，tsファイルへの書き込み処理の3つについて記述する．
@@ -74,6 +75,7 @@ tsファイルに出力する処理を行うために，指導書に記載され
 pasファイルから各文字を一字ずつ評価するために，pasファイルから一行ずつ取り出し，各行から一字ずつ取り出す処理を行う．以下はその部分のプログラムを抜粋したものである．
 \begin{lstlisting}
 final List<String> buffer = Files.readAllLines(Paths.get(inputFileName));
+String line = buffer.get(i) + "\n";
 while(i<buffer.size()) {
     String line = buffer.get(i) + "\n";
     while(j < line.length()) {
@@ -83,7 +85,8 @@ while(i<buffer.size()) {
     i++;
 　}
 \end{lstlisting}
-これによって，cにプログラムの各文字が格納されていくことになる．
+これによって，cにプログラムの各文字が格納されていくことになる．また，2行目でlineの最後に\textbackslash nを追加しているのは
+Files.readAllLines()では改行の文字が含まれないためである．
 \subsection{字句解析のオートマトンの処理}
 まず図1のオートマトンの各状態に遷移するための条件分岐について記述する．3.1で取得したcについて評価してどの状態に対応するかを判定する．以下はその部分のプログラムを抜粋したものである．
 \begin{lstlisting}
@@ -100,10 +103,41 @@ while(i<buffer.size()) {
     }
 \end{lstlisting}
 この部分は3.1の二つのwhile文中に記述されているので，pasファイルの文字数分だけ実行される．また，"文字列".indexOf(c)は文字列中にcが含まれているかどうかを判定しており，
-これで数字と特定の文字列が含まれているかを判定している．また，5行目のs3に遷移するかどうかを判定する際の文字列では，指導書の表6のトークン一覧に記載されていた記号を羅列したものでる．また，6行目のs6に遷移するかどうかを判定する際の文字列では，トークン一覧に記載されていた二文字の記号の内の一文字目を羅列したものである．
+これで数字と特定の文字列が含まれているかを判定している．また，5行目のs3に遷移するかどうかを判定する際の文字列では，指導書の表6のトークン一覧に記載されていた記号を羅列したものでる．図1のオートマトンの特定の文字というのはこの""で囲まれた文字列に対応する．また，6行目のs6に遷移するかどうかを判定する際の文字列では，トークン一覧に記載されていた二文字の記号の内の一文字目を羅列したものである．
 \subsubsection{状態1}
 というリストを用いて，トークンを設定する．
 \subsection{tsファイルに書き込む処理}
+tsファイルに書き込むための処理として，writeToken()を定義した．引数は以下の通りである．
+\begin{lstlisting}
+void writeToken(String token_str, List<String> token, List<String> token_name, List<String> token_id, int line_counter, BufferedWriter writer)
+\end{lstlisting}
+token\_strはオートマトンによって確定したトークンの文字列である．また，line\_counterはtoken\_strが記述されていた行番号を表す．具体的なwriteToken()の処理内容は以下の通りである．
+\begin{lstlisting}
+for(i=0;i<token.size();i++) {
+    if(token_str.equals(token.get(i))) {
+        tokenName = token_name.get(i);
+        tokenId = token_id.get(i);
+        break;
+    }else if(token_str.matches("\\d+")){
+        tokenName = "SCONSTANT";
+        tokenId = "44";
+        break;
+    }else if(token_str.indexOf("\'") !=-1){
+        tokenName = "SSTRING";
+        tokenId = "45";
+        break;
+    }
+}
+if(i == token.size()) {
+    tokenName = "SIDENTIFIER";
+    tokenId = "43";
+}
+writer.write(token_str + "\t" + tokenName + "\t" + tokenId + "\t" + line_counter);
+writer.newLine();
+\end{lstlisting}
+まずtoken\_strがtokenに格納されている字句と一致するものがあるかどうかをfor文とif文によって判定している．一致するものがあればtokenNameにその字句に対応する字句解析機上でのトークン名が，tokenIdにIDが格納される．
+token\_strが符号なし整数である場合と文字列である場合はそれに対応するトークン名とIDが格納される．また，それぞれの判定方法は，符号なし整数であるかは正規表現で，文字列であるかは「'」が含まれているかどうかで判定する．
+token内の字句，符号なし整数，文字列のいずれでもない場合は識別子であるので，16から19行目のようにiがtokenの要素数と同じかどうかの条件分岐を作成した．そして20行目のようにwriter.write()を使って指定したtsファイルに書き込んだ．
 \section{考察や工夫点}
 課題1において工夫した点は以下の二つである．
 \begin{itemize}
