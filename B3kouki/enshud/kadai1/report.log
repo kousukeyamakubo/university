@@ -1,10 +1,10 @@
-This is e-upTeX, Version 3.141592653-p4.1.0-u1.29-230214-2.6 (utf8.sjis) (TeX Live 2023) (preloaded format=platex 2023.12.16)  13 OCT 2024 15:50
+This is e-upTeX, Version 3.141592653-p4.1.0-u1.29-230214-2.6 (utf8.sjis) (TeX Live 2023) (preloaded format=platex 2023.12.15)  14 OCT 2024 17:21
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**c:/Users/kosuke/university/B3kouki/enshud/kadai1/report
-(c:/Users/kosuke/university/B3kouki/enshud/kadai1/report.tex
+**c:/university/B3kouki/enshud/kadai1/report
+(c:/university/B3kouki/enshud/kadai1/report.tex
 pLaTeX2e <2023-02-14>+1, based on
 LaTeX2e <2023-11-01>
 L3 programming layer <2023-12-11>
@@ -183,24 +183,18 @@ LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <12> not available
 (Font)              Font shape `JY1/gt/m/n' tried instead on input line 58.
 File: automaton.png Graphic file (type bmp)
 <automaton.png>
- [1]
-LaTeX Font Info:    Trying to load font information for OMS+cmr on input line 88.
+LaTeX Font Info:    Trying to load font information for OMS+cmr on input line 71.
  (c:/texlive/2023/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2023/04/13 v2.5m Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 88.
- [2]
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 71.
+ [1] [2]
 LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <10> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 107.
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 111.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <10> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 107.
- [3]
-Overfull \hbox (11.45764pt too wide) in paragraph at lines 144--146
-[]\JY1/mc/m/n/10 一つ目は \OT1/cmr/m/n/10 to-ken\JY1/mc/m/n/10 ， \OT1/cmr/m/n/10 to-ken[]name,token[]id \JY1/mc/m/n/10 の順番を対応させた点である ． 例えば ， \OT1/cmr/m/n/10 to-ken\JY1/mc/m/n/10 ， \OT1/cmr/m/n/10 to-ken[]name,token[]id
- []
-
-[4] (./report.aux)
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 111.
+ [3] [4] (./report.aux)
  ***********
 pLaTeX2e <2023-02-14>+1, based on
 LaTeX2e <2023-11-01>
@@ -208,12 +202,12 @@ L3 programming layer <2023-12-11>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 3320 strings out of 476281
- 49052 string characters out of 5797229
- 2044305 words of memory out of 5000000
- 25521 multiletter control sequences out of 15000+600000
+ 3320 strings out of 476329
+ 49013 string characters out of 5798571
+ 2053305 words of memory out of 5000000
+ 25513 multiletter control sequences out of 15000+600000
  566112 words of font info for 69 fonts, out of 8000000 for 9000
- 36 hyphenation exceptions out of 8191
- 57i,6n,65p,446b,1165s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 14 hyphenation exceptions out of 8191
+ 57i,6n,65p,400b,1165s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on report.dvi (5 pages, 18528 bytes).
+Output written on report.dvi (5 pages, 21784 bytes).
