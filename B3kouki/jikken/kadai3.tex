@@ -1,0 +1,74 @@
+\documentclass[dvipdfmx]{jarticle}
+\usepackage{graphicx}
+\usepackage[top=30truemm,bottom=30truemm,left=25truemm,right=25truemm]{geometry}
+\usepackage{listings,jvlisting}
+\usepackage{url}
+\begin{document}
+\section{課題3.1}
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|c|c|c|}
+    \hline
+    信号名 & デフォルト値 & ハザード対策\\\hline
+    selMuxDIn&L&\\
+    loadIP&L&\\
+    incIP&L&\\
+    inc2IP&L&\\
+    clearIP&L&\\
+    selMuxAddr&L&要\\
+    loadIR&L&\\
+    loadhIX&L&\\
+    load1Ix&L&\\
+    loadhMB&L&\\
+    load1MB&L&\\
+    modeALU&LLLL&\\
+    selMuxDOut&LL&\\
+    loadRegA&L&\\
+    loadRegB&L&\\
+    loadRegC&L&\\
+    loadFC&L&\\
+    loadFZ&L&\\
+    /read&H&要\\
+    /write&H &要\\
+    \hline
+    \end{tabular}
+    \caption{C-Processorにおける制御信号のデフォルト値とハザード}
+\end{table}
+\clearpage
+\section{課題3.6}
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|}
+    \hline
+    信号名&デフォルト&出力&状態&条件\\\hline
+    selMuxDOut&LL&LH&s6&qJCextD='01'\\
+    selMuxDOut&LL&LH&s6&qJCextD='10'\\
+    selMuxDOut&LL&LH&s6&qJCextD='11'\\
+    selMuxDOut&LL&HL&s11&qJCextD='011'\\
+    selMuxDOut&LL&HL&s11&qJCextD='100'\\
+    selMuxDOut&LL&HL&s11&qJCextD='101'\\
+    \hline
+    selMuxAddr&L&H&s2&qJCextB='1'\\
+    &&&s3&qJCextC='01'\\
+    &&&s4&qJCextC='10'\\
+    &&&s5&qJCextC='11'\\
+    &&&s6&qJCextD='01'\\
+    &&&s7&qJCextD='10'\\
+    &&&s8&qJCextD='11'\\
+    &&&s11&qJCextE='011'\\
+    &&&s12&qJCextE='100'\\
+    &&&s13&qJCextE='101'\\\hline
+    read&H&L&s1&qJCextA='1'\\
+    &&&s2&qJCextB='1'\\
+    &&&s9&qJCextE='001'\\
+    &&&s10qJCextE='010'\\
+    \hline
+    write&H&L&&\\
+    &&&s4&qJCextC='10'\\
+    &&&s7&qJCextD='10'\\
+    &&&s12&qJCextE='100'\\
+    \hline
+    \end{tabular}
+    \caption{}
+\end{table}
+\end{document}
