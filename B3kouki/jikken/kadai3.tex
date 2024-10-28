@@ -1,0 +1,37 @@
+\documentclass[dvipdfmx]{jarticle}
+\usepackage{graphicx}
+\usepackage[top=30truemm,bottom=30truemm,left=25truemm,right=25truemm]{geometry}
+\usepackage{listings,jvlisting}
+\usepackage{url}
+\begin{document}
+\section{課題3.1}
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|c|c|c|}
+    \hline
+    信号名 & デフォルト値 & ハザード対策\\\hline
+    selMuxDIn&L&\\
+    loadIP&L&\\
+    incIP&L&\\
+    inc2IP&L&\\
+    clearIP&L&\\
+    selMuxAddr&L&要\\
+    loadIR&L&\\
+    loadhIX&L&\\
+    load1Ix&L&\\
+    loadhMB&L&\\
+    load1MB&L&\\
+    modeALU&LLLL&\\
+    selMuxDOut&LL&\\
+    loadRegA&L&\\
+    loadRegB&L&\\
+    loadRegC&L&\\
+    loadFC&L&\\
+    loadFZ&L&\\
+    /read&H&要\\
+    /write&H &要\\
+    \hline
+    \end{tabular}
+    \caption{C-Processorにおける制御信号のデフォルト値とハザード}
+\end{table}
+\end{document}
