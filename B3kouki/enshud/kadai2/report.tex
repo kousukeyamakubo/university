@@ -76,7 +76,12 @@ split()を使って配列partsに格納する．今後，次のトークンを�
 \subsection{次のトークンが予約語である場合}
 このパターンのプログラムを一般化したものは以下のようになる．
 \begin{lstlisting}
-  
+String line = buffer.get(ts_line_number++);
+String[] parts = line.split("\t");
+
+if (!parts[2].equals("43")) {
+    return Integer.parseInt(parts[3]); 
+}
 \end{lstlisting}
 上述のとおり，tsファイルから取り出されたトークンとその情報(pasファイル上でのトークン，字句解析器上でのトークン名，トークンID，行番号)はそれぞれpartsの各要素に格納されている．
 今回の課題を通して，これらの内用いられるのはトークンIDと行番号の二つ，即ちparts[2]とparts[3]である．parts[2]即ちトークンIDが想定されたトークンIDと一致しているかどうかをif文を用いて判定している．
@@ -84,7 +89,10 @@ split()を使って配列partsに格納する．今後，次のトークンを�
 \subsection{次のトークンが構文要素名である場合}
 このパターンのプログラムを一般化したものは以下のようになる．
 \begin{lstlisting}
-  
+int result = parseBlock(buffer);
+if (result != 0) {
+    return result;
+}
 \end{lstlisting}
 ここでsyntax\_definition()は，それぞれの構文定義のメソッドを一般化したものである．
 int型の変数resultにint型で定義されたそれぞれのメソッドの返り値が格納されるので，resultが0でない即ち呼び出したメソッド内で構文定義に誤りがあった場合にはその値が出力する行番号なのでreturnする．
@@ -92,7 +100,16 @@ int型の変数resultにint型で定義されたそれぞれのメソッドの�
 \subsection{0回以上の繰り返しの場合}
 このパターンのプログラムを一般化したものは以下のようになる．
 \begin{lstlisting}
-  
+while(true) {
+  line = buffer.get(ts_line_number++);
+  parts = line.split("\t");
+  if(!parts[2].equals("41")) {
+    ts_line_number--;
+    break;
+  }
+//
+以下にさらに処理が続く
+}
 \end{lstlisting}
 \subsection{0回または1回の出現の場合}
 このパターンのプログラムを一般化したものは以下のようになる．
