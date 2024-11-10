@@ -78,18 +78,17 @@ split()を使って配列partsに格納する．今後，次のトークンを�
 \begin{lstlisting}
 String line = buffer.get(ts_line_number++);
 String[] parts = line.split("\t");
-
-if (!parts[2].equals("43")) {
+if (!parts[2].equals("tokenID")) {
     return Integer.parseInt(parts[3]); 
 }
 \end{lstlisting}
 上述のとおり，tsファイルから取り出されたトークンとその情報(pasファイル上でのトークン，字句解析器上でのトークン名，トークンID，行番号)はそれぞれpartsの各要素に格納されている．
-今回の課題を通して，これらの内用いられるのはトークンIDと行番号の二つ，即ちparts[2]とparts[3]である．parts[2]即ちトークンIDが想定されたトークンIDと一致しているかどうかをif文を用いて判定している．
+今回の課題を通して，これらの内用いられるのはトークンIDと行番号の二つ，即ちparts[2]とparts[3]である．parts[2]即ちトークンIDが想定されたトークンIDと一致しているかどうかをif文を用いて判定している．ここでは一般化のため，equals()の引数の文字列はtokenIDとなっているが実際には次に期待されるトークンのIDとなる．
 一致していなければこの時点でこのときの行番号parts[3]がreturnされる．そして一致していれば何もreturnされずに次の処理に進む．
 \subsection{次のトークンが構文要素名である場合}
 このパターンのプログラムを一般化したものは以下のようになる．
 \begin{lstlisting}
-int result = parseBlock(buffer);
+int result = syntax_definition(buffer);
 if (result != 0) {
     return result;
 }
@@ -103,7 +102,7 @@ int型の変数resultにint型で定義されたそれぞれのメソッドの�
 while(true) {
   line = buffer.get(ts_line_number++);
   parts = line.split("\t");
-  if(!parts[2].equals("41")) {
+  if(!parts[2].equals("tokenID")) {
     ts_line_number--;
     break;
   }
@@ -111,16 +110,50 @@ while(true) {
 以下にさらに処理が続く
 }
 \end{lstlisting}
+ここでは3.1のパターンから始まる構文定義を0回以上繰り返す場合を記述している．ここでは無限ループを用いてbreakされるまで繰り返し続けるという処理を採用した．さらにループの最初の予約語(構文要素名)が，
+構文定義が間違っているという条件分岐に入った際にはその時の行番号をreturnせずにbreak文で抜けられるようにした．ただし，このまま抜けるだけだと，直前に判定されたトークンを次の処理で判定することができないのでts\_line\_numberを1デクリメントした．
 \subsection{0回または1回の出現の場合}
 このパターンのプログラムを一般化したものは以下のようになる．
 \begin{lstlisting}
-  
+String line = buffer.get(ts_line_number++);
+String[] parts = line.split("\t");
+if(parts[2].equals("tokenID")){//1
+回繰り返す時の処理が続く
+}else{//0
+回繰り返す時  ts_line_number--;
+}
 \end{lstlisting}
+ここでは3.1のパターンから始まる構文定義が0回または1回出現する場合の処理の一部を表す．次のトークンを先読みすることによって[...]で囲まれた部分の構文定義の一つ目と一致するか否かによって分岐を実現している．1から2行目によって得られたトークンが想定されるトークンと一致するか否かによって条件分岐をしている．
+一致している場合は一回の出現であるとみなし，その後さらに[...]内の構文解析が続く．一致しなかった場合は0回の出現とみなし，このとき読んだトークンは本来次の解析の際に読まれるはずであったトークンなので
+ts\_line\_numberを1デクリメントした．
 \subsection{次のトークンを読んだうえでどの句を選択するかを決定する必要がある場合}
+このパターンのプログラムを一般化したものは以下のようになる．
+\begin{lstlisting}
+String line = buffer.get(ts_line_number++);
+String[] parts = line.split("\t");
+if(parts[2].equals("tokenID1")){//tokenID1
+と一致する際の処理が続く
+}else if(parts[2].equals("tokenID2")){//tokenID2
+と一致する際の処理が続く
+}else{ 
+  ts_line_number--;//
+どれにも一致しない場合の処理が続く
+}
+\end{lstlisting}
+ここでは，3.1から始まる構文定義によって解析する対象が異なる場合，即ち構文定義が"または"で区切られている場合の処理の一部を表す．
+3.4と同様に，次のトークンを先読みすることによってそれぞれの分岐の場合の構文定義の一つ目と一致するか否かによって分岐を実現している．
+このプログラムの例はそれぞれの構文定義の一つ目のトークンがtokenID1,tokenID2,それ以外の3パターンに分類できるときの例である．
+1から2行目で得られた次のトークンがtokenID1とtokenID2に一致する場合は，それぞれの条件分岐の中でその後の解析が進む．
+どれにも一致しない場合は，このとき読んだトークンは本来次の解析の際に読まれるはずであったトークンなのでts\_line\_numberを1デクリメントした.
 \section{考察}
+今回の課題ではLL解析により構文を解析したが，LL解析を実現するためには最も左の非終端記号に適用すべき生成規則を先読みした記号から一意に定める必要がる．
+具体的には，指導書の構文定義に左くくり出し等を使用して
 \section{感想}
-
-\begin{thebibliography}{1}
+今回の課題を通して感じたこととしては，今後の課題ではテストファーストな開発を心がけていこうということである．
+私はウォータフォール型の開発をしてしまったため，ts\_line\_numberの処理のデバッグにかなり時間がかかってしまった．slackで紹介されていたように
+テストファーストな開発をすることで問題が発生している箇所が明確になるのでデバッグがかなり楽になると感じるので，今後の課題３と４では活用していきたいと思う．
+\begin{thebibliography}{99}
     \bibitem{1} 2024年度情報科学演習D指導書
+    \bibitem{2} 辻野嘉宏 (2019) コンパイラ第二版 オーム社
 \end{thebibliography}
 \end{document}
