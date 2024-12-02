@@ -1,0 +1,72 @@
+\documentclass[dvipdfmx]{jarticle}
+\usepackage{graphicx}
+\usepackage[top=30truemm,bottom=30truemm,left=25truemm,right=25truemm]{geometry}
+\usepackage{listings,jvlisting}
+\usepackage{url}
+
+\lstset{
+  basicstyle={\ttfamily},
+  identifierstyle={\small},
+  commentstyle={\smallitshape},
+  keywordstyle={\small\bfseries},
+  ndkeywordstyle={\small},
+  stringstyle={\small\ttfamily},
+  frame={tb},
+  breaklines=true,
+  columns=[l]{fullflexible},
+  numbers=left,
+  xrightmargin=0zw,
+  xleftmargin=3zw,
+  numberstyle={\scriptsize},
+  stepnumber=1,
+  numbersep=1zw,
+  lineskip=-0.5ex
+}
+
+\begin{document}
+\begin{titlepage}
+    \begin{center}
+        {\huge 情報技術者と社会　第8回レポート}
+        \vspace{180pt}\\
+        \begin{tabular}{rl}
+            氏名 & 山久保孝亮\\
+            所属 & 大阪大学基礎工学部情報科学科ソフトウェア科学コース\\
+            メールアドレス & u327468b@ecs.osaka-u.ac.jp\\
+            学籍番号 & 09B22084\\
+            提出日 & \today\\
+        \end{tabular}
+    \end{center}
+\end{titlepage}
+私が今回調査した表現の自由に関する話題は，SNS規制についてである．
+\section{経緯}
+昨今，兵庫県知事選挙の報道の在り方についてテレビやインターネット上で大きな話題となっている．
+特にSNSの情報を中心にテレビとは異なる主張が散見され，それが選挙結果に大きな影響を与えたのではと言及されている．
+この結果を踏まえてテレビ番組上では，SNSの規制についての話題が上がっていた．\cite{0}このニュースによると，テレビは公平性を保っているがYoutube等のSNSなどでは
+その公平性を保たずに情報が発信されてしまうためSNSの規制を進めるべきという内容であった．
+\section{是非}
+SNS規制の範囲については明確ではないが，今回は知事選を踏まえて，SNSにおける政治思想の表現への規制であると解釈した．
+政治思想をSNSを規制することには私は基本的に反対である．理由は以下の二つである．
+\begin{enumerate}
+    \item 表現の自由への制限対象に政治思想は含まれないはず．
+    \item 情報の偏りはどのメディアでも発生する．
+\end{enumerate}
+\subsection{表現の自由への制限対象}
+講義資料であげられていたように，出版に用いる通信技術には分類が存在し，それぞれに対して制限が課せられている．
+そしてインターネットに関しては新しいメディアであり，憲法制定時には想定されていなかったものであるのでどれだけの制限を与えるのかについては議論の余地がある．
+しかし，講義資料であげられていた制限の例では中傷やポルノ等であり\cite{1}，既存のメディアで制限されなかったものがインターネット上でのみ制限されるとは考えにくい．
+\subsection{情報の偏り}
+SNSの問題点として，公平性が保たれないという点が指摘されていた．
+しかし，テレビの公平性とは「政治上の諸問題は公正に取り扱うこと、また、意見が対立している公共の問題については、できるだけ多くの角度から論点を明らかにし、公平に取り扱う」\cite{3}ことであり，客観的な指標が存在しないためテレビがSNSよりも偏っていないことを示すことはできない．
+そして，検索さえすればお互いの情報をいつでも，いくらでも取得できるSNSの方が平等であると私は感じる．
+したがって，テレビとSNSのどちらが公平であると感じるかには個人差があり，ニュースで取り上げられていた主張はその個人差があるという前提を無視してしまっているのではないかと考えた．
+\subsection{SNS規制の範囲について}
+今回はSNSにおける政治思想の規制に関して議論し規制に反対であるという主張をしたが，全くSNSへの問題が無いと感じているわけではない．
+例えば中傷やポルノ等の規制等はさらに厳格化すべきであると感じている．
+オーストラリアで16歳以下のSNS利用を禁止する法案が可決された\cite{2}ように，表現の内容を規制するのではなく使い手側が分別を持って情報を判断できるような方向性で議論していくべきであると私は考える．
+\begin{thebibliography}{99}
+    \bibitem{0} https://news.yahoo.co.jp/articles/f0537b53b6e50d3388c1e2614e4cabe649265a5c 12/2アクセス
+    \bibitem{1} 情報技術者と社会　第8回講義資料
+    \bibitem{3} https://www.nhk.or.jp/faq-corner/4housoubangumi/01/04-01-09.html 12/2アクセス
+    \bibitem{2} https://news.yahoo.co.jp/articles/2408e557df033ef70615c8558d42f78b80907b77 12/2アクセス
+\end{thebibliography}
+\end{document}
