@@ -1,0 +1,67 @@
+\documentclass[a4paper,10pt]{jarticle}
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{amsmath, ascmac}
+\usepackage{url}
+\usepackage[dvipdfmx]{color}
+\usepackage{comment}
+
+\topmargin=-2.2cm
+\headheight=0.5cm
+\headsep=0.8cm
+\oddsidemargin=0.2cm
+\evensidemargin=-0.9cm
+\textheight=25cm
+\textwidth=16.7cm
+\footskip=1.8cm
+\columnsep=0.8cm
+\parindent=1.0em
+%\def\baselinestretch{1.1}
+
+\begin{document}
+
+\thispagestyle{empty}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 表紙
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\onecolumn
+
+\begin{center}
+
+\vspace*{50mm}
+\textbf{\Huge{情報科学実験C　中間レポート}}\\
+\vspace*{60mm}
+\Large{
+\begin{tabular}{rl}
+氏名：&氏名\\
+学籍番号：&xxxx\\
+コース：&計算機科学コース\\
+提出日：&2024年12月13日17時
+\end{tabular}
+}
+\end{center}
+\newpage
+
+
+\section{設計した C-Processor のデータパスアーキテクチャ図を示し，Tiny-Processor のデータパスから
+の変更点について説明せよ．}
+データパスを図で示し，それについてTiny-ProcessorとC-Processorとの違いを説明する．
+可能であれば，追加したレジスタやマルチプレクサについて，なぜ，それらが必要になるのかについても記述する．
+~\\
+\section{STDI命令のデータの流れについて，1.で示した図上にわかるように矢印を書き込んだ上で説明せよ．}
+前節で示した，図に対して，STDI命令を実行した際に，どの様にデータが流れているかを説明する．
+~\\
+\section{C-Processor の外部出力信号用ジョンソンカウンタと内部制御信号用ジョンソンカウンタを示せ．}
+設計に用いた外部出力信号のジョンソンカウンタと内部制御信号のジョンソンカウンタを示し，それぞれ説明する．
+~\\
+\section{C-Processor の設計にあたって工夫した点やアピールする点があれば，章立てて報告すること．拡張課題についても同様．}
+C-Processorの設計にあたって，何かしらの工夫を行なったことがあれば，記述する．
+拡張課題は以下の様に，それぞれの節を用意して説明する．
+\subsection{拡張課題a：プロセッサ命令セットの拡張}
+\subsection{拡張課題b：簡易アセンブラの作成}
+\subsection{拡張課題c：演算機の改善}
+~\\
+\section{感想 (C-Processorの設計は易しかった／難しかったか？ソフトウェアプログラミングとの違いは感じたか？疑問に思ったこと，授業でもっとフォローして欲しいこと，など)}
+
+\end{document}

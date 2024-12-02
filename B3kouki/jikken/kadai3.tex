@@ -42,31 +42,30 @@
     \hline
     信号名&デフォルト&出力&状態&条件\\\hline
     selMuxDOut&LL&LH&s6&qJCextD='01'\\
-    selMuxDOut&LL&LH&s6&qJCextD='10'\\
-    selMuxDOut&LL&LH&s6&qJCextD='11'\\
-    selMuxDOut&LL&HL&s11&qJCextD='011'\\
-    selMuxDOut&LL&HL&s11&qJCextD='100'\\
-    selMuxDOut&LL&HL&s11&qJCextD='101'\\
+    selMuxDOut&&&s7&qJCextD='11'\\
+    selMuxDOut&&&s8&qJCextD='10'\\
+    selMuxDOut&&HL&s11&qJCextD='010'\\
+    selMuxDOut&&&s12&qJCextD='110'\\
+    selMuxDOut&&&s13&qJCextD='100'\\
     \hline
     selMuxAddr&L&H&s2&qJCextB='1'\\
     &&&s3&qJCextC='01'\\
-    &&&s4&qJCextC='10'\\
-    &&&s5&qJCextC='11'\\
+    &&&s4&qJCextC='11'\\
+    &&&s5&qJCextC='10'\\
     &&&s6&qJCextD='01'\\
-    &&&s7&qJCextD='10'\\
-    &&&s8&qJCextD='11'\\
-    &&&s11&qJCextE='011'\\
-    &&&s12&qJCextE='100'\\
-    &&&s13&qJCextE='101'\\\hline
+    &&&s7&qJCextD='11'\\
+    &&&s8&qJCextD='10'\\
+    &&&s11&qJCextE='010'\\
+    &&&s12&qJCextE='110'\\
+    &&&s13&qJCextE='100'\\\hline
     read&H&L&s1&qJCextA='1'\\
     &&&s2&qJCextB='1'\\
     &&&s9&qJCextE='001'\\
-    &&&s10qJCextE='010'\\
+    &&&s10&qJCextE='010'\\
     \hline
-    write&H&L&&\\
-    &&&s4&qJCextC='10'\\
-    &&&s7&qJCextD='10'\\
-    &&&s12&qJCextE='100'\\
+    write&H&L&s4&qJCextC='11'\\
+    &&&s7&qJCextD='11'\\
+    &&&s12&qJCextE='110'\\
     \hline
     \end{tabular}
     \caption{}
