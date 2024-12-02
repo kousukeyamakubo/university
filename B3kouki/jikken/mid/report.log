@@ -1,4 +1,4 @@
-This is e-upTeX, Version 3.141592653-p4.1.0-u1.29-230214-2.6 (utf8.sjis) (TeX Live 2023) (preloaded format=platex 2023.12.16)  4 NOV 2024 18:10
+This is e-upTeX, Version 3.141592653-p4.1.0-u1.29-230214-2.6 (utf8.sjis) (TeX Live 2023) (preloaded format=platex 2023.12.16)  3 DEC 2024 00:50
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -172,7 +172,35 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <5> on input line 40.
 [1
 
-] (./report.aux)
+]
+LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <14.4> not available
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 49.
+LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <14.4> not available
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 49.
+File: Tiny_datapath.png Graphic file (type bmp)
+<Tiny_datapath.png>
+
+Overfull \hbox (22.30856pt too wide) in paragraph at lines 55--56
+ [][] 
+ []
+
+File: C_datapath.png Graphic file (type bmp)
+<C_datapath.png>
+
+Overfull \hbox (22.30856pt too wide) in paragraph at lines 61--62
+ [][] 
+ []
+
+[1]
+File: STDI.png Graphic file (type bmp)
+<STDI.png>
+LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <12> not available
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 90.
+LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <12> not available
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 90.
+ [2
+
+] [3] (./report.aux)
  ***********
 pLaTeX2e <2023-02-14>+1, based on
 LaTeX2e <2023-11-01>
@@ -180,12 +208,12 @@ L3 programming layer <2023-12-11>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 2994 strings out of 476281
- 45981 string characters out of 5797229
- 1920305 words of memory out of 5000000
- 25209 multiletter control sequences out of 15000+600000
- 562702 words of font info for 56 fonts, out of 8000000 for 9000
+ 3042 strings out of 476281
+ 46862 string characters out of 5797229
+ 1922305 words of memory out of 5000000
+ 25246 multiletter control sequences out of 15000+600000
+ 565173 words of font info for 65 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 57i,6n,65p,305b,266s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 57i,6n,65p,330b,362s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on report.dvi (1 page, 824 bytes).
+Output written on report.dvi (4 pages, 6108 bytes).

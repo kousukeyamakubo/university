@@ -43,8 +43,51 @@
             メールアドレス & u327468b@ecs.osaka-u.ac.jp\\
             学籍番号 & 09B22084\\
             提出日 & \today\\
-            担当教員 & 平井健士　山下恭佑
         \end{tabular}
     \end{center}
 \end{titlepage}
+\section{Tiny-ProcessorとC-Processorのデータパスの違い}
+以下の図1,2はそれぞれTiny-ProcessorとC-Processorのデータパスである．
+\begin{figure}[h]
+  \centering
+  \begin{minipage}[b]{0.49\columnwidth}
+      \centering
+      \includegraphics[width=1.1\columnwidth]{Tiny_datapath.png}
+      \caption{Tiny-Processorのデータパス}
+      \label{fig:a}
+  \end{minipage}
+  \begin{minipage}[b]{0.49\columnwidth}
+      \centering
+      \includegraphics[width=1.1\columnwidth]{C_datapath.png}
+      \caption{C-Processorのデータパス}
+      \label{fig:b}
+  \end{minipage}
+  \end{figure}
+\\この二つのデータパスの違いを明確にするために色付けをした．以下でそれぞれの違いについて述べる．
+\begin{itemize}
+  \item 図1のピンクに塗った部分はALUの入力modeを表す．Tiny-Processorではmodeは2ビットの入力として設計されている．図2のピンクで塗った部分は
+  C-Processorの同じくALUの入力modeである．C-ProcessorではTiny-Processorよりも機能が増えており，modeの入力が4ビットに増加している．
+  \item 図2の緑で塗った部分はRegCであり，C-Processorで追加されている．入力は新たに追加されたloadRegC以外はRegA,RegBと同じである．このレジスタCはSTDI命令の際に使用される．詳細な説明は2で記述する．
+  \item 図2の青色で塗った部分はFCであり，C-Processorで追加されている．入力は新たに追加されたloadFCとALUの出力であるcoutで，出力はq即ちCarryFである．これはALUの演算の結果，桁上りが発生したかを判定する．これからCarryFという信号が得られ，JPC命令に利用される．
+  \item 図2のオレンジで塗った部分はMuxDOutであり，4入力のマルチプレクサである．ただし，4入力の内3つしか使っておらずその3つの入力はRegA,RegB,RegCの出力である．また，4つの入力の内どの値を出力するかを決定する2ビットのselMuxDOutを追加した．
+  そして出力がDataOutとなる．Tiny-ProcessorではRegAの出力がDataOutとなっていたが，C-Processorでは三つのレジスタからマルチプレクサで選択してDataOutを決定している．
+\end{itemize}
+\clearpage
+\section{STDI命令のデータの流れ}
+以下の図3は1の図2で示したC-Processorのデータパスに，STDI命令を実行する際のデータの流れを追加したものである．
+\begin{figure}[h]
+  \centering
+  \includegraphics[width = 12cm]{STDI.png}
+  \caption{C-ProcessorにおけるSTDI命令のデータの流れ}  
+\end{figure}
+\\ピンクの矢印はアドレス，赤の矢印は
+\section{C-Processor の外部出力信号用ジョンソンカウンタと内部制御信号用ジョンソンカウンタを示せ．}
+設計に用いた外部出力信号のジョンソンカウンタと内部制御信号のジョンソンカウンタを示し，それぞれ説明する．
+~\\
+\section{C-Processor の設計にあたって工夫した点やアピールする点があれば，章立てて報告すること．拡張課題についても同様．}
+C-Processorの設計にあたって，何かしらの工夫を行なったことがあれば，記述する．
+拡張課題は以下の様に，それぞれの節を用意して説明する．
+\subsection{拡張課題a：プロセッサ命令セットの拡張}
+\subsection{拡張課題b：簡易アセンブラの作成}
+\subsection{拡張課題c：演算機の改善}
 \end{document}
