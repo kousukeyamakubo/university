@@ -100,7 +100,25 @@
 \end{lstlisting}
 ここではAがどの表であるか，Bが表のどの変数であるかに対応している．これにより，例えばvariableというリストのi番目の要素に対して上記のメソッドを実行すればi番目のBの値を参照できるようになる．
 \subsection{表への格納}
-表への格納はStoreToTable()を定義して実現した．
+表への格納はStoreToTable()を定義して実現した．StoreToTable()のプログラムは以下のようになる．
+\begin{lstlisting}
+  private void StoreToTable(ArrayList<Object> list) {
+		String type = (String) list.get(0);
+		int size = (int) list.get(1);
+		if(global_flag == true) {
+			for(int i = 0;i<list_of_variablename.size();i++) {
+				global_variable_table.add(new variable(list_of_variablename.get(i),type,size));
+				symbol_table.add(new symbol(list_of_variablename.get(i),"variable",type));
+			}
+		}else {
+			for(int i = 0;i<list_of_variablename.size();i++) {
+				local_variable_table.add(new variable(list_of_variablename.get(i),type,size));
+				symbol_table.add(new symbol(list_of_variablename.get(i),"variable",type));
+			}
+		}
+		list_of_variablename.clear();
+	}
+\end{lstlisting}
 
 \subsection{型の制約}
 \section{考察}
