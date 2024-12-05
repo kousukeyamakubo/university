@@ -116,7 +116,8 @@ private void StoreToTable(ArrayList<Object> list) {
 引数のlistは二つの要素があり，一つ目は格納する変数の型，二つ目は格納する変数のサイズである．配列でない場合はサイズが1，配列である場合はその要素数に応じて値が変動する．
 また，格納する際のプログラムは以下のようになる．
 \begin{lstlisting}
-  
+local_variable_table.add(new variable(list_of_variablename.get(i),type,size));
+symbol_table.add(new symbol(list_of_variablename.get(i),"variable",type));
 \end{lstlisting}
 \subsection{型の制約}
 \section{考察}
