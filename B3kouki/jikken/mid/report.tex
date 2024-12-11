@@ -99,10 +99,38 @@ C-Processorの内部出力用ジョンソンカウンタは以下のようにな
   \caption{内部出力用ジョンソンカウンタ}
 \end{figure}
 ~\\
-\section{C-Processor の設計にあたって工夫した点やアピールする点があれば，章立てて報告すること．拡張課題についても同様．}
+\section{工夫点}
 C-Processorの設計にあたって，何かしらの工夫を行なったことがあれば，記述する．
 拡張課題は以下の様に，それぞれの節を用意して説明する．
+\section{拡張課題}
 \subsection{拡張課題a：プロセッサ命令セットの拡張}
+今回私が追加した命令セットは論理シフトである．いかにその仕様を示す．
+\begin{table}[h]
+  \centering
+  \begin{tabular}{|c||c|c|c|c|}
+    \hline
+    命令 & オペランド & サイズ & コード\\\hline
+    SLLA & id & & \\\hline
+    SRLA & id & & \\\hline
+    SLLB & id & & \\\hline
+    SRLB & id & & \\\hline
+  \end{tabular}
+  \caption{追加した命令}
+\end{table}
+\\この4命令は，第一オペランドで即値により指定した数値分レジスタAまたはレジスタBを論理シフトするものである．
+これはALUの演算の処理を切り替える4ビットのベクトルmodeALUで未使用の部分を使用して実装した．
+したがって，このシフト命令を追加した後のmodeALUの処理は以下のようになる．
+\begin{table}[h]
+  \centering
+  \begin{tabular}{|c|c|c|c|c|c|c|c|}
+    \hline
+    LLLL & A + B & LHLL & not A & HLLL & not B & HHLL & \\\hline
+    LLLH & A - B & LHLH & A + 1 & HLLH  & B + 1 & HHLH & \\\hline
+    LLHL & A and B & LHHL & A - 1 & HLHL  & B - 1 & HHHL & \\\hline
+    LLHH & A or B & LHHH & id & HLHH & id & HHHH & \\\hline
+  \end{tabular}
+  \caption{シフト命令を追加した後のmodeALUの処理}
+\end{table}
 \subsection{拡張課題b：簡易アセンブラの作成}
 \subsection{拡張課題c：演算機の改善}
 \end{document}
