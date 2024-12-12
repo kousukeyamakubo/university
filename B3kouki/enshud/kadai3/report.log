@@ -1,4 +1,4 @@
-This is e-upTeX, Version 3.141592653-p4.1.0-u1.29-230214-2.6 (utf8.sjis) (TeX Live 2023) (preloaded format=platex 2023.12.16)  5 DEC 2024 15:06
+This is e-upTeX, Version 3.141592653-p4.1.0-u1.29-230214-2.6 (utf8.sjis) (TeX Live 2023) (preloaded format=platex 2023.12.16)  12 DEC 2024 14:05
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -177,16 +177,16 @@ LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <14.4> not available
 (Font)              Font shape `JT1/gt/m/n' tried instead on input line 50.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <14.4> not available
 (Font)              Font shape `JY1/gt/m/n' tried instead on input line 50.
- [1]
 LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <12> not available
 (Font)              Font shape `JT1/gt/m/n' tried instead on input line 89.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <12> not available
 (Font)              Font shape `JY1/gt/m/n' tried instead on input line 89.
+ [1]
 File: hurotya.png Graphic file (type bmp)
 <hurotya.png>
 File: hurotya1.png Graphic file (type bmp)
 <hurotya1.png>
- [2] [3] (./report.aux)
+ [2] [3] [4] (./report.aux)
  ***********
 pLaTeX2e <2023-02-14>+1, based on
 LaTeX2e <2023-11-01>
@@ -194,12 +194,12 @@ L3 programming layer <2023-12-11>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 3311 strings out of 476281
- 48983 string characters out of 5797229
+ 3312 strings out of 476281
+ 48986 string characters out of 5797229
  1930305 words of memory out of 5000000
- 25514 multiletter control sequences out of 15000+600000
+ 25515 multiletter control sequences out of 15000+600000
  565804 words of font info for 68 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 57i,9n,65p,340b,1158s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 57i,9n,65p,359b,1158s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on report.dvi (4 pages, 13312 bytes).
+Output written on report.dvi (5 pages, 19388 bytes).
