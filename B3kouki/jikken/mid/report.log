@@ -1,10 +1,10 @@
-This is e-upTeX, Version 3.141592653-p4.1.0-u1.29-230214-2.6 (utf8.sjis) (TeX Live 2023) (preloaded format=platex 2023.12.15)  10 DEC 2024 18:27
+This is e-upTeX, Version 3.141592653-p4.1.0-u1.29-230214-2.6 (utf8.sjis) (TeX Live 2023) (preloaded format=platex 2023.12.16)  12 DEC 2024 14:24
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**c:/university/B3kouki/jikken/mid/report
-(c:/university/B3kouki/jikken/mid/report.tex
+**c:/Users/kosuke/university/B3kouki/jikken/mid/report
+(c:/Users/kosuke/university/B3kouki/jikken/mid/report.tex
 pLaTeX2e <2023-02-14>+1, based on
 LaTeX2e <2023-11-01>
 L3 programming layer <2023-12-11>
@@ -198,16 +198,34 @@ File: STDI.png Graphic file (type bmp)
 
 ]
 LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <12> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 87.
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 91.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <12> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 87.
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 91.
 File: ext.png Graphic file (type bmp)
 <ext.png>
 File: int.png Graphic file (type bmp)
 <int.png>
+File: cJCext.png Graphic file (type bmp)
+<cJCext.png>
+File: cJCint.png Graphic file (type bmp)
+<cJCint.png>
+File: others.png Graphic file (type bmp)
+<others.png>
  [3
 
-] [4] (./report.aux)
+] [4]
+File: improvedatapath.png Graphic file (type bmp)
+<improvedatapath.png>
+ [5
+
+]
+File: improveext.png Graphic file (type bmp)
+<improveext.png>
+File: result.png Graphic file (type bmp)
+<result.png>
+ [6
+
+] [7] (./report.aux)
  ***********
 pLaTeX2e <2023-02-14>+1, based on
 LaTeX2e <2023-11-01>
@@ -215,12 +233,12 @@ L3 programming layer <2023-12-11>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 3057 strings out of 476329
- 47094 string characters out of 5798571
- 1927305 words of memory out of 5000000
- 25250 multiletter control sequences out of 15000+600000
+ 3102 strings out of 476281
+ 48090 string characters out of 5797229
+ 1929305 words of memory out of 5000000
+ 25291 multiletter control sequences out of 15000+600000
  565173 words of font info for 65 fonts, out of 8000000 for 9000
- 14 hyphenation exceptions out of 8191
- 57i,9n,65p,317b,362s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 36 hyphenation exceptions out of 8191
+ 57i,9n,65p,330b,362s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on report.dvi (5 pages, 9364 bytes).
+Output written on report.dvi (8 pages, 17908 bytes).
