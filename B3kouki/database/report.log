@@ -1,10 +1,10 @@
-This is e-upTeX, Version 3.141592653-p4.1.0-u1.29-230214-2.6 (utf8.sjis) (TeX Live 2023) (preloaded format=platex 2023.12.15)  12 DEC 2024 14:26
+This is e-upTeX, Version 3.141592653-p4.1.0-u1.29-230214-2.6 (utf8.sjis) (TeX Live 2023) (preloaded format=platex 2023.12.15)  14 DEC 2024 16:49
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**c:/university/B3kouki/jikken/mid/report
-(c:/university/B3kouki/jikken/mid/report.tex
+**c:/university/B3kouki/database/report
+(c:/university/B3kouki/database/report.tex
 pLaTeX2e <2023-02-14>+1, based on
 LaTeX2e <2023-11-01>
 L3 programming layer <2023-12-11>
@@ -113,24 +113,24 @@ File: l3backend-dvipdfmx.def 2023-11-09 L3 backend support: dvipdfmx
 ) (./report.aux)
 \openout1 = `report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 35.
-LaTeX Font Info:    ... okay on input line 35.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 35.
-LaTeX Font Info:    ... okay on input line 35.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 35.
-LaTeX Font Info:    ... okay on input line 35.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 35.
-LaTeX Font Info:    ... okay on input line 35.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 35.
-LaTeX Font Info:    ... okay on input line 35.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 35.
-LaTeX Font Info:    ... okay on input line 35.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 35.
-LaTeX Font Info:    ... okay on input line 35.
-LaTeX Font Info:    Checking defaults for JY1/mc/m/n on input line 35.
-LaTeX Font Info:    ... okay on input line 35.
-LaTeX Font Info:    Checking defaults for JT1/mc/m/n on input line 35.
-LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for JY1/mc/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for JT1/mc/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
 
 *geometry* detected driver: dvipdfm
 *geometry* verbose mode - [ preamble ] result:
@@ -167,65 +167,23 @@ LaTeX Font Info:    ... okay on input line 35.
 
 \c@lstlisting=\count282
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 40.
+(Font)              <7> on input line 31.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 40.
+(Font)              <5> on input line 31.
 [1
 
 ]
 LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <14.4> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 49.
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 40.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <14.4> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 49.
-File: Tiny_datapath.png Graphic file (type bmp)
-<Tiny_datapath.png>
-
-Overfull \hbox (22.30856pt too wide) in paragraph at lines 55--56
- [][] 
- []
-
-File: C_datapath.png Graphic file (type bmp)
-<C_datapath.png>
-
-Overfull \hbox (22.30856pt too wide) in paragraph at lines 61--62
- [][] 
- []
-
-[1]
-File: STDI.png Graphic file (type bmp)
-<STDI.png>
- [2
-
-]
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 40.
 LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <12> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 91.
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 41.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <12> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 91.
-File: ext.png Graphic file (type bmp)
-<ext.png>
-File: int.png Graphic file (type bmp)
-<int.png>
-File: cJCext.png Graphic file (type bmp)
-<cJCext.png>
-File: cJCint.png Graphic file (type bmp)
-<cJCint.png>
-File: others.png Graphic file (type bmp)
-<others.png>
- [3
-
-] [4]
-File: improvedatapath.png Graphic file (type bmp)
-<improvedatapath.png>
- [5
-
-]
-File: improveext.png Graphic file (type bmp)
-<improveext.png>
-File: result.png Graphic file (type bmp)
-<result.png>
- [6
-
-] [7] (./report.aux)
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 41.
+File: 1.png Graphic file (type bmp)
+<1.png>
+ [1] [2] (./report.aux)
  ***********
 pLaTeX2e <2023-02-14>+1, based on
 LaTeX2e <2023-11-01>
@@ -233,12 +191,12 @@ L3 programming layer <2023-12-11>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 3102 strings out of 476329
- 48051 string characters out of 5798571
- 1929305 words of memory out of 5000000
- 25283 multiletter control sequences out of 15000+600000
- 565173 words of font info for 65 fonts, out of 8000000 for 9000
+ 3021 strings out of 476329
+ 46353 string characters out of 5798571
+ 1922305 words of memory out of 5000000
+ 25222 multiletter control sequences out of 15000+600000
+ 564838 words of font info for 64 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 57i,9n,65p,317b,362s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 57i,6n,65p,290b,298s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on report.dvi (8 pages, 17908 bytes).
+Output written on report.dvi (3 pages, 4632 bytes).
