@@ -1,10 +1,10 @@
-This is e-upTeX, Version 3.141592653-p4.1.0-u1.29-230214-2.6 (utf8.sjis) (TeX Live 2023) (preloaded format=platex 2023.12.16)  15 DEC 2024 22:29
+This is e-upTeX, Version 3.141592653-p4.1.0-u1.29-230214-2.6 (utf8.sjis) (TeX Live 2023) (preloaded format=platex 2023.12.16)  29 OCT 2024 18:10
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**c:/Users/kosuke/university/B3kouki/database/report
-(c:/Users/kosuke/university/B3kouki/database/report.tex
+**c:/Users/kosuke/university/B3kouki/database/kadai1/report
+(c:/Users/kosuke/university/B3kouki/database/kadai1/report.tex
 pLaTeX2e <2023-02-14>+1, based on
 LaTeX2e <2023-11-01>
 L3 programming layer <2023-12-11>
@@ -31,6 +31,9 @@ LaTeX Font Info:    Overwriting symbol font `mincho' in version `bold'
 \@lnumwidth=\dimen157
 \bibindent=\dimen158
 \heisei=\count195
+) (c:/texlive/2023/texmf-dist/tex/latex/url/url.sty
+\Urlmuskip=\muskip16
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 ) (c:/texlive/2023/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
  (c:/texlive/2023/texmf-dist/tex/latex/graphics/keyval.sty
@@ -68,69 +71,34 @@ Package: iftex 2022/02/03 v1.0f TeX engine tests
 \Gm@layouthoffset=\dimen167
 \Gm@layoutvoffset=\dimen168
 \Gm@dimlist=\toks19
-) (c:/texlive/2023/texmf-dist/tex/latex/listings/listings.sty
-\lst@mode=\count199
-\lst@gtempboxa=\box68
-\lst@token=\toks20
-\lst@length=\count266
-\lst@currlwidth=\dimen169
-\lst@column=\count267
-\lst@pos=\count268
-\lst@lostspace=\dimen170
-\lst@width=\dimen171
-\lst@newlines=\count269
-\lst@lineno=\count270
-\lst@maxwidth=\dimen172
- (c:/texlive/2023/texmf-dist/tex/latex/listings/lstmisc.sty
-File: lstmisc.sty 2023/02/27 1.9 (Carsten Heinz)
-\c@lstnumber=\count271
-\lst@skipnumbers=\count272
-\lst@framebox=\box69
-) (c:/texlive/2023/texmf-dist/tex/latex/listings/listings.cfg
-File: listings.cfg 2023/02/27 1.9 listings configuration
-))
-Package: listings 2023/02/27 1.9 (Carsten Heinz)
- (c:/texlive/2023/texmf-dist/tex/latex/jvlisting/jvlisting.sty
-Package: jvlisting 2011/11/17 v0.7 Formatted Program Listings
-\jvl@idt=\count273
-\jvl@tmphyphenchar=\count274
-\jvl@fileinput=\read2
-\listingskipamount=\skip50
-\listingindent=\dimen173
-\prelistingpenalty=\count275
-\listingpenalty=\count276
-\postlistingpenalty=\count277
-) (c:/texlive/2023/texmf-dist/tex/latex/url/url.sty
-\Urlmuskip=\muskip16
-Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 ) (c:/texlive/2023/texmf-dist/tex/latex/l3backend/l3backend-dvipdfmx.def
 File: l3backend-dvipdfmx.def 2023-11-09 L3 backend support: dvipdfmx
-\g__graphics_track_int=\count278
-\l__pdf_internal_box=\box70
-\g__pdf_backend_object_int=\count279
-\g__pdf_backend_annotation_int=\count280
-\g__pdf_backend_link_int=\count281
+\g__graphics_track_int=\count199
+\l__pdf_internal_box=\box68
+\g__pdf_backend_object_int=\count266
+\g__pdf_backend_annotation_int=\count267
+\g__pdf_backend_link_int=\count268
 ) (./report.aux)
 \openout1 = `report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 26.
-LaTeX Font Info:    ... okay on input line 26.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 26.
-LaTeX Font Info:    ... okay on input line 26.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 26.
-LaTeX Font Info:    ... okay on input line 26.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 26.
-LaTeX Font Info:    ... okay on input line 26.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 26.
-LaTeX Font Info:    ... okay on input line 26.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 26.
-LaTeX Font Info:    ... okay on input line 26.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 26.
-LaTeX Font Info:    ... okay on input line 26.
-LaTeX Font Info:    Checking defaults for JY1/mc/m/n on input line 26.
-LaTeX Font Info:    ... okay on input line 26.
-LaTeX Font Info:    Checking defaults for JT1/mc/m/n on input line 26.
-LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
+LaTeX Font Info:    Checking defaults for JY1/mc/m/n on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
+LaTeX Font Info:    Checking defaults for JT1/mc/m/n on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
 
 *geometry* detected driver: dvipdfm
 *geometry* verbose mode - [ preamble ] result:
@@ -165,46 +133,41 @@ LaTeX Font Info:    ... okay on input line 26.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-\c@lstlisting=\count282
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 31.
+(Font)              <7> on input line 12.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 31.
+(Font)              <5> on input line 12.
 [1
 
 ]
 LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <14.4> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 40.
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 21.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <14.4> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 40.
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 21.
 LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <12> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 41.
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 22.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <12> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 41.
-File: sql1.png Graphic file (type bmp)
-<sql1.png>
-File: 1.png Graphic file (type bmp)
-<1.png>
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 22.
+File: kadai1.png Graphic file (type bmp)
+<kadai1.png>
  [1]
-File: sql2.png Graphic file (type bmp)
-<sql2.png>
-File: 2.png Graphic file (type bmp)
-<2.png>
- [2]
-File: sql3.png Graphic file (type bmp)
-<sql3.png>
-File: 3.png Graphic file (type bmp)
-<3.png>
- [3]
-File: sql4.png Graphic file (type bmp)
-<sql4.png>
-File: 4.png Graphic file (type bmp)
-<4.png>
+File: kadai2.png Graphic file (type bmp)
+<kadai2.png>
+
+Overfull \hbox (15.73117pt too wide) in paragraph at lines 61--67
+[]\OT1/cmr/m/n/10 WHERE course.code = lec-tured[]by.code AND lec-tured[]by.number = lec-turer.number AND lec-turer.affiliation
+ []
+
+File: kadai3.png Graphic file (type bmp)
+<kadai3.png>
+[2]
+File: kadai4.png Graphic file (type bmp)
+<kadai4.png>
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[4] [5] (./report.aux)
+[3] [4] (./report.aux)
  ***********
 pLaTeX2e <2023-02-14>+1, based on
 LaTeX2e <2023-11-01>
@@ -212,12 +175,12 @@ L3 programming layer <2023-12-11>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 3073 strings out of 476281
- 47180 string characters out of 5797229
- 1922305 words of memory out of 5000000
- 25267 multiletter control sequences out of 15000+600000
- 565173 words of font info for 65 fonts, out of 8000000 for 9000
+ 1609 strings out of 476281
+ 25911 string characters out of 5797229
+ 1923305 words of memory out of 5000000
+ 23825 multiletter control sequences out of 15000+600000
+ 564838 words of font info for 64 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 57i,6n,65p,303b,300s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 57i,6n,65p,336b,300s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on report.dvi (6 pages, 9956 bytes).
+Output written on report.dvi (5 pages, 9224 bytes).
