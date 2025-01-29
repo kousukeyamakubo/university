@@ -1,0 +1,85 @@
+\documentclass[dvipdfmx]{jarticle}
+\usepackage{graphicx}
+\usepackage[top=30truemm,bottom=30truemm,left=25truemm,right=25truemm]{geometry}
+\usepackage{listings,jvlisting}
+\usepackage{url}
+
+\lstset{
+  basicstyle={\ttfamily},
+  identifierstyle={\small},
+  commentstyle={\smallitshape},
+  keywordstyle={\small\bfseries},
+  ndkeywordstyle={\small},
+  stringstyle={\small\ttfamily},
+  frame={tb},
+  breaklines=true,
+  columns=[l]{fullflexible},
+  numbers=left,
+  xrightmargin=0zw,
+  xleftmargin=3zw,
+  numberstyle={\scriptsize},
+  stepnumber=1,
+  numbersep=1zw,
+  lineskip=-0.5ex
+}
+
+\makeatletter
+\newcommand{\subsubsubsection}{\@startsection{paragraph}{4}{\z@}%
+  {1.0\Cvs \@plus.5\Cdp \@minus.2\Cdp}%
+  {.1\Cvs \@plus.3\Cdp}%
+  {\reset@font\sffamily\normalsize}
+}
+\makeatother
+\setcounter{secnumdepth}{4}
+
+\begin{document}
+\begin{titlepage}
+    \begin{center}
+        {\huge 情報科学実験C　期末レポ―ト}
+        \vspace{180pt}\\
+        \begin{tabular}{rl}
+            氏名 & 山久保孝亮\\
+            所属 & 大阪大学基礎工学部情報科学科ソフトウェア科学コース\\
+            メールアドレス & u327468b@ecs.osaka-u.ac.jp\\
+            学籍番号 & 09B22084\\
+            提出日 & \today\\
+        \end{tabular}
+    \end{center}
+\end{titlepage}
+\section{課題11で作成したプログラムの動作仕様}
+課題11では，乗算を行うプログラムを実装した．このプログラムの仕様は以下の通りである．
+\begin{itemize}
+  \item 掛けられる数と掛ける数は，FPGAボードから入力を行う．どの番地に何が格納されるかは，以下の表1の通りである．
+  \begin{table}[h]
+    \centering
+    \begin{tabular}{|c|c|}
+      \hline
+      番地 & 格納される内容\\\hline
+      8000 & 掛けられる数を格納する．乗算実行後も値は変化しない．\\\hline
+      8001 & 掛ける数を格納する．乗算実行後は0となる．\\\hline
+      8002 & 掛けられる数と掛ける数に，いくつ負の数が含まれるかを格納する．\\\hline
+      8003 & 乗算の実行結果を格納する．結果が負の数なら負の値が格納される．\\\hline
+    \end{tabular}
+    \caption{各番地に格納される内容}
+  \end{table}
+  \item まず最初に掛けられる数の入力を行う．掛けられる数はKEY0を押下することでその値が確定する．
+  \item 次に掛ける数の入力を行う．掛ける数はKEY1を押下することでその値が確定する．
+  \item KEY1を押下し，掛ける数を確定させた後すぐに掛け算の処理が実行される．
+\end{itemize}
+\section{課題12，課題13，課題14で追加した命令の実装方法}
+\section{工夫点}
+\subsection{課題11}
+課題11では，掛けられる数と掛ける数を確定させる際に使用するKEYの種類を変更するという工夫を行った．この工夫を行わず，掛けられる数と掛ける数をどちらもKEY0
+で値を確定させてしまうと，掛けられる数のみを確定させるつもりが，クロック周波数が早く，掛ける数も同時に確定させてしまうためである．この問題に対する改善策
+として，私は掛けられる数を確定させるときはKEY0を，掛ける数を確定させるときはKEY1を使用することにより，クロック周波数が大きいことの影響を受けない設計とす
+ることができた．
+一方，これ以外の改善策として，JUMP命令を用いて，何も処理しないループをクロック周波数に合わせて十分時間行うという方法が考えられた．しかし，この方法だとJU
+MP命令を用いるため，プログラムに変更を加えた場合アドレスの変更を行う必要がある．一方，KEYの種類を変更する方法では，どのKEYを使用してもFFFE番地の値が変更
+されるだけであるため，アドレスの変更を行う必要がない．また，SUBA命令などを用いたゼロフラグの情報を活用すれば掛ける数と掛けられる数でほぼ同じプログラムで
+実装することができるため，可読性が高まる．
+\section{拡張課題}
+\subsection{拡張課題a-1：最大公約数を求めるプログラム}
+\subsection{拡張課題a-2：最小公倍数を求めるプログラム}
+\subsection{拡張課題b：演算機の改善}
+\section{感想}
+\end{document}

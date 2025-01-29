@@ -1,0 +1,61 @@
+\documentclass[dvipdfmx]{jarticle}
+\usepackage{graphicx}
+\usepackage[top=30truemm,bottom=30truemm,left=25truemm,right=25truemm]{geometry}
+\usepackage{listings,jvlisting}
+\usepackage{url}
+\title{情報技術者と社会　第15回レポート}
+\author{ソフトウェア科学コース\\09B22084山久保孝亮}
+\date{\today}
+
+
+\lstset{
+  basicstyle={\ttfamily},
+  identifierstyle={\small},
+  commentstyle={\smallitshape},
+  keywordstyle={\small\bfseries},
+  ndkeywordstyle={\small},
+  stringstyle={\small\ttfamily},
+  frame={tb},
+  breaklines=true,
+  columns=[l]{fullflexible},
+  numbers=left,
+  xrightmargin=0zw,
+  xleftmargin=3zw,
+  numberstyle={\scriptsize},
+  stepnumber=1,
+  numbersep=1zw,
+  lineskip=-0.5ex
+}
+
+\begin{document}
+\maketitle
+\section{Creative Commonsが利用されている事例}
+Creative Commonsは，限定された権利を提供するライセンス方式のことであり，著作者は条件を守っている限り自由に使っても良いという意思表示をすることができ
+る．\cite{0}\\
+Creative Commonsが利用されている事例としては，生命科学系データベースアーカイブが挙げられる．\cite{1}
+生命科学分野ではデータの所在や利用条件がわかりにくいため，使用しにくいという点と研究プロジェクトが終了するとデータベースが維持されないという問題点が
+あった．そこで，生命科学系出たベースアーカイブはクリエイティブ・コモンズ・ライセンスCC BY-SA()を採用した．
+これを採用した理由としては，以下の理由があげられる．
+\begin{itemize}
+  \item データベース寄託者のクレジット確保という要望に応えることができる一方で，データベース利用者にとって利用条件や権利者が明確になり許諾の確認コスト
+  削減を狙える点．
+  \item 派生物を公開する際，同様に自由に利用できるライセンスであることが望ましい点．
+\end{itemize}
+生命科学データベースアーカイブには簡易検索機能なども存在し，データの使い勝手の良さにこだわった作りとなっている．
+\section{Creative Commonsによる著作物の公開の将来について}
+私はCreative Commonsによる著作物の公開は，今後さらに拡大していくと考えた．理由は以下の二点である．
+\begin{itemize}
+  \item 一つ目の理由は，機械学習における著作権の管理コストの削減につながるためである．昨今，機械学習やAIへの関心が
+  高まりつつあり，様々な分野において利用されている．しかし，機械学習を使用するためにはデータセットが必要である場合があり，そのデータセットはどのような範囲
+  で利用してよいのかを確認するのにコストを必要としてしまう．その際，1で記述したようなCreative Commonsが利用されているデータベースが存在すると，
+  研究の促進にもつながるのではないかと考えたためである．
+  \item 二つ目の理由は，利用者の拡大が見込めるためである．Creative Commonsが利用されていると，法律の専門家でなくてもどのように利用すれば良いのか
+  を理解することができる．したがって，一般人がCreative Commonsで公開されている作品を使用して新たな作品を再びCreative Commonsに公開するという
+  サイクルが繰り返されると考えられる．そして作品の数が増えるとCreative Commonsについて知らなかった人に見つかる可能性が上がり，利用者が増えていく
+  と考えた．
+\end{itemize}
+\begin{thebibliography}{99}
+  \bibitem{0} \url{https://creativecommons.jp/licenses/} 1/28アクセス
+  \bibitem{1} \url{https://creativecommons.jp/category/features/features-science/} 1/28アクセス
+\end{thebibliography}
+\end{document}

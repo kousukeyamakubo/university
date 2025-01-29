@@ -1,0 +1,75 @@
+\documentclass[dvipdfmx]{jarticle}
+\usepackage{graphicx}
+\usepackage[top=30truemm,bottom=30truemm,left=25truemm,right=25truemm]{geometry}
+\usepackage{listings,jvlisting}
+\usepackage{url}
+\title{情報技術者と社会　第11回レポート}
+\author{ソフトウェア科学コース\\09B22084山久保孝亮}
+\date{\today}
+
+
+\lstset{
+  basicstyle={\ttfamily},
+  identifierstyle={\small},
+  commentstyle={\smallitshape},
+  keywordstyle={\small\bfseries},
+  ndkeywordstyle={\small},
+  stringstyle={\small\ttfamily},
+  frame={tb},
+  breaklines=true,
+  columns=[l]{fullflexible},
+  numbers=left,
+  xrightmargin=0zw,
+  xleftmargin=3zw,
+  numberstyle={\scriptsize},
+  stepnumber=1,
+  numbersep=1zw,
+  lineskip=-0.5ex
+}
+
+\begin{document}
+\maketitle
+\section{技術者倫理に関する事例の内容}
+今回私が取り上げる技術者倫理に関する事例は2015年に発生した東洋ゴム工業の免震ゴム性能偽装問題についてである．
+今回の問題は大きく二つに分けられ，一つ目が不正行為が発生したことで，二つ目がその判断対処が遅れたことである．\cite{0}以下でそれぞれの詳細を述べる．
+\subsection{不正行為}
+今回発生した不正行為は以下の二つである．\cite{1}
+\begin{itemize}
+  \item 免震ゴム製品の国土交通大臣認定の取得に際し，当社が技術的根拠のない乖離値を記載して申請を行った．
+  \item 製品出荷時の性能検査結果の補正，および検査成績書の作成に際して，開発技術部担当者，および品質保証課担当者が技術的根拠のない恣意的な数値を用いて改ざんした．
+\end{itemize}
+上記のような不正行為が発生した理由として1.事業評価の不全，2.規範順守意識の欠如，3.組織の機能不全の3つが挙げられていた．\cite{0}
+これらの理由が挙げられる背景にあった事実としてそれぞれ以下のようなものが挙げられていた．
+\begin{enumerate}
+  \item 事業化に際しての適切なリスク認識なく事業を開始していたこと，リスクの発生防止を考慮した内部統制に不備があったこと．
+  \item 記録管理の不徹底など統制環境が十分ではなく，上司の無関心や問題行為関与などの不適切な組織風土があったこと，それにより技術者倫理意識，規範順守意識が著しく欠如していた．
+  \item 上司の監督，けん制が不十分である，一人の担当者の専門化と権限肥大化，不適切な制度運用，組織機能の分断独立がなく相互チェック機能不全などがあった．
+\end{enumerate}
+\subsection{判断対処の遅れ}
+今回の問題は子会社で問題が把握されてから出荷停止まで約1年半もの期間を要したことから，\cite{2}経営陣の判断対処の遅れを指摘された．
+このような遅れが発生した理由として，1.経営陣の意識と判断の甘さ，2.危機マネジメントの欠如が挙げられていた．
+これらの理由があげられる背景にあった事実としてそれぞれ以下のようなものがあげられていた．
+\begin{enumerate}
+  \item 非主力事業の製品に対する知見不足，問題把握と十分な調査体制構築の遅れ，技術的見地からの確証性への固執，自己解決の模索などがあった．
+  \item 既存ガバナンス制度の負活用，適切かつ迅速な社内報告・調査体制の不備，調査・公表原則の不存在などがあった．
+\end{enumerate}
+\section{自身の考え}
+以上の調査を通して技術者と経営者が互いに倫理観を共有し，協力して職場環境を改善することが不正防止に不可欠であることが分かった．
+このことから私が考えたことは，上記のような問題が発生しないようにするには被雇用者である技術者と経営者がそれぞれどのような意識を持てばよいかということである．
+以下は問題の発生しないシナリオでそれぞれの立場が持っている考えである．
+\begin{enumerate}
+  \item 企業に属する技術者として，企業との契約を遵守するという倫理を守るようにする．\cite{3}
+  \item 企業を経営する立場として，技術者による不正が発生しづらいような契約を結ぶ．
+\end{enumerate}
+指導書より，専門家には被雇用者としての側面が存在し企業との契約を守るという一種の倫理が存在する．そこで，技術者がこの倫理を遵守すると仮定し，企業側が契約において
+技術者の不正が発生する確率を減らすように工夫すればよいのではないかと考えた．これにより仮に不正が発生した場合，技術者は契約不履行をしたという事実から企業は
+解雇などを行うことができる．これにより，今回の事例の規範順守意識の欠如を防ぐことができると考えた．また，不正を発生しづらくするためには
+技術者の客観的な評価方法において，必ず複数人で行うなどの主観的要素をなるべく排除して行うことを例として考えた．これにより，組織の機能不全を防止できると考えた．\\
+これらの意識を持っていることを技術者，経営者がお互いに共有しておくことで今回の事例のような不正を防ぐことができると考えた．
+\begin{thebibliography}{99}
+  \bibitem{0} \url{https://www.toyotires.co.jp/responsibility/menshin/cause/}　12/24アクセス
+  \bibitem{1} \url{https://www.toyotires.co.jp/responsibility/menshin/overview/} 12/24アクセス
+  \bibitem{2} \url{https://www.nikkei.com/article/DGXZZO88412840T20C15A6000000/}　12/24アクセス
+  \bibitem{3} 情報技術者と社会　第10回講義資料
+\end{thebibliography}
+\end{document}

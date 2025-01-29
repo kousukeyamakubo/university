@@ -1,10 +1,10 @@
-This is e-upTeX, Version 3.141592653-p4.1.0-u1.29-230214-2.6 (utf8.sjis) (TeX Live 2023) (preloaded format=platex 2023.12.15)  19 DEC 2024 10:07
+This is e-upTeX, Version 3.141592653-p4.1.0-u1.29-230214-2.6 (utf8.sjis) (TeX Live 2023) (preloaded format=platex 2023.12.15)  24 DEC 2024 01:41
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**c:/university/B3kouki/ennyou/chukan/report
-(c:/university/B3kouki/ennyou/chukan/report.tex
+**c:/university/B3kouki/jouhousyakai/report11/report
+(c:/university/B3kouki/jouhousyakai/report11/report.tex
 pLaTeX2e <2023-02-14>+1, based on
 LaTeX2e <2023-11-01>
 L3 programming layer <2023-12-11>
@@ -180,17 +180,14 @@ LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <12> not available
 (Font)              Font shape `JT1/gt/m/n' tried instead on input line 35.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <12> not available
 (Font)              Font shape `JY1/gt/m/n' tried instead on input line 35.
-File: CBC.png Graphic file (type bmp)
-<CBC.png>
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 48.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 48.
-File: POODLE.png Graphic file (type bmp)
-<POODLE.png>
 [1
 
-] [2] (./report.aux)
+]
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 70.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 70.
+ [2] (./report.aux)
  ***********
 pLaTeX2e <2023-02-14>+1, based on
 LaTeX2e <2023-11-01>
@@ -198,12 +195,12 @@ L3 programming layer <2023-12-11>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 3053 strings out of 476329
- 46705 string characters out of 5798571
+ 3043 strings out of 476329
+ 46583 string characters out of 5798571
  1926305 words of memory out of 5000000
- 25242 multiletter control sequences out of 15000+600000
- 567992 words of font info for 75 fonts, out of 8000000 for 9000
+ 25237 multiletter control sequences out of 15000+600000
+ 568327 words of font info for 76 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 57i,6n,65p,360b,303s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 57i,6n,65p,303b,346s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on report.dvi (2 pages, 8112 bytes).
+Output written on report.dvi (2 pages, 7936 bytes).

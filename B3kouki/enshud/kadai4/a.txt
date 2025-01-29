@@ -1,0 +1,11 @@
+if a > 1 then  //条件式内でTRUE0,BOTH0が確定
+begin  //ELSE0が確定
+    if b > 2 then  //TRUE1,BOTH1が条件式内で確定
+    begin  //ELSE1が確定
+        //処理
+    end
+    else
+    begin  //ENDIFが確定
+        //処理
+    end;
+end;
